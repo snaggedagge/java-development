@@ -1,0 +1,44 @@
+buildscript {
+	ext {
+		springBootVersion = '2.0.1.RELEASE'
+		springSecurityVersion = '3.1.4.RELEASE'
+	}
+	repositories {
+		mavenCentral()
+	}
+	dependencies {
+		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+		classpath "io.spring.gradle:dependency-management-plugin:0.5.1.RELEASE"
+	}
+}
+
+apply plugin: 'java'
+apply plugin: 'eclipse'
+apply plugin: 'org.springframework.boot'
+apply plugin: 'io.spring.dependency-management'
+
+group = 'dkarlsso'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = 1.8
+
+
+
+
+repositories {
+	mavenCentral()
+}
+
+
+tasks.withType(JavaCompile) {
+	options.encoding = 'UTF-8'
+}
+
+//create a single Jar with all dependencies
+
+
+task fatWar(type: War) {
+
+	baseName = project.name + '-all'
+	from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
+	with jar
+}

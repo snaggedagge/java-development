@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<meta http-equiv="x-ua-compatible" content="IE=edge"/>
+<title>Test results - Class rpi.HeaterTest</title>
+<link href="../css/base-style.css" rel="stylesheet" type="text/css"/>
+<link href="../css/style.css" rel="stylesheet" type="text/css"/>
+<script src="../js/report.js" type="text/javascript"></script>
+</head>
+<body>
+<div id="content">
+<h1>Class rpi.HeaterTest</h1>
+<div class="breadcrumbs">
+<a href="../index.html">all</a> &gt; 
+<a href="../packages/rpi.html">rpi</a> &gt; HeaterTest</div>
+<div id="summary">
+<table>
+<tr>
+<td>
+<div class="summaryGroup">
+<table>
+<tr>
+<td>
+<div class="infoBox" id="tests">
+<div class="counter">7</div>
+<p>tests</p>
+</div>
+</td>
+<td>
+<div class="infoBox" id="failures">
+<div class="counter">0</div>
+<p>failures</p>
+</div>
+</td>
+<td>
+<div class="infoBox" id="ignored">
+<div class="counter">0</div>
+<p>ignored</p>
+</div>
+</td>
+<td>
+<div class="infoBox" id="duration">
+<div class="counter">0.230s</div>
+<p>duration</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</td>
+<td>
+<div class="infoBox success" id="successRate">
+<div class="percent">100%</div>
+<p>successful</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div id="tabs">
+<ul class="tabLinks">
+<li>
+<a href="#tab0">Tests</a>
+</li>
+<li>
+<a href="#tab1">Standard output</a>
+</li>
+</ul>
+<div id="tab0" class="tab">
+<h2>Tests</h2>
+<table>
+<thead>
+<tr>
+<th>Test</th>
+<th>Duration</th>
+<th>Result</th>
+</tr>
+</thead>
+<tr>
+<td class="success">testHeatingCirculating</td>
+<td>0s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">testHighOverTemp</td>
+<td>0s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">testHighOverTemp2</td>
+<td>0.001s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">testHighTemp</td>
+<td>0s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">testLowTemp</td>
+<td>0.001s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">testOverTempNoSignal</td>
+<td>0.227s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">testRetTempNoSignal</td>
+<td>0.001s</td>
+<td class="success">passed</td>
+</tr>
+</table>
+</div>
+<div id="tab1" class="tab">
+<h2>Standard output</h2>
+<span class="code">
+<pre>22:21:04,966 |-INFO in ch.qos.logback.classic.LoggerContext[default] - Could NOT find resource [logback-test.xml]
+22:21:04,966 |-INFO in ch.qos.logback.classic.LoggerContext[default] - Could NOT find resource [logback.groovy]
+22:21:04,966 |-INFO in ch.qos.logback.classic.LoggerContext[default] - Found resource [logback.xml] at [file:/C:/Programmering/enterprise/dkarlsso/bathtub/build/resources/main/logback.xml]
+22:21:05,007 |-INFO in ch.qos.logback.classic.joran.action.ConfigurationAction - debug attribute not set
+22:21:05,011 |-INFO in ch.qos.logback.core.joran.action.AppenderAction - About to instantiate appender of type [ch.qos.logback.core.rolling.RollingFileAppender]
+22:21:05,014 |-INFO in ch.qos.logback.core.joran.action.AppenderAction - Naming appender as [FILE]
+22:21:05,075 |-INFO in c.q.l.core.rolling.TimeBasedRollingPolicy@54271181 - No compression will be used
+22:21:05,076 |-INFO in c.q.l.core.rolling.TimeBasedRollingPolicy@54271181 - Will use the pattern logs/archived/debug.%d{yyyy-MM-dd}.%i.log for the active file
+22:21:05,084 |-INFO in ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP@7b00cc93 - The date pattern is 'yyyy-MM-dd' from file name pattern 'logs/archived/debug.%d{yyyy-MM-dd}.%i.log'.
+22:21:05,084 |-INFO in ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP@7b00cc93 - Roll-over at midnight.
+22:21:05,087 |-INFO in ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP@7b00cc93 - Setting initial period to Thu May 10 22:16:16 EEST 2018
+22:21:05,087 |-WARN in ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP@7b00cc93 - SizeAndTimeBasedFNATP is deprecated. Use SizeAndTimeBasedRollingPolicy instead
+22:21:05,087 |-WARN in ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP@7b00cc93 - For more information see http://logback.qos.ch/manual/appenders.html#SizeAndTimeBasedRollingPolicy
+22:21:05,091 |-INFO in ch.qos.logback.core.rolling.RollingFileAppender[FILE] - Active log file name: logs/debug.log
+22:21:05,091 |-INFO in ch.qos.logback.core.rolling.RollingFileAppender[FILE] - File property is set to [logs/debug.log]
+22:21:05,092 |-INFO in ch.qos.logback.core.joran.action.AppenderAction - About to instantiate appender of type [ch.qos.logback.core.rolling.RollingFileAppender]
+22:21:05,092 |-INFO in ch.qos.logback.core.joran.action.AppenderAction - Naming appender as [CONNECTIONS]
+22:21:05,093 |-INFO in c.q.l.core.rolling.TimeBasedRollingPolicy@810338571 - No compression will be used
+22:21:05,093 |-INFO in c.q.l.core.rolling.TimeBasedRollingPolicy@810338571 - Will use the pattern logs/archived/connections.%d{yyyy-MM-dd}.%i.log for the active file
+22:21:05,093 |-INFO in ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP@238001a9 - The date pattern is 'yyyy-MM-dd' from file name pattern 'logs/archived/connections.%d{yyyy-MM-dd}.%i.log'.
+22:21:05,093 |-INFO in ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP@238001a9 - Roll-over at midnight.
+22:21:05,094 |-INFO in ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP@238001a9 - Setting initial period to Sun Apr 29 22:05:28 EEST 2018
+22:21:05,094 |-WARN in ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP@238001a9 - SizeAndTimeBasedFNATP is deprecated. Use SizeAndTimeBasedRollingPolicy instead
+22:21:05,094 |-WARN in ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP@238001a9 - For more information see http://logback.qos.ch/manual/appenders.html#SizeAndTimeBasedRollingPolicy
+22:21:05,094 |-INFO in ch.qos.logback.core.rolling.RollingFileAppender[CONNECTIONS] - Active log file name: logs/connections.log
+22:21:05,094 |-INFO in ch.qos.logback.core.rolling.RollingFileAppender[CONNECTIONS] - File property is set to [logs/connections.log]
+22:21:05,094 |-INFO in ch.qos.logback.core.joran.action.AppenderAction - About to instantiate appender of type [ch.qos.logback.core.rolling.RollingFileAppender]
+22:21:05,094 |-INFO in ch.qos.logback.core.joran.action.AppenderAction - Naming appender as [CONNECTIONS-LOCAL]
+22:21:05,095 |-INFO in c.q.l.core.rolling.TimeBasedRollingPolicy@1085913952 - No compression will be used
+22:21:05,095 |-INFO in c.q.l.core.rolling.TimeBasedRollingPolicy@1085913952 - Will use the pattern logs/archived/local-connections.%d{yyyy-MM-dd}.%i.log for the active file
+22:21:05,096 |-INFO in ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP@3d2083b0 - The date pattern is 'yyyy-MM-dd' from file name pattern 'logs/archived/local-connections.%d{yyyy-MM-dd}.%i.log'.
+22:21:05,096 |-INFO in ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP@3d2083b0 - Roll-over at midnight.
+22:21:05,096 |-INFO in ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP@3d2083b0 - Setting initial period to Thu May 10 22:10:30 EEST 2018
+22:21:05,096 |-WARN in ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP@3d2083b0 - SizeAndTimeBasedFNATP is deprecated. Use SizeAndTimeBasedRollingPolicy instead
+22:21:05,096 |-WARN in ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP@3d2083b0 - For more information see http://logback.qos.ch/manual/appenders.html#SizeAndTimeBasedRollingPolicy
+22:21:05,096 |-INFO in ch.qos.logback.core.rolling.RollingFileAppender[CONNECTIONS-LOCAL] - Active log file name: logs/local-connections.log
+22:21:05,096 |-INFO in ch.qos.logback.core.rolling.RollingFileAppender[CONNECTIONS-LOCAL] - File property is set to [logs/local-connections.log]
+22:21:05,097 |-INFO in ch.qos.logback.core.joran.action.AppenderAction - About to instantiate appender of type [ch.qos.logback.core.ConsoleAppender]
+22:21:05,098 |-INFO in ch.qos.logback.core.joran.action.AppenderAction - Naming appender as [STDOUT]
+22:21:05,099 |-WARN in ch.qos.logback.core.ConsoleAppender[STDOUT] - This appender no longer admits a layout as a sub-component, set an encoder instead.
+22:21:05,099 |-WARN in ch.qos.logback.core.ConsoleAppender[STDOUT] - To ensure compatibility, wrapping your layout in LayoutWrappingEncoder.
+22:21:05,099 |-WARN in ch.qos.logback.core.ConsoleAppender[STDOUT] - See also http://logback.qos.ch/codes.html#layoutInsteadOfEncoder for details
+22:21:05,099 |-INFO in ch.qos.logback.classic.joran.action.LoggerAction - Setting level of logger [local-connections] to DEBUG
+22:21:05,099 |-INFO in ch.qos.logback.classic.joran.action.LoggerAction - Setting additivity of logger [local-connections] to false
+22:21:05,099 |-INFO in ch.qos.logback.core.joran.action.AppenderRefAction - Attaching appender named [CONNECTIONS-LOCAL] to Logger[local-connections]
+22:21:05,100 |-INFO in ch.qos.logback.classic.joran.action.LoggerAction - Setting level of logger [connections] to DEBUG
+22:21:05,100 |-INFO in ch.qos.logback.classic.joran.action.LoggerAction - Setting additivity of logger [connections] to false
+22:21:05,100 |-INFO in ch.qos.logback.core.joran.action.AppenderRefAction - Attaching appender named [CONNECTIONS] to Logger[connections]
+22:21:05,100 |-INFO in ch.qos.logback.classic.joran.action.LoggerAction - Setting level of logger [rpi] to DEBUG
+22:21:05,100 |-INFO in ch.qos.logback.classic.joran.action.LoggerAction - Setting additivity of logger [rpi] to false
+22:21:05,100 |-INFO in ch.qos.logback.core.joran.action.AppenderRefAction - Attaching appender named [FILE] to Logger[rpi]
+22:21:05,100 |-INFO in ch.qos.logback.core.joran.action.AppenderRefAction - Attaching appender named [STDOUT] to Logger[rpi]
+22:21:05,100 |-INFO in ch.qos.logback.classic.joran.action.RootLoggerAction - Setting level of ROOT logger to ERROR
+22:21:05,101 |-INFO in ch.qos.logback.core.joran.action.AppenderRefAction - Attaching appender named [FILE] to Logger[ROOT]
+22:21:05,101 |-INFO in ch.qos.logback.core.joran.action.AppenderRefAction - Attaching appender named [STDOUT] to Logger[ROOT]
+22:21:05,101 |-INFO in ch.qos.logback.classic.joran.action.ConfigurationAction - End of configuration.
+22:21:05,101 |-INFO in ch.qos.logback.classic.joran.JoranConfigurator@6bf2018e - Registering current configuration as safe fallback point
+
+2018-05-10 22:21:05 [Test worker] ERROR rpi.Heater.loop(140) - MAX ERROR: null
+2018-05-10 22:21:05 [Test worker] ERROR rpi.Heater.turnAllOff(163) - TURN ALL OFF
+2018-05-10 22:21:05 [Test worker] ERROR rpi.Heater.checkHighTemperatures(170) - Over temp high: 80
+25
+2018-05-10 22:21:05 [Test worker] ERROR rpi.Heater.loop(140) - MAX ERROR: null
+2018-05-10 22:21:05 [Test worker] ERROR rpi.Heater.turnAllOff(163) - TURN ALL OFF
+</pre>
+</span>
+</div>
+</div>
+<div id="footer">
+<p>
+<div>
+<label class="hidden" id="label-for-line-wrapping-toggle" for="line-wrapping-toggle">Wrap lines
+<input id="line-wrapping-toggle" type="checkbox" autocomplete="off"/>
+</label>
+</div>Generated by 
+<a href="http://www.gradle.org">Gradle 4.5.1</a> at May 10, 2018 10:21:05 PM</p>
+</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,37 @@
+
+.pink{
+    color: #edc6ff;
+    font-size: medium;
+}
+
+.error{
+    color:#FF0000;
+}
+
+input[type="file"] {
+    display: none;
+}
+
+
+.icon {
+    max-width: 100%;
+    max-height: 100%;
+
+    height: 75px;
+    width: 75px;
+    opacity:0.7;
+}
+
+.icon:hover {
+    opacity:1;
+}
+
+.hide {
+    display: none;
+}
+
+.padding-xs { padding: .25em; }
+.padding-sm { padding: .5em; }
+.padding-md { padding: 1em; }
+.padding-lg { padding: 1.5em; }
+.padding-xl { padding: 3em; }

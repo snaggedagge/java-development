@@ -1,0 +1,8 @@
+rootProject.name = 'dkarlsso'
+include 'portal_connector'
+include 'webportal'
+include 'bathtub'
+include 'commons'
+include 'smartmirror-javafx'
+include 'smartmirror-spring'
+

@@ -1,0 +1,73 @@
+package dkarlsso.smartmirror.javafx;
+
+import dkarlsso.smartmirror.javafx.view.ViewControllerInterface;
+import javafx.application.Application;
+import javafx.scene.Node;
+import javafx.scene.Scene;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.BorderPane;
+import javafx.stage.Stage;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+
+public class JavaFxApplication extends Application implements ViewControllerInterface {
+
+    private final Logger LOG = LogManager.getLogger(JavaFxApplication.class);
+
+    private BorderPane borderPane = new BorderPane();
+
+    private Stage primaryStage;
+
+    private Scene scene;
+
+    private MvcController mvcController;
+
+    int width = 1920;
+    int height = 1080;
+
+
+    public JavaFxApplication() {
+    }
+
+    public static void main(String[] args) {
+        launch(args);
+    }
+
+    @Override
+    public void start(final Stage primaryStage){
+        LOG.info("Starting FX application");
+        mvcController = new MvcController(this);
+
+        this.primaryStage = primaryStage;
+        scene = new Scene(borderPane, width, height);
+
+        scene.getStylesheets().add(getClass().getClassLoader().getResource("textStyles.css").toExternalForm());
+
+        borderPane.setId("hbox");
+        primaryStage.setTitle("Smart Mirror");
+        primaryStage.setFullScreen(true);
+
+        primaryStage.addEventHandler(KeyEvent.KEY_RELEASED, (KeyEvent event) -> {
+            if (KeyCode.ESCAPE == event.getCode()) {
+                primaryStage.close();
+                System.exit(0);
+            }
+        });
+
+        new Thread(mvcController).start();
+    }
+
+    @Override
+    public synchronized void displayView(final Node node) {
+        borderPane.setTop(node);
+        primaryStage.setScene(scene);
+        primaryStage.show();
+    }
+
+    @Override
+    public synchronized void refreshView() {
+
+    }
+}
