@@ -1,6 +1,7 @@
 
-/build
-/out
+build/
+out/
+gradle/
 
 
 # Compiled class file
