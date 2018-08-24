@@ -1,4 +1,4 @@
-package rpi.controller.rpi;
+package controller.rpi;
 
 public class MockHeater implements HeaterInterface {
     @Override

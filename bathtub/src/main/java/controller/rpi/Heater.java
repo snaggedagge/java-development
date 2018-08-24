@@ -1,4 +1,4 @@
-package rpi.controller.rpi;
+package controller.rpi;
 
 
 import dkarlsso.commons.raspberry.enums.GPIOPins;
@@ -7,8 +7,8 @@ import dkarlsso.commons.raspberry.relay.interfaces.RelayInterface;
 import dkarlsso.commons.raspberry.sensor.MAX6675;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import rpi.CustomTimer;
-import rpi.model.HeaterDataDTO;
+import CustomTimer;
+import model.HeaterDataDTO;
 
 /**
  * Refactored from C++ Arduino script. Ugly but working for now

@@ -1,5 +1,3 @@
-package rpi;
-
 public class CustomTimer {
 
     private long startTime = System.currentTimeMillis()/1000;

@@ -1,4 +1,4 @@
-package rpi.model;
+package model;
 
 public class HeaterDataDTO extends SettingsDTO {
 

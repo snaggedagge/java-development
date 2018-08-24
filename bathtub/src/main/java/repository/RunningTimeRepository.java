@@ -1,14 +1,14 @@
-package rpi.model;
+package repository;
 
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
 
 @Repository
-public interface RunningTimeRepository extends CrudRepository<RunningTime, Long> {
+public interface RunningTimeRepository extends CrudRepository<RunningTimeDAO, Long> {
 
     boolean existsById(long id);
 
-    RunningTime findById(long id);
+    RunningTimeDAO findById(long id);
 
 }

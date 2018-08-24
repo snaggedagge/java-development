@@ -1,6 +1,3 @@
-package rpi;
-
-
 import com.pi4j.io.gpio.GpioFactory;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

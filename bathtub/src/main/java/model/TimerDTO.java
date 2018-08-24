@@ -1,9 +1,7 @@
-package rpi.model;
+package model;
 
 import org.joda.time.DateTime;
 import org.springframework.format.annotation.DateTimeFormat;
-
-import java.util.Date;
 
 public class TimerDTO {
 

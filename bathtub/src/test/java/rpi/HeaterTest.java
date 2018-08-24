@@ -8,8 +8,8 @@ import org.junit.runner.RunWith;
 import dkarlsso.commons.raspberry.exception.NoConnectionException;
 import dkarlsso.commons.raspberry.relay.interfaces.RelayInterface;
 import dkarlsso.commons.raspberry.sensor.MAX6675;
-import rpi.controller.rpi.Heater;
-import rpi.model.HeaterDataDTO;
+import controller.rpi.Heater;
+import model.HeaterDataDTO;
 
 import static org.junit.Assert.assertEquals;
 

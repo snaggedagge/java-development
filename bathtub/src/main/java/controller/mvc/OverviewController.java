@@ -1,23 +1,19 @@
-package rpi.controller.mvc;
+package controller.mvc;
 
 import com.pi4j.io.gpio.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.web.bind.annotation.*;
-import rpi.controller.rpi.Heater;
-import rpi.controller.rpi.HeaterInterface;
-import rpi.controller.rpi.HeaterThread;
-import rpi.controller.rpi.MockHeater;
-import rpi.model.HeaterDataDTO;
+import controller.rpi.Heater;
+import controller.rpi.HeaterInterface;
+import controller.rpi.HeaterThread;
+import controller.rpi.MockHeater;
+import model.HeaterDataDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import rpi.config.WebConfig;
-import rpi.model.RunningTimeService;
+import repository.RunningTimeService;
 import dkarlsso.commons.raspberry.OSHelper;
-import rpi.model.SettingsDTO;
 
 
 import javax.servlet.http.HttpServletRequest;

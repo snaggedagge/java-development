@@ -1,16 +1,13 @@
-package rpi.config;
+package config;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestClientException;
 import portalconnector.model.Permission;
 import portalconnector.PortalConnector;
 import portalconnector.model.PortalConnectorException;
 import portalconnector.model.WebsiteDTO;
-
-import java.io.IOException;
 
 @Service
 public class WebPortalConnector {

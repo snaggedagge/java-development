@@ -1,13 +1,12 @@
-package rpi.controller.rpi;
+package controller.rpi;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import rpi.model.HeaterDataDTO;
-import rpi.model.RunningTime;
-import rpi.model.RunningTimeService;
-import dkarlsso.commons.raspberry.OSHelper;
+import model.HeaterDataDTO;
+import repository.RunningTimeDAO;
+import repository.RunningTimeService;
 import dkarlsso.commons.raspberry.RunningClock;
-import rpi.model.TimerDTO;
+import model.TimerDTO;
 
 import java.util.Date;
 
@@ -53,7 +52,7 @@ public class HeaterThread extends Thread{
                     boolean isBathtime = heaterDTO.getReturnTemp() > 35 && heaterDTO.getReturnTempLimit() > 35;
                     bathClock.setStartedRunning(isBathtime);
 
-                    runningTimeService.saveTime(new RunningTime(heaterClock.getRunningTimeAndReset(),
+                    runningTimeService.saveTime(new RunningTimeDAO(heaterClock.getRunningTimeAndReset(),
                             circulationClock.getRunningTimeAndReset(), bathClock.getRunningTimeAndReset()));
 
 

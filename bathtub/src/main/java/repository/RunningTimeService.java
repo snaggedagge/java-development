@@ -1,10 +1,7 @@
-package rpi.model;
+package repository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @Service
 public class RunningTimeService {
@@ -13,10 +10,10 @@ public class RunningTimeService {
     @Autowired
     private RunningTimeRepository runningTimeRepository;
 
-    public void saveTime(RunningTime timeInHours) {
+    public void saveTime(RunningTimeDAO timeInHours) {
 
         if(runningTimeRepository.existsById(timeInHours.getId())) {
-            RunningTime oldTime = runningTimeRepository.findById(timeInHours.getId());
+            RunningTimeDAO oldTime = runningTimeRepository.findById(timeInHours.getId());
             runningTimeRepository.delete(oldTime);
             timeInHours.setBathTotalTimeHours(oldTime.getBathTotalTimeHours().add(timeInHours.getBathTotalTimeHours()));
             timeInHours.setRunningTimeCirculationHours(oldTime.getRunningTimeCirculationHours().add(timeInHours.getRunningTimeCirculationHours()));
@@ -28,14 +25,14 @@ public class RunningTimeService {
         }
     }
 
-    public RunningTime getRunningTime() {
+    public RunningTimeDAO getRunningTime() {
         // Same id, supposed to be only one post
-        final RunningTime runningTime = new RunningTime();
-        if (!runningTimeRepository.existsById(runningTime.getId())) {
-            this.saveTime(runningTime);
-            return runningTime;
+        final RunningTimeDAO runningTimeDAO = new RunningTimeDAO();
+        if (!runningTimeRepository.existsById(runningTimeDAO.getId())) {
+            this.saveTime(runningTimeDAO);
+            return runningTimeDAO;
         }
-        return runningTimeRepository.findById(runningTime.getId());
+        return runningTimeRepository.findById(runningTimeDAO.getId());
     }
 
 }

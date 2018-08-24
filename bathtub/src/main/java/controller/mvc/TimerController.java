@@ -1,18 +1,15 @@
-package rpi.controller.mvc;
+package controller.mvc;
 
 import org.joda.time.DateTime;
 import org.joda.time.Minutes;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import rpi.model.HeaterDataDTO;
-import rpi.config.WebConfig;
-import rpi.model.TimerDTO;
+import model.HeaterDataDTO;
+import model.TimerDTO;
 
 import java.util.ArrayList;
 import java.util.Date;

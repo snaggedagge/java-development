@@ -1,4 +1,4 @@
-package rpi.controller.rpi;
+package controller.rpi;
 
 public interface HeaterInterface {
     void loop();

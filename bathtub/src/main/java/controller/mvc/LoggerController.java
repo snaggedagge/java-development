@@ -1,4 +1,4 @@
-package rpi.controller.mvc;
+package controller.mvc;
 
 import ch.qos.logback.classic.Logger;
 import ch.qos.logback.classic.LoggerContext;

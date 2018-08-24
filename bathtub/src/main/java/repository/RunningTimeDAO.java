@@ -1,4 +1,4 @@
-package rpi.model;
+package repository;
 
 
 import javax.persistence.Column;
@@ -8,7 +8,7 @@ import javax.validation.constraints.Digits;
 import java.math.BigDecimal;
 
 @Entity
-public class RunningTime {
+public class RunningTimeDAO {
 
     @Id
     private long id = 1;
@@ -25,10 +25,10 @@ public class RunningTime {
     @Column
     private BigDecimal bathTotalTimeHours = new BigDecimal(0);
 
-    public RunningTime() {
+    public RunningTimeDAO() {
     }
 
-    public RunningTime(BigDecimal runningTimeHeaterHours, BigDecimal runningTimeCirculationHours, BigDecimal bathTotalTimeHours) {
+    public RunningTimeDAO(BigDecimal runningTimeHeaterHours, BigDecimal runningTimeCirculationHours, BigDecimal bathTotalTimeHours) {
         this.runningTimeHeaterHours = runningTimeHeaterHours;
         this.runningTimeCirculationHours = runningTimeCirculationHours;
         this.bathTotalTimeHours = bathTotalTimeHours;
