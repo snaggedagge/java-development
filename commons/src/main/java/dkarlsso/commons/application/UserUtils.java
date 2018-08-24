@@ -9,7 +9,7 @@ public class UserUtils {
     public static List<String> getUsers() {
         final List<String> userList = new ArrayList<>();
         userList.add("Dag");
-        userList.add("Linda");
+        //userList.add("Linda");
 
         return userList;
     }
@@ -19,6 +19,9 @@ public class UserUtils {
         if(user.equals("Dag")) {
             calendarList.add("dagPrivate");
             calendarList.add("dagSchool");
+        }
+        if(user.equals("Linda")) {
+            calendarList.add("linda");
         }
 
         return calendarList;

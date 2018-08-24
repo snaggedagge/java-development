@@ -34,6 +34,8 @@ public class LightViewBuilder extends AbstractViewBuilder implements ViewInterfa
 
                 final ImageView imv = new ImageView();
                 imv.setImage(dataService.getIcon(weather.getIconName()));
+                imv.setScaleX(1.3);
+                imv.setScaleY(1.3);
 
                 gridPane.add(imv, i+1, rowIndex, 1, 1);
 

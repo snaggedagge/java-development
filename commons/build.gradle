@@ -43,6 +43,28 @@ dependencies {
 
     compile 'com.pi4j:pi4j-core:1.2-SNAPSHOT'
 
+
+    compile group: 'org.springframework', name: 'spring-web', version: '5.0.6.RELEASE'
+
+    // https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-databind
+    compile group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.9.5'
+
+// https://mvnrepository.com/artifact/org.apache.httpcomponents/httpclient
+    compile group: 'org.apache.httpcomponents', name: 'httpclient', version: '4.4.1'
+
+
+    compile group: 'org.slf4j', name: 'slf4j-api', version: '1.7.25'
+    compile group: 'org.slf4j', name: 'slf4j-log4j12', version: '1.7.25'
+
+
+    // May not be needded when installed
+    //compile group: 'uk.co.caprica', name: 'vlcj', version: '3.9.0'
+
+    compile group: 'com.github.sarxos', name: 'webcam-capture-driver-v4l4j', version: '0.3.12'
+    compile group: 'com.github.sarxos', name: 'webcam-capture', version: '0.3.12'
+
+    compile group: 'org.openpnp', name: 'opencv', version: '3.2.0-1'
+
 }
 group 'dkarlsso'
 version '0.0.1-SNAPSHOT'

@@ -5,4 +5,5 @@ include 'bathtub'
 include 'commons'
 include 'smartmirror-javafx'
 include 'smartmirror-spring'
+include 'playground'
 

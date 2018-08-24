@@ -4,13 +4,17 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+
 public class ScreenHandler {
 
+    /*
+        WARNING: Apperently this also kills sound to raspberry pi so this is not the best solution.
+     */
     private static final String POWER_PROGRAM = "vcgencmd";
 
     private static final String PROGRAM_POWER_SETTING = "display_power";
 
-    private boolean isScreenActive = true;
+    private boolean isScreenActive = false;
 
     public void setScreenPowerMode(final boolean powerOn) throws ScreenHandlerException {
         try {

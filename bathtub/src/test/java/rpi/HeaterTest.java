@@ -8,13 +8,15 @@ import org.junit.runner.RunWith;
 import dkarlsso.commons.raspberry.exception.NoConnectionException;
 import dkarlsso.commons.raspberry.relay.interfaces.RelayInterface;
 import dkarlsso.commons.raspberry.sensor.MAX6675;
+import rpi.controller.rpi.Heater;
+import rpi.model.HeaterDataDTO;
 
 import static org.junit.Assert.assertEquals;
 
 @SuppressWarnings("Duplicates")
 @RunWith(EasyMockRunner.class)
 public class HeaterTest {
-    private SynchronizedHeaterDTO heaterDTO = new SynchronizedHeaterDTO();
+    private HeaterDataDTO heaterDTO = new HeaterDataDTO();
 
     @Mock
     RelayInterface relay;

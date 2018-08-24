@@ -7,6 +7,8 @@ public interface ViewInterface {
 
     ViewInterface clear();
     ViewInterface addClock(Pos position);
+    ViewInterface addImageBelowClock(final String image, double reducementScale);
+    ViewInterface addImageBelowClock(final String image, int targetWidthPercent, int targetHeightPercent, double reducementScale);
     Node getView();
     ViewInterface addWeatherData();
     ViewInterface addDayData();

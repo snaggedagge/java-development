@@ -13,26 +13,26 @@
 
     <div class="row">
         <div class="col-sm-3">
-            <div class="alert alert-${LED == true eq false ? 'warning': 'success'}">
-                <strong>Lights <c:out value="${LED == true eq false ? 'Off': 'On'}"/></strong>
+            <div class="alert alert-${settingsDTO.lightsOn == true eq false ? 'warning': 'success'}">
+                <strong>Lights <c:out value="${settingsDTO.lightsOn == true eq false ? 'Off': 'On'}"/></strong>
             </div>
         </div>
 
         <div class="col-sm-3">
-            <div class="alert alert-${HEATING == true eq false ? 'warning': 'success'}">
-                <strong>Heating <c:out value="${HEATING == true eq false ? 'Off': 'On'}"/></strong>
+            <div class="alert alert-${settingsDTO.heating == true eq false ? 'warning': 'success'}">
+                <strong>Heating <c:out value="${settingsDTO.heating == true eq false ? 'Off': 'On'}"/></strong>
             </div>
         </div>
 
         <div class="col-sm-3">
-            <div class="alert alert-${CIRCULATING == true eq false ? 'warning': 'success'}">
-                <strong>Circulation <c:out value="${CIRCULATING == true eq false ? 'Off': 'On'}"/></strong>
+            <div class="alert alert-${settingsDTO.circulating == true eq false ? 'warning': 'success'}">
+                <strong>Circulation <c:out value="${settingsDTO.circulating == true eq false ? 'Off': 'On'}"/></strong>
             </div>
         </div>
 
         <div class="col-sm-3">
-            <div class="alert alert-${DEBUG == true eq false ? 'warning': 'success'}">
-                <strong>Debug <c:out value="${DEBUG == true eq false ? 'Off': 'On'}"/></strong>
+            <div class="alert alert-${settingsDTO.debug == true eq false ? 'warning': 'success'}">
+                <strong>Debug <c:out value="${settingsDTO.debug == true eq false ? 'Off': 'On'}"/></strong>
             </div>
         </div>
     </div>
@@ -40,25 +40,25 @@
     <div class="row">
         <div class="col-sm-3">
             <div class="alert alert-info">
-                Tub Temperature is <strong>${RETURN_TEMP}</strong>
+                Tub Temperature is <strong>${settingsDTO.returnTemp}</strong>
             </div>
         </div>
 
         <div class="col-sm-3">
             <div class="alert alert-info">
-                Heater Temperature is <strong>${OVER_TEMP}</strong>
+                Heater Temperature is <strong>${settingsDTO.overTemp}</strong>
             </div>
         </div>
 
         <div class="col-sm-3">
             <div class="alert alert-danger">
-                Desired Temperature is <strong>${RETURN_TEMP_LIMIT}</strong>
+                Desired Temperature is <strong>${settingsDTO.returnTempLimit}</strong>
             </div>
         </div>
 
         <div class="col-sm-3">
             <div class="alert alert-danger">
-                Heater Temperature limit is <strong>${OVER_TEMP_LIMIT}</strong>
+                Heater Temperature limit is <strong>${settingsDTO.overTempLimit}</strong>
             </div>
         </div>
 
@@ -67,12 +67,13 @@
             <a class="btn btn-success" role="button" onclick="showSettings()">Change Settings</a>
         </div>
 
-        <div id="settingsDiv">
+
+        <form:form method="post" action="/" modelAttribute="settingsDTO" id="settingsForm" cssStyle="display: none">
             <div class="row">
                 <div class="col-lg-4">
                     <div class="form-group">
-                        <label for="returnTemp">Desired Temperature</label>
-                        <input type="number" class="form-control" id="returnTemp" aria-describedby="returnTempHelp" value="${RETURN_TEMP_LIMIT}">
+                        <form:label path="returnTempLimit">Desired Temperature </form:label>
+                        <form:input path="returnTempLimit" class="form-control" id="returnTempLimit" aria-describedby="returnTempHelp"/>
                         <small id="returnTempHelp" class="form-text text-muted">Temperature has to be between 6-45</small>
                     </div>
                 </div>
@@ -81,8 +82,8 @@
             <div class="row">
                 <div class="col-lg-4">
                     <div class="form-group">
-                        <label for="overTemp">Max Heater Temperature </label>
-                        <input type="number" class="form-control" id="overTemp" aria-describedby="overTempHelp" value="${OVER_TEMP_LIMIT}">
+                        <form:label path="overTempLimit">Max Heater Temperature </form:label>
+                        <form:input path="overTempLimit" class="form-control" id="overTempLimit" aria-describedby="overTempHelp"/>
                         <small id="overTempHelp" class="form-text text-muted">Temperature has to be less than 60</small>
                     </div>
                 </div>
@@ -91,8 +92,8 @@
             <div class="row">
                 <div class="col-lg-4">
                     <div class="form-group">
-                        <label for="timeCycle">Circulation Timer Cycle </label>
-                        <input type="number" class="form-control" id="timeCycle" aria-describedby="timeCycleHelp" value="${TIMER_CYCLE}">
+                        <form:label path="circulationTimeCycle">Circulation Timer Cycle </form:label>
+                        <form:input path="circulationTimeCycle" class="form-control" id="circulationTimeCycle" aria-describedby="timeCycleHelp"/>
                         <small id="timeCycleHelp" class="form-text text-muted">Time has to be between 5 - 120.</small>
                     </div>
                 </div>
@@ -100,83 +101,69 @@
 
             <div class="row">
                 <div class="col-sm-2">
-                    <a href="#" id="lightswitch" onclick="lightsFlip()" class="btn btn-<c:out value="${LED == true eq false ? 'danger': 'success'}"/>" role="button">Lights: <c:out value="${LED == true eq false ? 'Off': 'On'}"/></a>
+                    <form:hidden path="lightsOn" id="lightsOn"/>
+                    <a href="#" class="btn" id="lightswitch" onclick="lightsFlip()" role="button"></a>
                 </div>
 
                 <div class="col-sm-2">
-                    <a href="#" id="debugswitch" onclick="debugFlip()" class="btn btn-<c:out value="${DEBUG == true eq false ? 'danger': 'success'}"/>" role="button">Debug: <c:out value="${DEBUG == true eq false ? 'Off': 'On'}"/></a>
+                    <form:hidden path="debug" id="debug" />
+                    <a href="#" class="btn" id="debugswitch" onclick="debugFlip()" role="button"></a>
                 </div>
 
                 <div class="col-sm-2">
-                    <a href="" id="test" class="btn btn-success" role="button" onclick="sendReturnTemp()">Update Settings</a>
+                    <form:button class="btn btn-success">Update Settings</form:button>
                 </div>
             </div>
-        </div>
-
-
-
-
-
-
+        </form:form>
     </div>
 </div>
 
 <script>
+    // For snoopy fuckers, this is all disgusting, yeah i know. But also it doesn't feel like i give a fuck :)
 
     $( document ).ready(function() {
-        document.getElementById("settingsDiv").style.display = "none";
+        var lightsInputElement = document.getElementById("lightsOn");
+        prepareButton(!lightsInputElement.value, 'Lights', document.getElementById("lightswitch"));
+
+        var debugInputElement = document.getElementById("debug");
+        prepareButton(!debugInputElement.value, 'Debug', document.getElementById("debugswitch"));
     });
 
-    var lightsOn = ${LED};
-    var debugOn = ${DEBUG};
-
     function showSettings() {
-        document.getElementById("settingsDiv").style.display = "block";
+        document.getElementById("settingsForm").style.display = "block";
         document.getElementById("settingsButton").style.display = "none";
     }
 
     function lightsFlip() {
+        var lightsInputElement = document.getElementById("lightsOn");
 
-        if(lightsOn) {
-            document.getElementById("lightswitch").innerHTML = "Lights: Off";
-            document.getElementById("lightswitch").classList.add('btn-danger');
-            document.getElementById("lightswitch").classList.remove('btn-success');
-        }
-        else {
-            document.getElementById("lightswitch").innerHTML = "Lights: On";
-            document.getElementById("lightswitch").classList.add('btn-success');
-            document.getElementById("lightswitch").classList.remove('btn-danger');
-        }
-        lightsOn = !lightsOn;
+        prepareButton(lightsInputElement.value == 'true', 'Lights', document.getElementById("lightswitch"));
+        lightsInputElement.value = lightsInputElement.value == 'true' ? 'false' : 'true';
     }
 
-    // For snoopy fuckers, this is all disgusting, yeah i know. But also it doesn't feel like i give a fuck :)
 
     function debugFlip() {
-        if(debugOn) {
-            document.getElementById("debugswitch").innerHTML = "Debug: Off";
-            document.getElementById("debugswitch").classList.add('btn-danger');
-            document.getElementById("debugswitch").classList.remove('btn-success');
+        var debugInputElement = document.getElementById("debug");
+
+        prepareButton(debugInputElement.value == 'true', 'Debug', document.getElementById("debugswitch"));
+
+        debugInputElement.value = debugInputElement.value == 'true' ? 'false' : 'true';
+
+        console.log("Debug is " + debugInputElement.value);
+    }
+
+    function prepareButton(isOn, textPrefix, buttonElement) {
+        if(isOn) {
+            buttonElement.innerHTML = textPrefix + ": Off";
+            buttonElement.classList.add('btn-danger');
+            buttonElement.classList.remove('btn-success');
         }
         else {
-            document.getElementById("debugswitch").innerHTML = "Debug: On";
-            document.getElementById("debugswitch").classList.add('btn-success');
-            document.getElementById("debugswitch").classList.remove('btn-danger');
+            buttonElement.innerHTML = textPrefix + ": On";
+            buttonElement.classList.add('btn-success');
+            buttonElement.classList.remove('btn-danger');
         }
-        debugOn = !debugOn;
     }
-
-    function sendReturnTemp() {
-
-        var returnTempLimit = document.getElementById('returnTemp').value;
-        var overTempLimit = document.getElementById('overTemp').value;
-        var timerCycle = document.getElementById('timeCycle').value;
-
-        document.getElementById("test").href="?returnTempLimit=" + returnTempLimit +"&overTempLimit="+overTempLimit + "&turnLightOn="+lightsOn + "&debug="+debugOn + "&circulationTimeCycle="+timerCycle;
-    }
-
-
-
 
 </script>
 

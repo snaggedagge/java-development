@@ -34,7 +34,7 @@ public class WebPortalConnector {
         try {
             portalConnector.addWebsite(websiteDTO);
         } catch (final PortalConnectorException e) {
-            log.error("Could not update Webportal of servers location", e);
+            log.error("Could not update Webportal of servers location: " + e.getMessage());
         }
     }
 

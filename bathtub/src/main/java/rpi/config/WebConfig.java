@@ -6,26 +6,25 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
-import rpi.SynchronizedHeaterDTO;
+import rpi.model.HeaterDataDTO;
 
 
 @Configuration
 @EnableScheduling
 public class WebConfig extends WebMvcConfigurerAdapter  {
 
+    private final LoggerInterceptor loggerInterceptor = new LoggerInterceptor();
 
-    LoggerInterceptor loggerInterceptor = new LoggerInterceptor();
-
-    public final SynchronizedHeaterDTO synchronizedHeaterDTO;
+    private final HeaterDataDTO heaterDataDTO;
 
     public WebConfig() {
-        synchronizedHeaterDTO = new SynchronizedHeaterDTO();
-
+        heaterDataDTO = new HeaterDataDTO();
+        heaterDataDTO.setReturnTemp(33);
     }
 
     @Bean
-    public SynchronizedHeaterDTO synchronizedHeaterDTO(){
-        return synchronizedHeaterDTO;
+    public HeaterDataDTO synchronizedHeaterDTO(){
+        return heaterDataDTO;
     }
 
     @Override

@@ -1,5 +1,7 @@
 package dkarlsso.smartmirror.javafx;
 
+import com.pi4j.io.gpio.GpioFactory;
+import dkarlsso.commons.raspberry.OSHelper;
 import dkarlsso.smartmirror.javafx.view.ViewControllerInterface;
 import javafx.application.Application;
 import javafx.scene.Node;
@@ -32,6 +34,10 @@ public class JavaFxApplication extends Application implements ViewControllerInte
     }
 
     public static void main(String[] args) {
+        if (OSHelper.isRaspberryPi()) {
+            GpioFactory.getInstance();
+        }
+
         launch(args);
     }
 

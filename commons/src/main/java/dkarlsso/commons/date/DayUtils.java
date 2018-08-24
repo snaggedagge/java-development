@@ -1,5 +1,7 @@
 package dkarlsso.commons.date;
 
+import org.apache.commons.lang.StringUtils;
+
 import java.text.DateFormat;
 import java.text.DateFormatSymbols;
 import java.text.ParseException;
@@ -22,7 +24,7 @@ public class DayUtils {
         for(int i = dayOfWeek;i<dayOfWeek+8;i++) {
             final String day = dayNames[i%8];
             if(day != null && !day.isEmpty()) {
-                daysList.add(day);
+                daysList.add(StringUtils.capitalize(day));
             }
         }
         return daysList;

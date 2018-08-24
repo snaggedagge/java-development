@@ -1,15 +1,19 @@
-package rpi;
+package rpi.controller.rpi;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import rpi.model.HeaterDataDTO;
 import rpi.model.RunningTime;
 import rpi.model.RunningTimeService;
 import dkarlsso.commons.raspberry.OSHelper;
 import dkarlsso.commons.raspberry.RunningClock;
+import rpi.model.TimerDTO;
 
 import java.util.Date;
 
 public class HeaterThread extends Thread{
+
+    private final static Logger log = LoggerFactory.getLogger(HeaterThread.class);
 
     private final RunningTimeService runningTimeService;
 
@@ -19,65 +23,51 @@ public class HeaterThread extends Thread{
 
     private final RunningClock bathClock = new RunningClock();
 
-    private final SynchronizedHeaterDTO heaterDTO;
+    private final HeaterDataDTO heaterDTO;
 
-    private final Heater heater;
+    private final HeaterInterface heater;
 
     private boolean running = true;
 
-    private boolean isBathtime = false;
 
-    private final static Logger log = LoggerFactory.getLogger(HeaterThread.class);
-
-    public HeaterThread(final SynchronizedHeaterDTO heaterDTO,final RunningTimeService runningTimeService) {
+    public HeaterThread(final HeaterDataDTO heaterDTO, final RunningTimeService runningTimeService, final HeaterInterface heaterInterface) {
         super();
         this.heaterDTO = heaterDTO;
         this.runningTimeService = runningTimeService;
-        if(OSHelper.isRaspberryPi()) {
-            heater = new Heater(heaterDTO);
-        }
-        else {
-            heater = null;
-        }
+        heater = heaterInterface;
     }
 
 
     @Override
     public void run() {
-
         log.info("Starting heating thread");
 
         while(running) {
             try {
                 heater.loop();
 
-
                 synchronized (heaterDTO) {
-                    if(heaterDTO.getReturnTemp() > 35 && heaterDTO.getReturnTempLimit() > 35) {
-                        isBathtime = true;
-                    }
-                    if(heaterDTO.getReturnTemp() < 35 && heaterDTO.getReturnTempLimit() < 35) {
-                        isBathtime = false;
-                    }
-
                     heaterClock.setStartedRunning(heaterDTO.isHeating());
                     circulationClock.setStartedRunning(heaterDTO.isCirculating());
+
+                    boolean isBathtime = heaterDTO.getReturnTemp() > 35 && heaterDTO.getReturnTempLimit() > 35;
                     bathClock.setStartedRunning(isBathtime);
-                    
+
                     runningTimeService.saveTime(new RunningTime(heaterClock.getRunningTimeAndReset(),
                             circulationClock.getRunningTimeAndReset(), bathClock.getRunningTimeAndReset()));
 
 
-                    if(heaterDTO.getTimerDTO() != null && heaterDTO.getTimerDTO().getStartHeatingTime().toDate().getTime() < new Date().getTime()) {
-                        log.error("ACTIVATING TIMER");
-                        heaterDTO.setReturnTempLimit(heaterDTO.getTimerDTO().getHottubTemperature());
-                        heaterDTO.setReturnTempLimit(heaterDTO.getTimerDTO().getCirculationTemperature());
+
+                    final TimerDTO timerDTO = heaterDTO.getTimerDTO();
+                    if(timerDTO != null && timerDTO.getStartHeatingTime().toDate().getTime() < new Date().getTime()) {
+                        log.warn("ACTIVATING TIMER");
+                        heaterDTO.setReturnTempLimit(timerDTO.getHottubTemperature());
+                        heaterDTO.setOverTempLimit(timerDTO.getCirculationTemperature());
                         heaterDTO.setTimerDTO(null);
                     }
-
                 }
 
-
+                // Only too see if settings changes so they will take affect straight away
                 boolean settingsChanged = false;
                 for(int i=0;i<20 && !settingsChanged ;i++) {
                     Thread.sleep(500);

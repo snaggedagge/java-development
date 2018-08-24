@@ -1,4 +1,4 @@
-package dkarlsso.commons.spring.rest;
+package dkarlsso.smartmirror.spring.rest;
 
 
 import dkarlsso.commons.application.ApplicationUtils;

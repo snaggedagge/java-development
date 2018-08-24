@@ -26,13 +26,6 @@
     -fx-fill: azure;
 }
 
-
-#time {
-    -fx-font-size: 54px;
-    -fx-fill: whitesmoke;
-}
-
-
 #hbox {
     -fx-background-color: black ;
 }

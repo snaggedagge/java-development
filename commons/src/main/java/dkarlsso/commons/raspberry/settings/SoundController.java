@@ -10,22 +10,40 @@ public class SoundController {
 
     private static final String SOUND_PROGRAM = "amixer";
 
-    public void setVolume(int volumePercentage) throws CommonsException {
-        try {
-            final List<String> command = new ArrayList<String>();
-            command.add(SOUND_PROGRAM);
-            command.add("-D");
-            command.add("pulse");
-            command.add("sset");
-            command.add("Master");
-            command.add(volumePercentage + "%");
+    private int currentSoundVolume = 49;
+    // amixer -c 0 -- sset PCM playback 10% For USB
+    // amixer -D pulse sset Master 40% Works only on standard device it seems --> Hdmi
 
-            final ProcessBuilder builder = new ProcessBuilder(command);
+    public void setVolume(int volumeInPercentage) throws CommonsException {
+        try {
+            currentSoundVolume = volumeInPercentage;
+            final ProcessBuilder builder = new ProcessBuilder(createCommand(volumeInPercentage));
             final Process process = builder.start();
             process.waitFor();
         } catch (IOException | InterruptedException e) {
-            throw new CommonsException(e.getMessage(), e);
+            throw new CommonsException("Error while changing volume: " + e.getMessage(), e);
         }
+    }
+
+    public void increaseVolume(int stepInPercent) throws CommonsException {
+        currentSoundVolume = (currentSoundVolume + stepInPercent) % 100;
+        setVolume(currentSoundVolume);
+    }
+
+    public int getVolumeInPercent() {
+        return currentSoundVolume;
+    }
+
+    private List<String> createCommand(int volumeInPercentage) {
+        final List<String> command = new ArrayList<String>();
+        command.add(SOUND_PROGRAM);
+        command.add("-c");
+        command.add("0");
+        command.add("sset");
+        command.add("PCM");
+        command.add("playback");
+        command.add(volumeInPercentage + "%");
+        return command;
     }
 
     /*

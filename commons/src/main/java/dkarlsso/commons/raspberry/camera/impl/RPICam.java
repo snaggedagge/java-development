@@ -1,4 +1,8 @@
-package dkarlsso.commons.raspberry.camera;
+package dkarlsso.commons.raspberry.camera.impl;
+
+import dkarlsso.commons.model.CommonsException;
+import dkarlsso.commons.raspberry.camera.Camera;
+import dkarlsso.commons.raspberry.camera.ImageFormat;
 
 import java.io.File;
 import java.io.IOException;
@@ -7,7 +11,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class RPICam {
+public class RPICam implements Camera {
 
     private static final String PICTURE_PROGRAM = "raspistill";
 
@@ -25,11 +29,9 @@ public class RPICam {
 
     private static final String COMMAND_WAITING_TIME = "-t";
 
-    private static final String FORMAT_PICTURE = "jpg";
 
     private static final String FORMAT_DATE_REGEXP = "yyyy.MM.dd HH-mm-ss";
 
-    private static final String EXTENSION_IMAGE = "." + FORMAT_PICTURE;
 
     private final File pictureFolder;
 
@@ -48,16 +50,18 @@ public class RPICam {
         }
     }
 
-    public File takePicture() throws RPICameraException {
+    @Override
+    public File takePicture() throws CommonsException {
         Date date = new Date() ;
         SimpleDateFormat dateFormat = new SimpleDateFormat(FORMAT_DATE_REGEXP) ;
         return takePicture(dateFormat.format(date));
     }
 
-    public File takePicture(final String pictureName) throws RPICameraException {
+    @Override
+    public File takePicture(String pictureName, ImageFormat format) throws CommonsException {
         try {
             final String fullImagePath = pictureFolder.getAbsolutePath()
-                    + File.separator + pictureName + EXTENSION_IMAGE;
+                    + File.separator + pictureName + "." + format.getFormat();
 
             final List<String> command = new ArrayList<String>();
 
@@ -81,7 +85,7 @@ public class RPICam {
             }
 
             command.add(COMMAND_PICTURE_FORMAT);
-            command.add(FORMAT_PICTURE);
+            command.add(format.getFormat());
             command.add(COMMAND_FILENAME);
             command.add(fullImagePath);
 
@@ -91,8 +95,12 @@ public class RPICam {
 
             return new File(fullImagePath);
         } catch (IllegalMonitorStateException | InterruptedException | IOException e) {
-            throw new RPICameraException(e.getMessage(), e);
+            throw new CommonsException(e.getMessage(), e);
         }
+    }
+
+    public File takePicture(final String pictureName) throws CommonsException {
+        return takePicture(pictureName, ImageFormat.FORMAT_JPG);
     }
 
     public boolean isVerticallyFlipped() {

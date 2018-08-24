@@ -1,8 +1,8 @@
 package rpi.controller.mvc;
 
 import org.joda.time.DateTime;
-import org.joda.time.Hours;
 import org.joda.time.Minutes;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.stereotype.Controller;
@@ -10,12 +10,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import rpi.SynchronizedHeaterDTO;
+import rpi.model.HeaterDataDTO;
 import rpi.config.WebConfig;
 import rpi.model.TimerDTO;
 
-import java.sql.Time;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -23,12 +21,11 @@ import java.util.List;
 @Controller
 public class TimerController {
 
+    private final HeaterDataDTO heaterDTO;
 
-    private final SynchronizedHeaterDTO heaterDTO;
-
-    public TimerController() {
-        ApplicationContext ctx = new AnnotationConfigApplicationContext(WebConfig.class);
-        this.heaterDTO = ctx.getBean(SynchronizedHeaterDTO.class);
+    @Autowired
+    public TimerController(final HeaterDataDTO heaterDTO) {
+        this.heaterDTO = heaterDTO;
     }
 
     @GetMapping("/setTimer")

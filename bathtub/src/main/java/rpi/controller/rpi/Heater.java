@@ -1,4 +1,4 @@
-package rpi;
+package rpi.controller.rpi;
 
 
 import dkarlsso.commons.raspberry.enums.GPIOPins;
@@ -7,14 +7,19 @@ import dkarlsso.commons.raspberry.relay.interfaces.RelayInterface;
 import dkarlsso.commons.raspberry.sensor.MAX6675;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import rpi.CustomTimer;
+import rpi.model.HeaterDataDTO;
 
-public class Heater {
+/**
+ * Refactored from C++ Arduino script. Ugly but working for now
+ */
+public class Heater implements HeaterInterface{
 
     private final static Logger log = LoggerFactory.getLogger(Heater.class);
 
     private final CustomTimer timer = new CustomTimer();
 
-    private final SynchronizedHeaterDTO synchronizedData;
+    private final HeaterDataDTO synchronizedData;
 
     private RelayInterface circulationRelay;
     private RelayInterface heatingRelay;
@@ -41,7 +46,7 @@ public class Heater {
     private int heatingTemperatureDelta = 0;
     private int circulationTemperatureDelta = 0;
 
-    public Heater(final SynchronizedHeaterDTO synchronizedData) {
+    public Heater(final HeaterDataDTO synchronizedData) {
 
         GPIOPins returnTempCSPin = GPIOPins.GPIO25;
         GPIOPins returnTempSCKPin = GPIOPins.GPIO23;
@@ -63,7 +68,7 @@ public class Heater {
 
     }
 
-    public Heater(MAX6675 overTemp, MAX6675 returnTemp, final SynchronizedHeaterDTO synchronizedData,
+    public Heater(MAX6675 overTemp, MAX6675 returnTemp, final HeaterDataDTO synchronizedData,
                   RelayInterface heatingRelay,RelayInterface circulationRelay,RelayInterface lightRelay) {
         ovTemp =overTemp;
         retTemp =returnTemp;
@@ -74,7 +79,7 @@ public class Heater {
 
 
         if(synchronizedData == null)
-            this.synchronizedData = new SynchronizedHeaterDTO();
+            this.synchronizedData = new HeaterDataDTO();
         else
             this.synchronizedData = synchronizedData;
     }
@@ -120,7 +125,8 @@ public class Heater {
         this.setCirculationOnTimer();
     }
 
-    public void loop() throws InterruptedException {
+    @Override
+    public void loop() {
         try {
 
             synchronized(synchronizedData) {

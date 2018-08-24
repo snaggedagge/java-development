@@ -10,15 +10,15 @@ import dkarlsso.smartmirror.javafx.model.DataServiceException;
 import javafx.animation.FadeTransition;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.Node;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
+import javafx.scene.Scene;
+import javafx.scene.control.Label;
+import javafx.scene.image.*;
+import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
+import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
@@ -55,6 +55,8 @@ public abstract class AbstractViewBuilder implements ViewInterface {
     public static final String DEGREE_STRING  = "\u00b0";
 
     public static final String PATH_IMAGE  = "images";
+
+    private Text timeText;
 
     public AbstractViewBuilder(final DataService dataService) {
         this.dataService = dataService;
@@ -98,11 +100,59 @@ public abstract class AbstractViewBuilder implements ViewInterface {
         vBoxForClock.setAlignment(position);
         vBoxForClock.setPadding(new Insets(10));
 
-        final Text time = new Text(DayUtils.getTime(Calendar.getInstance().getTime()));
-        time.setId("time");
-        vBoxForClock.getChildren().add(time);
+        timeText = createText(DayUtils.getTime(Calendar.getInstance().getTime()), 54, Color.WHITESMOKE);
+        timeText.setId("time");
+        vBoxForClock.getChildren().add(timeText);
 
 
+        return this;
+    }
+
+
+    @Override
+    public ViewInterface addImageBelowClock(final String image, double reducementScale) {
+        try {
+            ImageView imageView = getImageView(image);
+            double scale = imageView.getImage().getWidth()/timeText.getBoundsInLocal().getWidth();
+
+            imageView.setFitWidth(imageView.getImage().getWidth()/scale*reducementScale);
+            imageView.setFitHeight(imageView.getImage().getHeight()/scale*reducementScale);
+
+            vBoxForClock.getChildren().add(imageView);
+        } catch (FileNotFoundException e) {
+        }
+        return this;
+    }
+
+
+    @Override
+    public ViewInterface addImageBelowClock(final String image, int targetWidthPercent, int targetHeightPercent, double reducementScale) {
+        try {
+            final ImageView imageView = getImageView(image);
+
+            int width = (int)imageView.getImage().getWidth();
+            int height = (int)imageView.getImage().getHeight();
+            byte[] buffer = new byte[width* height * 4];
+
+            imageView.getImage().getPixelReader().getPixels(0, 0, width, height,
+                    PixelFormat.getByteBgraInstance(), buffer, 0, 4*width);
+
+            int targetWidth = (int)(((double) targetWidthPercent/100) * width);
+            int targetHeight = (int)(((double) targetHeightPercent/100) * height);
+
+            final WritableImage writableImage = new WritableImage(width, height);
+            writableImage.getPixelWriter().setPixels( 0, 0, targetWidth, targetHeight,
+                    PixelFormat.getByteBgraInstance(), buffer, 0, 4*width);
+
+            final ImageView croppedImage = new ImageView(writableImage);
+            double scale = imageView.getImage().getWidth()/timeText.getBoundsInLocal().getWidth();
+
+            croppedImage.setFitWidth(imageView.getImage().getWidth()/scale*reducementScale);
+            croppedImage.setFitHeight(imageView.getImage().getHeight()/scale*reducementScale);
+
+            vBoxForClock.getChildren().add(croppedImage);
+        } catch (FileNotFoundException e) {
+        }
         return this;
     }
 

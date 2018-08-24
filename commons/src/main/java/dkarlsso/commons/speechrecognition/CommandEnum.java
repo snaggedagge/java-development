@@ -6,11 +6,15 @@ public enum CommandEnum {
     WEATHER,
     SELFIE,
     RADIO,
+    START,
+    LIGHTS,
+    VOLUME,
+    SLEEP;
+
+
 //    SPOTIFY,
-    YOUTUBE,
-    ACTIVATE,
-    SLEEP,
-    SHUTDOWN;
+//    YOUTUBE,
+//    SHUTDOWN;
 //    FACEBOOK,
 //    SELECT;
 

@@ -8,19 +8,13 @@ public interface CommandInterface {
 
     void radio();
 
-//    void spotify();
+    void start();
 
-    void youtube();
+    void lights();
 
-    void activate();
+    void volume();
 
     void sleep();
-
-    void shutdown();
-
-//    void facebook();
-
-//    void select();
 
     boolean shouldCallFunction(CommandEnum commandEnum);
 }

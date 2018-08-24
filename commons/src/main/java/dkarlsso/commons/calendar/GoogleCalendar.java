@@ -6,6 +6,7 @@ import com.google.api.client.extensions.java6.auth.oauth2.AuthorizationCodeInsta
 import com.google.api.client.extensions.jetty.auth.oauth2.LocalServerReceiver;
 import com.google.api.client.googleapis.auth.oauth2.GoogleAuthorizationCodeFlow;
 import com.google.api.client.googleapis.auth.oauth2.GoogleClientSecrets;
+import com.google.api.client.googleapis.auth.oauth2.GoogleCredential;
 import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport;
 import com.google.api.client.http.HttpTransport;
 import com.google.api.client.json.JsonFactory;
@@ -31,7 +32,7 @@ public class GoogleCalendar {
 
     private final String ACCOUNT_NAME;
 
-    private final String APPLICATION_NAME = "Smart Mirror";
+    private final String APPLICATION_NAME = "SmartMirror";
 
     /** Directory to store user credentials for this dkarlsso.application. */
     private final File DATA_STORE_DIR;
@@ -63,8 +64,10 @@ public class GoogleCalendar {
             Arrays.asList(CalendarScopes.CALENDAR_READONLY);
 
 
-    public GoogleCalendar(final File applicationRootFolder, final String user) throws CalendarException {
 
+
+
+    private GoogleCalendar(final File applicationRootFolder, final String user, int internal) throws CalendarException {
         APPLICATION_ROOT_FOLDER = applicationRootFolder;
 
         calendarIdList.add("primary");
@@ -78,18 +81,40 @@ public class GoogleCalendar {
         } catch (Throwable t) {
             throw new CalendarException(t.getMessage());
         }
-        try {
-            calendarService = getCalendarService();
-        } catch (IOException e) {
-            throw new CalendarException(e.getMessage(), e);
-        }
 
         java.util.Calendar c = java.util.Calendar.getInstance();
         c.setTime(new Date());
         c.add(java.util.Calendar.DATE, 8);
         futureTime = new DateTime(c.getTime().getTime());
+    }
+
+
+
+
+    public GoogleCalendar(final File applicationRootFolder, final String user, final Credential credential) throws CalendarException {
+        this(applicationRootFolder, user, 0);
+        try {
+            calendarService = getCalendarService(credential);
+        } catch (IOException e) {
+            throw new CalendarException(e.getMessage(), e);
+        }
+
+
 
     }
+
+    public GoogleCalendar(final File applicationRootFolder, final String user) throws CalendarException {
+        this(applicationRootFolder, user, 0);
+
+        try {
+            calendarService = getCalendarService(authorize());
+        } catch (IOException e) {
+            throw new CalendarException(e.getMessage(), e);
+        }
+
+    }
+
+
 
     /**
      * Creates an authorized Credential object.
@@ -113,6 +138,7 @@ public class GoogleCalendar {
                 flow, new LocalServerReceiver()).authorize(ACCOUNT_NAME);
         //System.out.println(
         //        "Credentials saved to " + DATA_STORE_DIR.getAbsolutePath());
+
         return credential;
     }
 
@@ -122,8 +148,8 @@ public class GoogleCalendar {
      * @throws IOException
      */
     private com.google.api.services.calendar.Calendar
-    getCalendarService() throws IOException {
-        Credential credential = authorize();
+    getCalendarService(Credential credential ) throws IOException {
+
         return new com.google.api.services.calendar.Calendar.Builder(
                 HTTP_TRANSPORT, JSON_FACTORY, credential)
                 .setApplicationName(APPLICATION_NAME)
