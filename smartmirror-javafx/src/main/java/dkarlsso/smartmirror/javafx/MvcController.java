@@ -43,9 +43,7 @@ public class MvcController extends BaseController implements Runnable, MotionAct
 
     private final Logger LOG = LogManager.getLogger(MvcController.class);
 
-    @Inject
-    @Named("DefaultDataService")
-    private DataService dataService;
+
 
     private SpeechRecognizer speechRecognizer;
 
@@ -64,9 +62,6 @@ public class MvcController extends BaseController implements Runnable, MotionAct
 
     public MvcController(final ViewControllerInterface viewControllerInterface) {
         super(viewControllerInterface);
-        Injector injector = Guice.createInjector(new BasicModule());
-        dataService = injector.getInstance(DataService.class);
-        viewBuilder = new LightViewBuilder(dataService);
 
         try {
             LOG.info("Starting speechrecogniser");
@@ -178,6 +173,8 @@ public class MvcController extends BaseController implements Runnable, MotionAct
 
     @Override
     public void run() {
+        viewBuilder = new ViewBuilder(dataService);
+
         initAnimation();
         speechRecognizer.startRecognition();
 //        new Thread(motionDetectionThread).start();

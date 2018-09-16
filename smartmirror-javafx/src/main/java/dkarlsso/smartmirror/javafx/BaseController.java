@@ -1,12 +1,13 @@
 package dkarlsso.smartmirror.javafx;
 
-import com.pi4j.io.gpio.GpioFactory;
+import com.google.inject.Inject;
 import dkarlsso.commons.application.ApplicationUtils;
 import dkarlsso.commons.model.CommonsException;
-import dkarlsso.commons.radio.RadioPlayer;
+import dkarlsso.commons.multimedia.MediaPlayer;
+import dkarlsso.commons.multimedia.radio.RadioPlayer;
+import dkarlsso.commons.quotes.FamousQuoteDTO;
 import dkarlsso.commons.raspberry.OSHelper;
 import dkarlsso.commons.raspberry.enums.GPIOPins;
-import dkarlsso.commons.raspberry.relay.ArduinoRelay;
 import dkarlsso.commons.raspberry.relay.OptoRelay;
 import dkarlsso.commons.raspberry.relay.interfaces.RelayInterface;
 import dkarlsso.commons.raspberry.settings.SoundController;
@@ -14,6 +15,8 @@ import dkarlsso.commons.speechrecognition.CommandEnum;
 import dkarlsso.commons.speechrecognition.CommandInterface;
 import dkarlsso.commons.speechrecognition.ListenerInterface;
 import dkarlsso.commons.speechrecognition.PlayEnum;
+import dkarlsso.smartmirror.javafx.model.DataService;
+import dkarlsso.smartmirror.javafx.model.DataServiceException;
 import dkarlsso.smartmirror.javafx.view.ViewControllerInterface;
 import dkarlsso.smartmirror.javafx.view.ViewInterface;
 import javafx.application.Platform;
@@ -23,16 +26,15 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.joda.time.DateTime;
 
-import java.awt.*;
-import java.io.IOException;
-import java.net.URI;
-import java.net.URISyntaxException;
-
 public abstract class BaseController implements ListenerInterface, CommandInterface {
 
     private final Logger LOG = LogManager.getLogger(BaseController.class);
 
-    private RadioPlayer radioPlayer = new RadioPlayer(ApplicationUtils.getSubfolder("radiochannels"), ApplicationUtils.getSubfolder("vlc"));
+    @Inject
+    private MediaPlayer radioPlayer;
+
+    @Inject
+    protected DataService dataService;
 
     private SoundController soundController = new SoundController();
 
@@ -125,12 +127,17 @@ public abstract class BaseController implements ListenerInterface, CommandInterf
 
     protected Node buildStandardView(final String command) {
 
-
         ViewInterface viewInterface = viewBuilder.clear()
                 .addClock(Pos.TOP_LEFT)
                 .addWeatherData()
                 .addDayData()
                 .addEventData();
+
+        try {
+            viewInterface = viewInterface.addDailyQuote(dataService.getDailyQuote());
+        } catch (DataServiceException e) {
+            LOG.error("Could not retrieve quote: " + e.getMessage(), e);
+        }
 
         if(command != null) {
             viewInterface = viewInterface.showCommand(command);

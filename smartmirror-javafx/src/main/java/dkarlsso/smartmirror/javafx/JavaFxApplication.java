@@ -1,5 +1,7 @@
 package dkarlsso.smartmirror.javafx;
 
+import com.google.inject.Guice;
+import com.google.inject.Injector;
 import com.pi4j.io.gpio.GpioFactory;
 import dkarlsso.commons.raspberry.OSHelper;
 import dkarlsso.smartmirror.javafx.view.ViewControllerInterface;
@@ -26,11 +28,19 @@ public class JavaFxApplication extends Application implements ViewControllerInte
 
     private MvcController mvcController;
 
+    private ApplicationManager applicationManager;
+
     int width = 1920;
     int height = 1080;
 
 
     public JavaFxApplication() {
+        final Injector injector = Guice.createInjector(new BasicModule());
+
+        applicationManager = new ApplicationManager();
+        mvcController = new MvcController(this);
+        injector.injectMembers(applicationManager);
+        injector.injectMembers(mvcController);
     }
 
     public static void main(String[] args) {
@@ -44,7 +54,6 @@ public class JavaFxApplication extends Application implements ViewControllerInte
     @Override
     public void start(final Stage primaryStage){
         LOG.info("Starting FX application");
-        mvcController = new MvcController(this);
 
         this.primaryStage = primaryStage;
         scene = new Scene(borderPane, width, height);
@@ -62,6 +71,7 @@ public class JavaFxApplication extends Application implements ViewControllerInte
             }
         });
 
+        applicationManager.start();
         new Thread(mvcController).start();
     }
 

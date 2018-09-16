@@ -15,23 +15,29 @@ public class SoundController {
     // amixer -D pulse sset Master 40% Works only on standard device it seems --> Hdmi
 
     public void setVolume(int volumeInPercentage) throws CommonsException {
-        try {
-            currentSoundVolume = volumeInPercentage;
-            final ProcessBuilder builder = new ProcessBuilder(createCommand(volumeInPercentage));
-            final Process process = builder.start();
-            process.waitFor();
-        } catch (IOException | InterruptedException e) {
-            throw new CommonsException("Error while changing volume: " + e.getMessage(), e);
+        synchronized (this) {
+            try {
+                currentSoundVolume = volumeInPercentage;
+                final ProcessBuilder builder = new ProcessBuilder(createCommand(volumeInPercentage));
+                final Process process = builder.start();
+                process.waitFor();
+            } catch (IOException | InterruptedException e) {
+                throw new CommonsException("Error while changing volume: " + e.getMessage(), e);
+            }
         }
     }
 
     public void increaseVolume(int stepInPercent) throws CommonsException {
-        currentSoundVolume = (currentSoundVolume + stepInPercent) % 100;
-        setVolume(currentSoundVolume);
+        synchronized(this) {
+            currentSoundVolume = (currentSoundVolume + stepInPercent) % 100;
+            setVolume(currentSoundVolume);
+        }
     }
 
     public int getVolumeInPercent() {
-        return currentSoundVolume;
+        synchronized (this) {
+            return currentSoundVolume;
+        }
     }
 
     private List<String> createCommand(int volumeInPercentage) {

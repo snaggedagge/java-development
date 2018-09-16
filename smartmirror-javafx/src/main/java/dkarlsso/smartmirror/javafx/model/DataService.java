@@ -1,5 +1,6 @@
 package dkarlsso.smartmirror.javafx.model;
 
+import dkarlsso.commons.quotes.FamousQuoteDTO;
 import dkarlsso.commons.userinfo.UserWeekInfo;
 import dkarlsso.commons.weather.LightWeatherPrognosisDTO;
 import dkarlsso.commons.weather.WeatherPrognosis;
@@ -14,11 +15,11 @@ public interface DataService {
 
     List<UserWeekInfo> getUserWeekInfoList() throws DataServiceException;
 
-    Date getCurrentTime();
-
     WeatherPrognosis getWeatherPrognosis() throws DataServiceException;
 
     LightWeatherPrognosisDTO getLightWeatherPrognosis() throws DataServiceException;
 
     Image getIcon(String iconName) throws DataServiceException;
+
+    FamousQuoteDTO getDailyQuote() throws DataServiceException;
 }

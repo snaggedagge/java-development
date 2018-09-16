@@ -6,7 +6,6 @@ import dkarlsso.commons.weather.LightWeatherDTO;
 import dkarlsso.commons.weather.LightWeatherPrognosisDTO;
 import dkarlsso.smartmirror.javafx.model.DataService;
 import dkarlsso.smartmirror.javafx.model.DataServiceException;
-import dkarlsso.smartmirror.javafx.view.AbstractViewBuilder;
 import dkarlsso.smartmirror.javafx.view.ViewInterface;
 import javafx.geometry.Pos;
 import javafx.scene.image.ImageView;

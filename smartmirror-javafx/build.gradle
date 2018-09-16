@@ -14,6 +14,7 @@ repositories {
 dependencies {
 
     compile project(':commons')
+    compile project(':commons-javafx')
 
     compile group: 'edu.cmu.sphinx', name: 'sphinx4-core', version:'5prealpha-SNAPSHOT'
     compile group: 'edu.cmu.sphinx', name: 'sphinx4-data', version:'5prealpha-SNAPSHOT'

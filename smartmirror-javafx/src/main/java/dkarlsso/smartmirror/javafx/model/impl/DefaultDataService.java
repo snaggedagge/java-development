@@ -3,6 +3,9 @@ package dkarlsso.smartmirror.javafx.model.impl;
 
 import dkarlsso.commons.application.ApplicationUtils;
 import dkarlsso.commons.cache.TimeCache;
+import dkarlsso.commons.quotes.FamousQuoteDTO;
+import dkarlsso.commons.quotes.FamousQuoteException;
+import dkarlsso.commons.quotes.FamousQuotesService;
 import dkarlsso.smartmirror.javafx.UserinfoController;
 import dkarlsso.commons.date.DayUtils;
 import dkarlsso.commons.userinfo.UserWeekInfo;
@@ -28,7 +31,11 @@ public class DefaultDataService implements DataService {
 
     private static final String CACHE_LIGHT_WEATHER_PROGNOSIS = "LIGHT_WEATHER_PROGNOSIS";
 
+    private static final String CACHE_DAILY_QUOTE = "DAILY_QUOTE";
+
     private final WeatherService weatherReader = new WeatherService(ApplicationUtils.getSubfolder("weatherdata"), 3);
+
+    private final FamousQuotesService famousQuotesService = new FamousQuotesService();
 
     private TimeCache cache = new TimeCache();
 
@@ -47,11 +54,6 @@ public class DefaultDataService implements DataService {
         } catch (ParseException e) {
             throw new DataServiceException();
         }
-    }
-
-    @Override
-    public Date getCurrentTime() {
-        return Calendar.getInstance().getTime();
     }
 
     @Override
@@ -89,5 +91,17 @@ public class DefaultDataService implements DataService {
         }
 
         return new Image(file.toURI().toString());
+    }
+
+    @Override
+    public FamousQuoteDTO getDailyQuote() throws DataServiceException {
+        try {
+            if(!cache.isValid(CACHE_DAILY_QUOTE)) {
+                cache.put(CACHE_DAILY_QUOTE, famousQuotesService.getRandomQuote(), 60 * 24);
+            }
+            return cache.get(CACHE_DAILY_QUOTE);
+        } catch (FamousQuoteException e) {
+            throw new DataServiceException(e.getMessage(), e);
+        }
     }
 }
