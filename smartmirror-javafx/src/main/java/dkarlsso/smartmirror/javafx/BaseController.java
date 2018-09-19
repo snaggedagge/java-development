@@ -1,11 +1,8 @@
 package dkarlsso.smartmirror.javafx;
 
 import com.google.inject.Inject;
-import dkarlsso.commons.application.ApplicationUtils;
 import dkarlsso.commons.model.CommonsException;
 import dkarlsso.commons.multimedia.MediaPlayer;
-import dkarlsso.commons.multimedia.radio.RadioPlayer;
-import dkarlsso.commons.quotes.FamousQuoteDTO;
 import dkarlsso.commons.raspberry.OSHelper;
 import dkarlsso.commons.raspberry.enums.GPIOPins;
 import dkarlsso.commons.raspberry.relay.OptoRelay;
@@ -26,7 +23,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.joda.time.DateTime;
 
-public abstract class BaseController implements ListenerInterface, CommandInterface {
+public abstract class BaseController implements ListenerInterface, CommandInterface<CommandEnum> {
 
     private final Logger LOG = LogManager.getLogger(BaseController.class);
 

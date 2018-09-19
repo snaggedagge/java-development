@@ -1,8 +1,11 @@
 package dkarlsso.commons.speechrecognition;
 
+import dkarlsso.commons.commandaction.CommandActionException;
+import dkarlsso.commons.commandaction.CommandInvoker;
 import edu.cmu.sphinx.api.Configuration;
 import edu.cmu.sphinx.api.LiveSpeechRecognizer;
 import edu.cmu.sphinx.api.SpeechResult;
+import org.apache.commons.lang.StringUtils;
 
 
 import java.io.File;
@@ -10,9 +13,11 @@ import java.io.IOException;
 import java.lang.reflect.Method;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.List;
 
 
-public class SpeechRecognizer
+// TODO FIGURE OUT WTH TO DO WITH THIS UGLY ASS CLASS
+public class SpeechRecognizer <E extends Enum>
 {
 
     private final File voicerecognitionRootFolder;
@@ -21,24 +26,24 @@ public class SpeechRecognizer
 
     private LiveSpeechRecognizer recognizer;
 
-    private CommandInterface commandInterface;
+    private CommandInvoker<E> commandInvoker;
 
-    private PlayInterface playInterface;
-
-    private ListenerInterface listenerInterface;
-
-    private boolean usingCommandConfig = true;
-
+    private final Class<E> commandEnumerationClass;
 
     private final Path path;
 
     private final String BASE_PATH;
 
-    public SpeechRecognizer(final File voicerecognitionRootFolder) throws SpeechException {
+    public SpeechRecognizer(final File voicerecognitionRootFolder, final CommandInvoker<E> commandInvoker,
+                            final Class<E> commandEnumerationClass) throws SpeechException {
         this.voicerecognitionRootFolder = voicerecognitionRootFolder;
+        this.commandInvoker = commandInvoker;
+        this.commandEnumerationClass = commandEnumerationClass;
 
         path = Paths.get(voicerecognitionRootFolder.getAbsolutePath() + File.separator);
 
+
+        // TODO WTF IS THIS?
         BASE_PATH = File.separator + path.subpath(0,path.getNameCount()).toString() + File.separator;
 
 /*
@@ -63,7 +68,9 @@ public class SpeechRecognizer
         playConfiguration.setDictionaryPath(BASE_PATH + "play.dic");
         playConfiguration.setLanguageModelPath(BASE_PATH + "play.lm");
          */
-        setCommandConfiguration();
+        activeConfiguration.setAcousticModelPath("resource:/edu/cmu/sphinx/models/en-us/en-us");
+        activeConfiguration.setDictionaryPath(BASE_PATH + "commands.dic");
+        activeConfiguration.setLanguageModelPath(BASE_PATH + "commands.lm");
 
         //Recognizer object, Pass the Configuration object
         LiveSpeechRecognizer recognize = null;
@@ -75,28 +82,6 @@ public class SpeechRecognizer
         recognizer = recognize;
 
     }
-
-    public SpeechRecognizer(final File applicationRootFolder, CommandInterface commandInterface) throws SpeechException {
-        this(applicationRootFolder);
-        this.commandInterface = commandInterface;
-    }
-
-    public SpeechRecognizer(final File applicationRootFolder, PlayInterface playInterface) throws SpeechException {
-        this(applicationRootFolder);
-        this.playInterface = playInterface;
-    }
-
-    public SpeechRecognizer(final File applicationRootFolder, ListenerInterface listenerInterface) throws SpeechException {
-        this(applicationRootFolder);
-        this.listenerInterface = listenerInterface;
-    }
-
-    public SpeechRecognizer(final File applicationRootFolder, CommandInterface commandInterface, ListenerInterface listenerInterface) throws SpeechException {
-        this(applicationRootFolder);
-        this.commandInterface = commandInterface;
-        this.listenerInterface = listenerInterface;
-    }
-
 
     public void startRecognition() {
         //Start Recognition Process (The bool parameter clears the previous cache if true)
@@ -110,67 +95,25 @@ public class SpeechRecognizer
 
         //Checking if recognizer has recognized the speech
         if (result != null ) {
-            String command = result.getHypothesis();
-            if(command != null && !command.isEmpty() && !command.contains(" ")) {
-                callInterfaces(command);
-                System.out.println(command);
+            final String hypothesis = result.getHypothesis();
+
+            if(!StringUtils.isEmpty(hypothesis)) {
+                final String[] commands = hypothesis.split(" ");
+                for(final String command : commands) {
+                    callInterfaces(command);
+                }
             }
         }
     }
-
-    public void setActiveConfiguration(ConfigurationEnum choice) throws IOException {
-
-        if(choice.equals(ConfigurationEnum.COMMANDS)) {
-            setCommandConfiguration();
-            usingCommandConfig = true;
-        } else {
-            setPlayConfiguration();
-            usingCommandConfig = false;
-        }
-
-        recognizer.stopRecognition();
-        recognizer = new LiveSpeechRecognizer(activeConfiguration);
-    }
-
 
     private void callInterfaces(final String command) throws SpeechException {
-        try{
-            if(usingCommandConfig) {
-                final CommandEnum commandEnum = CommandEnum.valueOf(command);
-                if(commandInterface != null) {
-                    if(commandInterface.shouldCallFunction(commandEnum)) {
-                        final Method menuMethod = CommandInterface.class.getMethod(commandEnum.name().toLowerCase());
-                        menuMethod.invoke(commandInterface);
-                    }
-                }
-                if(listenerInterface != null) {
-                    listenerInterface.menuCommand(commandEnum);
-                }
-            }
-            else {
-                final PlayEnum playEnum = PlayEnum.valueOf(command);
-                if(playInterface != null) {
-                    final Method menuMethod = PlayInterface.class.getMethod(playEnum.name().toLowerCase());
-                    menuMethod.invoke(playInterface);
-                }
-                if(listenerInterface != null) {
-                    listenerInterface.playCommand(playEnum);
-                }
-            }
-
-        } catch (ReflectiveOperationException | IllegalArgumentException e) {
-            throw new SpeechException("Error during command :" + command + e.getMessage(), e);
+        try {
+            final Object commandEnum = E.valueOf(commandEnumerationClass,command);
+            commandInvoker.executeCommand((E)commandEnum);
+        } catch (final CommandActionException e) {
+            throw new SpeechException("Exception from command invoker" + e.getMessage());
         }
+
     }
 
-    private void setCommandConfiguration() {
-        activeConfiguration.setAcousticModelPath("resource:/edu/cmu/sphinx/models/en-us/en-us");
-        activeConfiguration.setDictionaryPath(BASE_PATH + "commands.dic");
-        activeConfiguration.setLanguageModelPath(BASE_PATH + "commands.lm");
-    }
-    private void setPlayConfiguration() {
-        activeConfiguration.setAcousticModelPath("resource:/edu/cmu/sphinx/models/en-us/en-us");
-        activeConfiguration.setDictionaryPath(BASE_PATH + "play.dic");
-        activeConfiguration.setLanguageModelPath(BASE_PATH + "play.lm");
-    }
 }

@@ -37,7 +37,7 @@ public class JavaFxApplication extends Application implements ViewControllerInte
     public JavaFxApplication() {
         final Injector injector = Guice.createInjector(new BasicModule());
 
-        applicationManager = new ApplicationManager();
+        applicationManager = new ApplicationManager(injector);
         mvcController = new MvcController(this);
         injector.injectMembers(applicationManager);
         injector.injectMembers(mvcController);

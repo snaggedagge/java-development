@@ -9,15 +9,15 @@ public enum CommandEnum {
     START,
     LIGHTS,
     VOLUME,
-    SLEEP;
+    SLEEP,
 
 
-//    SPOTIFY,
-//    YOUTUBE,
-//    SHUTDOWN;
-//    FACEBOOK,
-//    SELECT;
-
+    // Not used
+    SPOTIFY,
+    YOUTUBE,
+    SHUTDOWN,
+    FACEBOOK,
+    SELECT;
 
     public String prettyName() {
         return StringUtils.capitalize(this.name().toLowerCase());

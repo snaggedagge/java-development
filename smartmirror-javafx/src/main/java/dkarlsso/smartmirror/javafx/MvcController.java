@@ -1,43 +1,29 @@
 package dkarlsso.smartmirror.javafx;
 
-import com.google.inject.Guice;
-import com.google.inject.Inject;
-import com.google.inject.Injector;
-import com.google.inject.name.Named;
 import dkarlsso.commons.application.ApplicationUtils;
-import dkarlsso.commons.model.CommonsException;
+import dkarlsso.commons.commandaction.CommandActionException;
+import dkarlsso.commons.commandaction.CommandInvoker;
 import dkarlsso.commons.motiondetection.MotionAction;
-import dkarlsso.commons.motiondetection.MotionDetectionThread;
 import dkarlsso.commons.motiondetection.MotionType;
 import dkarlsso.commons.raspberry.OSHelper;
-import dkarlsso.commons.raspberry.camera.Camera;
-import dkarlsso.commons.raspberry.camera.impl.ThreadSafeCamera;
-import dkarlsso.commons.raspberry.camera.impl.ThreadSafeCameraSingleton;
-import dkarlsso.commons.raspberry.camera.impl.WebCam;
 import dkarlsso.commons.raspberry.screen.ScreenHandler;
 import dkarlsso.commons.raspberry.screen.ScreenHandlerException;
 import dkarlsso.commons.speechrecognition.CommandEnum;
 import dkarlsso.commons.speechrecognition.PlayEnum;
 import dkarlsso.commons.speechrecognition.SpeechException;
 import dkarlsso.commons.speechrecognition.SpeechRecognizer;
-import dkarlsso.smartmirror.javafx.model.DataService;
 import dkarlsso.smartmirror.javafx.view.ViewControllerInterface;
 import dkarlsso.smartmirror.javafx.view.impl.LightViewBuilder;
 import dkarlsso.smartmirror.javafx.view.impl.ViewBuilder;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
-import javafx.animation.PauseTransition;
 import javafx.animation.Timeline;
 import javafx.application.Platform;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.util.Duration;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.joda.time.DateTime;
 import org.joda.time.Minutes;
-
-import java.io.File;
 
 public class MvcController extends BaseController implements Runnable, MotionAction {
 
@@ -45,7 +31,7 @@ public class MvcController extends BaseController implements Runnable, MotionAct
 
 
 
-    private SpeechRecognizer speechRecognizer;
+    private SpeechRecognizer<CommandEnum> speechRecognizer;
 
 //    private MotionDetectionThread motionDetectionThread;
 
@@ -65,7 +51,13 @@ public class MvcController extends BaseController implements Runnable, MotionAct
 
         try {
             LOG.info("Starting speechrecogniser");
-            speechRecognizer = new SpeechRecognizer(ApplicationUtils.getSubfolder("voicerecognition"), this, this);
+
+
+            CommandInvoker<CommandEnum> commandInvoker = commandEnum -> {
+                System.out.println("COMMAND WAS" + commandEnum.prettyName());
+            };
+
+            speechRecognizer = new SpeechRecognizer<>(ApplicationUtils.getSubfolder("voicerecognition"), commandInvoker, CommandEnum.class);
         } catch (SpeechException e) {
             LOG.error(e.getMessage(), e);
             System.exit(0);

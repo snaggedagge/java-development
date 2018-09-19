@@ -1,6 +1,6 @@
 package dkarlsso.commons.speechrecognition;
 
-public interface CommandInterface {
+public interface CommandInterface<T extends Enum> {
 
     void weather();
 
@@ -16,5 +16,5 @@ public interface CommandInterface {
 
     void sleep();
 
-    boolean shouldCallFunction(CommandEnum commandEnum);
+    boolean shouldCallFunction(T commandEnum);
 }
