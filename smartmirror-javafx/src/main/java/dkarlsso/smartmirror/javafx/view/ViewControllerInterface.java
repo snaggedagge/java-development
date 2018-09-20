@@ -11,6 +11,4 @@ public interface ViewControllerInterface {
 
     void displayStandardView(String command);
 
-    void refreshView();
-
 }

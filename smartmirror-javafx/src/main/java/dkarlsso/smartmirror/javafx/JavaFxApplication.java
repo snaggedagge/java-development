@@ -4,14 +4,13 @@ import com.google.inject.Guice;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.pi4j.io.gpio.GpioFactory;
-import dkarlsso.commons.commandaction.CommandAction;
-import dkarlsso.commons.commandaction.CommandActionException;
 import dkarlsso.commons.container.BasicContainer;
 import dkarlsso.commons.raspberry.OSHelper;
 import dkarlsso.smartmirror.javafx.model.VoiceApplicationState;
 import dkarlsso.smartmirror.javafx.model.interfaces.DataService;
 import dkarlsso.smartmirror.javafx.model.interfaces.DataServiceException;
 import dkarlsso.smartmirror.javafx.model.interfaces.StateService;
+import dkarlsso.smartmirror.javafx.module.SmartMirrorModule;
 import dkarlsso.smartmirror.javafx.view.ViewBuilder;
 import dkarlsso.smartmirror.javafx.view.ViewControllerInterface;
 import javafx.animation.Animation;
@@ -29,10 +28,6 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 
 
 public class JavaFxApplication extends Application implements ViewControllerInterface {
@@ -151,8 +146,4 @@ public class JavaFxApplication extends Application implements ViewControllerInte
         });
     }
 
-    @Override
-    public synchronized void refreshView() {
-
-    }
 }

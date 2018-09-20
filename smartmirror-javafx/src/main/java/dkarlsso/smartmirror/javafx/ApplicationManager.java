@@ -6,6 +6,7 @@ import dkarlsso.commons.application.ApplicationUtils;
 import dkarlsso.commons.commandaction.CommandActionException;
 import dkarlsso.commons.commandaction.CommandInvoker;
 import dkarlsso.commons.raspberry.screen.ScreenHandler;
+import dkarlsso.commons.raspberry.screen.ScreenHandlerException;
 import dkarlsso.commons.speechrecognition.SpeechException;
 import dkarlsso.commons.speechrecognition.SpeechRecognizer;
 import dkarlsso.smartmirror.javafx.actions.ActionExecutor;
@@ -57,20 +58,34 @@ public class ApplicationManager implements CommandInvoker<CommandEnum>, Runnable
 //        new Thread(motionDetectionThread).start();
 //        new Thread(alarmClock).start();
 
+        new Thread(() -> {
+            boolean isRunning = true;
+            while (isRunning) {
+                try {
+                    int minutesSinceActive = Minutes.minutesBetween(lastActivated,new DateTime()).getMinutes();
+                    LOG.info("Minutes since active: " + minutesSinceActive);
+                    if(minutesSinceActive > 5) {
+                        LOG.info("Powering off screen");
+                        screenHandler.setScreenPowerMode(false);
+                    }
+                    Thread.sleep(1000 * 60);
+                } catch (InterruptedException e) {
+                    isRunning = false;
+                } catch (ScreenHandlerException e) {
+                    synchronized (LOG) {
+                        LOG.error("Could not turn screen off", e);
+                    }
+                }
+            }
+        });
+
         while (true) {
             try {
-
-                int minutesSinceActive = Minutes.minutesBetween(lastActivated,new DateTime()).getMinutes();
-                LOG.info("Minutes since active: " + minutesSinceActive);
-                if(minutesSinceActive > 5) {
-                    LOG.info("Powering off screen");
-                    screenHandler.setScreenPowerMode(false);
-                }
-
                 speechRecognizer.getResult();
-                // We dont want this to ever stop running.
-            } catch (Exception e) {
-                LOG.error(e.getMessage(), e);
+            } catch (SpeechException e) {
+                synchronized (LOG) {
+                    LOG.error(e.getMessage(), e);
+                }
             }
         }
     }
@@ -90,8 +105,8 @@ public class ApplicationManager implements CommandInvoker<CommandEnum>, Runnable
 
         if(shouldCallFunction) {
             lastActivated = new DateTime();
-            viewInterface.displayStandardView(commandEnum.prettyName());
             actionExecutor.executeCommand(commandEnum);
+            viewInterface.displayStandardView(commandEnum.prettyName());
         }
     }
 }

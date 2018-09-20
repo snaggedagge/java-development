@@ -1,4 +1,4 @@
-package dkarlsso.smartmirror.javafx;
+package dkarlsso.smartmirror.javafx.module;
 
 import com.google.inject.AbstractModule;
 import com.google.inject.TypeLiteral;
@@ -45,25 +45,19 @@ public class SmartMirrorModule extends AbstractModule {
         viewBuilder.set(new HeavyViewBuilder(dataService));
         bind(new TypeLiteral<BasicContainer<ViewBuilder>>(){}).toInstance(viewBuilder);
 
-
-
-
         bind(StateService.class).toInstance(new DefaultStateService(radioPlayer, soundController));
         bind(ScreenHandler.class).toInstance(new ScreenHandler());
         bind(ViewControllerInterface.class).toInstance(viewControllerInterface);
 
-
-
-
+        final RelayInterface lightsRelay;
         if (OSHelper.isRaspberryPi()) {
-            final RelayInterface lightsRelay = new OptoRelay(GPIOPins.GPIO14_TXDO);
+            lightsRelay = new OptoRelay(GPIOPins.GPIO14_TXDO);
             lightsRelay.setHigh();
             bind(RelayInterface.class).annotatedWith(Names.named("LightsRelay")).toInstance(lightsRelay);
         }
         else {
-            bind(RelayInterface.class).annotatedWith(Names.named("LightsRelay")).toInstance(new MockRelay());
+            lightsRelay = new MockRelay();
         }
-
-
+        bind(RelayInterface.class).annotatedWith(Names.named("LightsRelay")).toInstance(lightsRelay);
     }
 }
