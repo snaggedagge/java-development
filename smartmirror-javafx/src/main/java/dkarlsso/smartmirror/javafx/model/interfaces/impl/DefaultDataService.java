@@ -1,4 +1,4 @@
-package dkarlsso.smartmirror.javafx.model.impl;
+package dkarlsso.smartmirror.javafx.model.interfaces.impl;
 
 
 import dkarlsso.commons.application.ApplicationUtils;
@@ -6,20 +6,18 @@ import dkarlsso.commons.cache.TimeCache;
 import dkarlsso.commons.quotes.FamousQuoteDTO;
 import dkarlsso.commons.quotes.FamousQuoteException;
 import dkarlsso.commons.quotes.FamousQuotesService;
-import dkarlsso.smartmirror.javafx.UserinfoController;
 import dkarlsso.commons.date.DayUtils;
 import dkarlsso.commons.userinfo.UserWeekInfo;
 import dkarlsso.commons.weather.LightWeatherPrognosisDTO;
 import dkarlsso.commons.weather.WeatherException;
 import dkarlsso.commons.weather.WeatherPrognosis;
 import dkarlsso.commons.weather.WeatherService;
-import dkarlsso.smartmirror.javafx.model.DataService;
-import dkarlsso.smartmirror.javafx.model.DataServiceException;
+import dkarlsso.smartmirror.javafx.model.interfaces.DataService;
+import dkarlsso.smartmirror.javafx.model.interfaces.DataServiceException;
 import javafx.scene.image.Image;
 
 import java.io.File;
 import java.text.ParseException;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 

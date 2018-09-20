@@ -8,9 +8,9 @@ import dkarlsso.commons.javafx.font.FontLoader;
 import dkarlsso.commons.quotes.FamousQuoteDTO;
 import dkarlsso.commons.userinfo.DayInfo;
 import dkarlsso.commons.userinfo.UserWeekInfo;
-import dkarlsso.smartmirror.javafx.model.DataService;
-import dkarlsso.smartmirror.javafx.model.DataServiceException;
-import dkarlsso.smartmirror.javafx.view.ViewInterface;
+import dkarlsso.smartmirror.javafx.model.interfaces.DataService;
+import dkarlsso.smartmirror.javafx.model.interfaces.DataServiceException;
+import dkarlsso.smartmirror.javafx.view.ViewBuilder;
 import javafx.animation.FadeTransition;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -31,7 +31,7 @@ import java.io.FileNotFoundException;
 import java.util.Calendar;
 import java.util.List;
 
-public abstract class AbstractViewBuilder implements ViewInterface {
+public abstract class AbstractViewBuilder implements ViewBuilder {
 
     protected Logger LOG = LogManager.getLogger(getClass());
 
@@ -109,7 +109,7 @@ public abstract class AbstractViewBuilder implements ViewInterface {
     }
 
     @Override
-    public ViewInterface addClock(Pos position) {
+    public ViewBuilder addClock(Pos position) {
 
         vBoxForClock.setAlignment(position);
         vBoxForClock.setPadding(new Insets(10));
@@ -123,7 +123,7 @@ public abstract class AbstractViewBuilder implements ViewInterface {
     }
 
     @Override
-    public ViewInterface addDailyQuote(final FamousQuoteDTO famousQuote) {
+    public ViewBuilder addDailyQuote(final FamousQuoteDTO famousQuote) {
         final VBox vBox = new VBox();
 
         vBox.getChildren().add(createText(famousQuote.getQuote(), Color.LIGHTBLUE, FontLoader.getFont(CustomFont.CASSANDRA, 20)));
@@ -138,7 +138,7 @@ public abstract class AbstractViewBuilder implements ViewInterface {
 
 
     @Override
-    public ViewInterface addImageBelowClock(final String image, double reducementScale) {
+    public ViewBuilder addImageBelowClock(final String image, double reducementScale) {
         try {
             ImageView imageView = getImageView(image);
             double scale = imageView.getImage().getWidth()/timeText.getBoundsInLocal().getWidth();
@@ -154,7 +154,7 @@ public abstract class AbstractViewBuilder implements ViewInterface {
 
 
     @Override
-    public ViewInterface addImageBelowClock(final String image, int targetWidthPercent, int targetHeightPercent, double reducementScale) {
+    public ViewBuilder addImageBelowClock(final String image, int targetWidthPercent, int targetHeightPercent, double reducementScale) {
         try {
             final ImageView imageView = getImageView(image);
 
@@ -185,7 +185,7 @@ public abstract class AbstractViewBuilder implements ViewInterface {
     }
 
     @Override
-    public ViewInterface showCommand(String command) {
+    public ViewBuilder showCommand(String command) {
 
         if(!vBoxForClock.getChildren().contains(commandText)) {
             vBoxForClock.getChildren().add(commandText);
@@ -200,7 +200,7 @@ public abstract class AbstractViewBuilder implements ViewInterface {
     }
 
     @Override
-    public ViewInterface showMessage(final String message, final int secondsToShow) {
+    public ViewBuilder showMessage(final String message, final int secondsToShow) {
         final Text messageText = createText(message,40,Color.RED);
         borderPane.setCenter(messageText);
 
@@ -212,7 +212,7 @@ public abstract class AbstractViewBuilder implements ViewInterface {
     }
 
     @Override
-    public ViewInterface addLockIcon(boolean locked) {
+    public ViewBuilder addLockIcon(boolean locked) {
         try {
             hBoxAroundClock.setPadding(new Insets(10));
             if(locked) {
@@ -228,7 +228,7 @@ public abstract class AbstractViewBuilder implements ViewInterface {
     }
 
     @Override
-    public ViewInterface addEventData() {
+    public ViewBuilder addEventData() {
         try {
             final List<UserWeekInfo> userWeekInfos = dataService.getUserWeekInfoList();
 
@@ -293,7 +293,7 @@ public abstract class AbstractViewBuilder implements ViewInterface {
     }
 
     @Override
-    public ViewInterface clear() {
+    public ViewBuilder clear() {
         rowIndex=0;
         borderPane.getChildren().clear();
         gridPane.getChildren().clear();

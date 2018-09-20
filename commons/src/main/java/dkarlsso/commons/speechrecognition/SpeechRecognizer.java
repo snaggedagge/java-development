@@ -111,7 +111,7 @@ public class SpeechRecognizer <E extends Enum>
             final Object commandEnum = E.valueOf(commandEnumerationClass,command);
             commandInvoker.executeCommand((E)commandEnum);
         } catch (final CommandActionException e) {
-            throw new SpeechException("Exception from command invoker" + e.getMessage());
+            throw new SpeechException("Exception from command invoker" + e.getMessage(), e);
         }
 
     }

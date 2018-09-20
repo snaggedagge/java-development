@@ -1,4 +1,4 @@
-package dkarlsso.smartmirror.javafx;
+package dkarlsso.smartmirror.javafx.model.interfaces.impl;
 
 import dkarlsso.commons.application.ApplicationUtils;
 import dkarlsso.commons.application.UserUtils;

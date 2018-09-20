@@ -2,87 +2,96 @@ package dkarlsso.smartmirror.javafx;
 
 import com.google.inject.Inject;
 import com.google.inject.Injector;
-import dkarlsso.commons.multimedia.MediaPlayer;
-import dkarlsso.commons.multimedia.alarm.AlarmClock;
-import dkarlsso.commons.multimedia.alarm.AlarmTimeSetting;
-import dkarlsso.commons.raspberry.settings.SoundController;
+import dkarlsso.commons.application.ApplicationUtils;
 import dkarlsso.commons.commandaction.CommandActionException;
-import dkarlsso.commons.speechrecognition.CommandEnum;
-import dkarlsso.commons.speechrecognition.CommandInterface;
+import dkarlsso.commons.commandaction.CommandInvoker;
+import dkarlsso.commons.raspberry.screen.ScreenHandler;
+import dkarlsso.commons.speechrecognition.SpeechException;
+import dkarlsso.commons.speechrecognition.SpeechRecognizer;
 import dkarlsso.smartmirror.javafx.actions.ActionExecutor;
-import dkarlsso.smartmirror.javafx.view.MvcProxy;
+import dkarlsso.smartmirror.javafx.model.CommandEnum;
+import dkarlsso.smartmirror.javafx.model.VoiceApplicationState;
+import dkarlsso.smartmirror.javafx.model.interfaces.StateService;
+import dkarlsso.smartmirror.javafx.view.ViewControllerInterface;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.joda.time.DateTime;
+import org.joda.time.Minutes;
 
-import java.util.*;
-import java.util.function.Function;
+public class ApplicationManager implements CommandInvoker<CommandEnum>, Runnable{
 
-public class ApplicationManager {
-
-    @Inject
-    private MediaPlayer radioPlayer;
-
-    @Inject
-    private SoundController soundController;
+    private final Logger LOG = LogManager.getLogger(ApplicationManager.class);
 
     private final ActionExecutor actionExecutor;
 
-    private AlarmClock alarmClock;
+    @Inject
+    private ViewControllerInterface viewInterface;
 
-    private final Injector injector;
+    @Inject
+    private StateService stateService;
+
+    @Inject
+    private ScreenHandler screenHandler;
+
+    private SpeechRecognizer<CommandEnum> speechRecognizer;
+
+    private DateTime lastActivated = new DateTime();
+
 
     public ApplicationManager(final Injector injector) {
-        this.injector = injector;
         actionExecutor = new ActionExecutor(injector);
-
-        injector.injectMembers(actionExecutor);
-
-    }
-
-    public void test(Function<? super CommandInterface, Void> function) {
-
-        MvcProxy mvcProxy = null;
-
-//
-//        ViewInterface viewInterface = mvcProxy.getClass(ViewInterface.class);
-//
-//        mvcProxy.executeFunction(ViewInterface.class, ViewInterface::showCommand);
-//
-//
-        List<String> list = new ArrayList<>();
-        list.stream().sorted(Comparator.comparing(String::length));
-        //Comparator.comparing(ViewInterface::getView);
+        try {
+            speechRecognizer = new SpeechRecognizer<>(ApplicationUtils.getSubfolder("voicerecognition"), this, CommandEnum.class);
+        } catch (final SpeechException e) {
+            LOG.error(e.getMessage(), e);
+        }
     }
 
 
-    private Map<Class, Object> classMap;
+    @Override
+    public void run() {
+        viewInterface.initAnimation(5000, null);
+        speechRecognizer.startRecognition();
 
-    <T> T getClass(Class<T> implementationToGet) {
-        
-        return (T) classMap.get(implementationToGet);
+
+//        new Thread(motionDetectionThread).start();
+//        new Thread(alarmClock).start();
+
+        while (true) {
+            try {
+
+                int minutesSinceActive = Minutes.minutesBetween(lastActivated,new DateTime()).getMinutes();
+                LOG.info("Minutes since active: " + minutesSinceActive);
+                if(minutesSinceActive > 5) {
+                    LOG.info("Powering off screen");
+                    screenHandler.setScreenPowerMode(false);
+                }
+
+                speechRecognizer.getResult();
+                // We dont want this to ever stop running.
+            } catch (Exception e) {
+                LOG.error(e.getMessage(), e);
+            }
+        }
     }
 
-    public void start() {
+    @Override
+    public void executeCommand(final CommandEnum commandEnum) throws CommandActionException {
 
+        boolean shouldCallFunction = false;
+        if(stateService.getVoiceApplicationState() == VoiceApplicationState.UNLOCKED) {
+            shouldCallFunction = true;
+        }
+        else {
+            if(CommandEnum.START.equals(commandEnum)) {
+                shouldCallFunction = true;
+            }
+        }
 
-        List<AlarmTimeSetting> list = Arrays.asList(new AlarmTimeSetting(new DateTime(2018, 9, 17, 6, 45)
-                , 30, 60, 100),
-
-                new AlarmTimeSetting(new DateTime(2018, 9, 18, 6, 45)
-                        , 30, 60, 100),
-
-                new AlarmTimeSetting(new DateTime(2018, 9, 19, 6, 45)
-                        , 30, 60, 100),
-
-                new AlarmTimeSetting(new DateTime(2018, 9, 20, 6, 45)
-                        , 30, 60, 100),
-
-                new AlarmTimeSetting(new DateTime(2018, 9, 21, 6, 45)
-                        , 30, 60, 100));
-
-
-
-        alarmClock = new AlarmClock(soundController, radioPlayer, list);
-
-        new Thread(alarmClock).start();
+        if(shouldCallFunction) {
+            lastActivated = new DateTime();
+            viewInterface.displayStandardView(commandEnum.prettyName());
+            actionExecutor.executeCommand(commandEnum);
+        }
     }
 }

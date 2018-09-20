@@ -3,9 +3,9 @@ package dkarlsso.smartmirror.javafx.actions.impl;
 import com.google.inject.Inject;
 import dkarlsso.commons.model.CommonsException;
 import dkarlsso.commons.raspberry.settings.SoundController;
-import dkarlsso.commons.speechrecognition.CommandEnum;
+import dkarlsso.smartmirror.javafx.model.CommandEnum;
 import dkarlsso.commons.commandaction.CommandAction;
-import dkarlsso.smartmirror.javafx.actions.annotation.Action;
+import dkarlsso.smartmirror.javafx.actions.Action;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 

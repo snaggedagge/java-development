@@ -1,4 +1,4 @@
-package dkarlsso.smartmirror.javafx.model;
+package dkarlsso.smartmirror.javafx.model.interfaces;
 
 public class DataServiceException extends Exception {
 

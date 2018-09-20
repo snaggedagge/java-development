@@ -1,4 +1,4 @@
-package dkarlsso.commons.speechrecognition;
+package dkarlsso.smartmirror.javafx.model;
 
 import org.apache.commons.lang.StringUtils;
 

@@ -1,4 +1,4 @@
-package dkarlsso.smartmirror.javafx.model;
+package dkarlsso.smartmirror.javafx.model.interfaces;
 
 import dkarlsso.commons.quotes.FamousQuoteDTO;
 import dkarlsso.commons.userinfo.UserWeekInfo;

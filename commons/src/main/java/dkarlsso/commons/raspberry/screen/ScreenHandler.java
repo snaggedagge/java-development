@@ -17,22 +17,26 @@ public class ScreenHandler {
     private boolean isScreenActive = false;
 
     public void setScreenPowerMode(final boolean powerOn) throws ScreenHandlerException {
-        try {
-            final List<String> command = new ArrayList<String>();
-            command.add(POWER_PROGRAM);
-            command.add(PROGRAM_POWER_SETTING);
-            command.add(powerOn ? "1" : "0");
+        synchronized (this) {
+            try {
+                final List<String> command = new ArrayList<String>();
+                command.add(POWER_PROGRAM);
+                command.add(PROGRAM_POWER_SETTING);
+                command.add(powerOn ? "1" : "0");
 
-            final ProcessBuilder builder = new ProcessBuilder(command);
-            final Process process = builder.start();
-            process.waitFor();
-            isScreenActive = powerOn;
-        } catch (IOException | InterruptedException e) {
-            throw new ScreenHandlerException(e.getMessage(), e);
+                final ProcessBuilder builder = new ProcessBuilder(command);
+                final Process process = builder.start();
+                process.waitFor();
+                isScreenActive = powerOn;
+            } catch (IOException | InterruptedException e) {
+                throw new ScreenHandlerException(e.getMessage(), e);
+            }
         }
     }
 
     public boolean isScreenActive() {
-        return isScreenActive;
+        synchronized (this) {
+            return isScreenActive;
+        }
     }
 }

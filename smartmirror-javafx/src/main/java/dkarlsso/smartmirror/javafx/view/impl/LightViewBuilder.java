@@ -4,9 +4,9 @@ import dkarlsso.commons.application.ApplicationUtils;
 import dkarlsso.commons.date.DayUtils;
 import dkarlsso.commons.weather.LightWeatherDTO;
 import dkarlsso.commons.weather.LightWeatherPrognosisDTO;
-import dkarlsso.smartmirror.javafx.model.DataService;
-import dkarlsso.smartmirror.javafx.model.DataServiceException;
-import dkarlsso.smartmirror.javafx.view.ViewInterface;
+import dkarlsso.smartmirror.javafx.model.interfaces.DataService;
+import dkarlsso.smartmirror.javafx.model.interfaces.DataServiceException;
+import dkarlsso.smartmirror.javafx.view.ViewBuilder;
 import javafx.geometry.Pos;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
@@ -16,13 +16,13 @@ import javafx.scene.text.Text;
 import java.util.Date;
 import java.util.List;
 
-public class LightViewBuilder extends AbstractViewBuilder implements ViewInterface {
+public class LightViewBuilder extends AbstractViewBuilder implements ViewBuilder {
 
     public LightViewBuilder(final DataService dataService) {
         super(dataService);
     }
 
-    public ViewInterface addWeatherData() {
+    public ViewBuilder addWeatherData() {
         final LightWeatherPrognosisDTO weatherPrognosis;
         try {
             weatherPrognosis = dataService.getLightWeatherPrognosis();
@@ -63,7 +63,7 @@ public class LightViewBuilder extends AbstractViewBuilder implements ViewInterfa
         return this;
     }
 
-    public ViewInterface addDayData() {
+    public ViewBuilder addDayData() {
         try {
             final List<Date> dateList = dataService.getDateList();
 

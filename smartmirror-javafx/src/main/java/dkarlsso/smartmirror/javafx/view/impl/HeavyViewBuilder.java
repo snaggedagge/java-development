@@ -5,9 +5,8 @@ import dkarlsso.commons.application.ApplicationUtils;
 import dkarlsso.commons.date.DayUtils;
 import dkarlsso.commons.weather.Weather;
 import dkarlsso.commons.weather.WeatherPrognosis;
-import dkarlsso.smartmirror.javafx.model.DataService;
-import dkarlsso.smartmirror.javafx.model.DataServiceException;
-import dkarlsso.smartmirror.javafx.view.ViewInterface;
+import dkarlsso.smartmirror.javafx.model.interfaces.DataService;
+import dkarlsso.smartmirror.javafx.model.interfaces.DataServiceException;
 import javafx.geometry.Pos;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
@@ -22,15 +21,15 @@ import java.io.FileNotFoundException;
 import java.util.Date;
 import java.util.List;
 
-public class ViewBuilder extends AbstractViewBuilder implements ViewInterface {
+public class HeavyViewBuilder extends AbstractViewBuilder implements dkarlsso.smartmirror.javafx.view.ViewBuilder {
 
     private int weatherIndex = 0; // TODO This is not viable, since it will grow really big..
 
-    public ViewBuilder(final DataService dataService) {
+    public HeavyViewBuilder(final DataService dataService) {
         super(dataService);
     }
 
-    public ViewInterface addWeatherData() {
+    public dkarlsso.smartmirror.javafx.view.ViewBuilder addWeatherData() {
         final WeatherPrognosis weatherPrognosis;
 
         int largestWeatherListSize = 0;
@@ -104,7 +103,7 @@ public class ViewBuilder extends AbstractViewBuilder implements ViewInterface {
     }
 
     @SuppressWarnings("Duplicates")
-    public ViewInterface addDayData() {
+    public dkarlsso.smartmirror.javafx.view.ViewBuilder addDayData() {
         try {
             final List<Date> dateList = dataService.getDateList();
 

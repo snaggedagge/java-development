@@ -4,23 +4,33 @@ import com.google.inject.Injector;
 import dkarlsso.commons.annotation.AnnotationFinder;
 import dkarlsso.commons.commandaction.CommandAction;
 import dkarlsso.commons.commandaction.CommandActionException;
-import dkarlsso.commons.speechrecognition.CommandEnum;
 import dkarlsso.commons.commandaction.CommandInvoker;
-import dkarlsso.smartmirror.javafx.actions.annotation.Action;
+import dkarlsso.commons.model.CommonsException;
+import dkarlsso.smartmirror.javafx.model.CommandEnum;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 public class ActionExecutor implements CommandInvoker<CommandEnum> {
 
-    private final Map<CommandEnum, CommandAction> actionMap;
+    private final Logger LOG = LogManager.getLogger(ActionExecutor.class);
+
+    private final Map<CommandEnum, CommandAction> actionMap = new LinkedHashMap<>();
 
     public ActionExecutor(final Injector injector) {
         final String packageName = this.getClass().getPackage().getName();
 
         // Let the magic happen
-        actionMap = AnnotationFinder.findClassesWithAnnotation(packageName, Action.class, Action::commandName);
-        for (final CommandAction commandAction : actionMap.values()) {
-            injector.injectMembers(commandAction);
+        try {
+            actionMap.putAll(AnnotationFinder.findClassesWithAnnotation(packageName, Action.class, Action::commandName));
+            actionMap.putAll(AnnotationFinder.findMethodsWithAnnotation(packageName, Action.class, Action::commandName));
+        } catch (CommonsException e) {
+            LOG.error("Could not create calls to all annotated methods", e);
+        }
+        for (final Object object : AnnotationFinder.getAllInstantiatedObjects()) {
+            injector.injectMembers(object);
         }
     }
 

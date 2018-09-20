@@ -2,9 +2,9 @@ package dkarlsso.smartmirror.javafx.actions.impl;
 
 import com.google.inject.Inject;
 import dkarlsso.commons.multimedia.MediaPlayer;
-import dkarlsso.commons.speechrecognition.CommandEnum;
+import dkarlsso.smartmirror.javafx.model.CommandEnum;
 import dkarlsso.commons.commandaction.CommandAction;
-import dkarlsso.smartmirror.javafx.actions.annotation.Action;
+import dkarlsso.smartmirror.javafx.actions.Action;
 
 
 @Action( commandName = CommandEnum.RADIO)
