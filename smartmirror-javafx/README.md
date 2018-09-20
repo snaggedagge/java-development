@@ -9,9 +9,11 @@
 * Google Calendar data
 * Radio
 * Selfie mode with builtin camera
+* Random quote of the day
 
 
 ### Features coming up?
-
+* Motion detection
 * Gesture controls using camera
-* Alarn 
+* Alarm
+* Face recognition
