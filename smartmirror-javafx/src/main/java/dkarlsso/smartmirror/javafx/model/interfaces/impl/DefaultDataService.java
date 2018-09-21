@@ -1,7 +1,7 @@
 package dkarlsso.smartmirror.javafx.model.interfaces.impl;
 
 
-import dkarlsso.commons.application.ApplicationUtils;
+import dkarlsso.smartmirror.javafx.model.application.ApplicationUtils;
 import dkarlsso.commons.cache.TimeCache;
 import dkarlsso.commons.quotes.FamousQuoteDTO;
 import dkarlsso.commons.quotes.FamousQuoteException;

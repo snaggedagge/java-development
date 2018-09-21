@@ -7,4 +7,5 @@ include 'smartmirror-javafx'
 include 'smartmirror-spring'
 include 'playground'
 include 'commons-javafx'
+include 'commons-speech'
 

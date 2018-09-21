@@ -2,13 +2,13 @@ package dkarlsso.smartmirror.javafx;
 
 import com.google.inject.Inject;
 import com.google.inject.Injector;
-import dkarlsso.commons.application.ApplicationUtils;
+import dkarlsso.commons.speech.speechrecognition.SpeechException;
+import dkarlsso.commons.speech.speechrecognition.SpeechRecognizer;
+import dkarlsso.smartmirror.javafx.model.application.ApplicationUtils;
 import dkarlsso.commons.commandaction.CommandActionException;
 import dkarlsso.commons.commandaction.CommandInvoker;
 import dkarlsso.commons.raspberry.screen.ScreenHandler;
 import dkarlsso.commons.raspberry.screen.ScreenHandlerException;
-import dkarlsso.commons.speechrecognition.SpeechException;
-import dkarlsso.commons.speechrecognition.SpeechRecognizer;
 import dkarlsso.smartmirror.javafx.actions.ActionExecutor;
 import dkarlsso.smartmirror.javafx.model.CommandEnum;
 import dkarlsso.smartmirror.javafx.model.VoiceApplicationState;

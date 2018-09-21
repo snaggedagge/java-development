@@ -1,82 +1,39 @@
-plugins {
-    id 'java'
-}
 
-group 'dkarlsso'
-version '1.0'
-
-apply plugin: 'java'
-apply plugin: 'maven-publish'
-
-sourceCompatibility = 1.8
-targetCompatibility = 1.8
-
-repositories {
-    mavenCentral()
-    maven { url "https://oss.sonatype.org/content/repositories/snapshots" }
-}
-
-publishing {
-    publications {
-        mavenJava(MavenPublication) {
-            from components.java
-        }
-    }
-}
 dependencies {
 
     compile 'com.google.api-client:google-api-client:1.23.0'
     compile 'com.google.oauth-client:google-oauth-client-jetty:1.23.0'
     compile 'com.google.apis:google-api-services-calendar:v3-rev291-1.23.0'
 
-    compile group: 'edu.cmu.sphinx', name: 'sphinx4-core', version:'5prealpha-SNAPSHOT'
-    compile group: 'edu.cmu.sphinx', name: 'sphinx4-data', version:'5prealpha-SNAPSHOT'
 
-    compile group: 'uk.co.caprica', name: 'vlcj', version: '2.4.1'
+    compile group: 'org.springframework', name: 'spring-web', version: '5.0.6.RELEASE'
+
+    compile group: 'org.apache.httpcomponents', name: 'httpclient', version: '4.4.1'
+
+    compile group: 'org.codehaus.jackson', name: 'jackson-mapper-asl', version: '1.9.13'
+    compile group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.9.5'
 
     compile group: 'joda-time', name: 'joda-time', version: '2.9.9'
 
-    compile group: 'org.codehaus.jackson', name: 'jackson-mapper-asl', version: '1.9.13'
-
-    // https://mvnrepository.com/artifact/commons-lang/commons-lang
     compile group: 'commons-lang', name: 'commons-lang', version: '2.6'
+
+    compile group: 'org.reflections', name: 'reflections', version: '0.9.11'
 
     compile 'com.pi4j:pi4j-core:1.2-SNAPSHOT'
 
 
-    compile group: 'org.springframework', name: 'spring-web', version: '5.0.6.RELEASE'
-
-    // https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-databind
-    compile group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.9.5'
-
-// https://mvnrepository.com/artifact/org.apache.httpcomponents/httpclient
-    compile group: 'org.apache.httpcomponents', name: 'httpclient', version: '4.4.1'
-
-
-    compile group: 'org.slf4j', name: 'slf4j-api', version: '1.7.25'
     compile group: 'org.slf4j', name: 'slf4j-log4j12', version: '1.7.25'
 
 
-    // May not be needded when installed
-    //compile group: 'uk.co.caprica', name: 'vlcj', version: '3.9.0'
+    compile group: 'uk.co.caprica', name: 'vlcj', version: '2.4.1'
+
+//    compile group: 'edu.cmu.sphinx', name: 'sphinx4-core', version:'5prealpha-SNAPSHOT'
+//    compile group: 'edu.cmu.sphinx', name: 'sphinx4-data', version:'5prealpha-SNAPSHOT'
+
 
     compile group: 'com.github.sarxos', name: 'webcam-capture-driver-v4l4j', version: '0.3.12'
     compile group: 'com.github.sarxos', name: 'webcam-capture', version: '0.3.12'
 
     compile group: 'org.openpnp', name: 'opencv', version: '3.2.0-1'
 
-    compile group: 'org.reflections', name: 'reflections', version: '0.9.11'
-
-}
-group 'dkarlsso'
-version '0.0.1-SNAPSHOT'
-
-sourceCompatibility = 1.8
-
-repositories {
-    mavenCentral()
-}
-
-dependencies {
-    testCompile group: 'junit', name: 'junit', version: '4.12'
 }

@@ -1,7 +1,7 @@
 package dkarlsso.smartmirror.spring.rest;
 
 
-import dkarlsso.commons.application.ApplicationUtils;
+import dkarlsso.smartmirror.javafx.model.application.ApplicationUtils;
 import dkarlsso.commons.calendar.dto.CalendarDTO;
 import dkarlsso.commons.calendar.dto.EventDTO;
 import dkarlsso.commons.calendar.CalendarException;

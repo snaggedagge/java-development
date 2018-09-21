@@ -1,6 +1,6 @@
 package dkarlsso.smartmirror.javafx.view.impl;
 
-import dkarlsso.commons.application.ApplicationUtils;
+import dkarlsso.smartmirror.javafx.model.application.ApplicationUtils;
 import dkarlsso.commons.date.DayUtils;
 import dkarlsso.commons.weather.LightWeatherDTO;
 import dkarlsso.commons.weather.LightWeatherPrognosisDTO;

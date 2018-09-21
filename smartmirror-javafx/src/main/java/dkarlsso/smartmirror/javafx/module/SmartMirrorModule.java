@@ -3,7 +3,7 @@ package dkarlsso.smartmirror.javafx.module;
 import com.google.inject.AbstractModule;
 import com.google.inject.TypeLiteral;
 import com.google.inject.name.Names;
-import dkarlsso.commons.application.ApplicationUtils;
+import dkarlsso.smartmirror.javafx.model.application.ApplicationUtils;
 import dkarlsso.commons.container.BasicContainer;
 import dkarlsso.commons.multimedia.MediaPlayer;
 import dkarlsso.commons.multimedia.radio.RadioPlayer;

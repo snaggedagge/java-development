@@ -2,61 +2,29 @@ group 'dkarlsso'
 version '1.0'
 
 apply plugin: 'java'
+apply plugin: 'maven'
+apply plugin: 'maven-publish'
+
 compileJava.options.encoding = 'UTF-8'
 sourceCompatibility = 1.8
 
-repositories {
-    mavenCentral()
-    maven { url "https://oss.sonatype.org/content/repositories/snapshots" }
-}
 
 
 dependencies {
 
     compile project(':commons')
     compile project(':commons-javafx')
-
-    compile group: 'edu.cmu.sphinx', name: 'sphinx4-core', version:'5prealpha-SNAPSHOT'
-    compile group: 'edu.cmu.sphinx', name: 'sphinx4-data', version:'5prealpha-SNAPSHOT'
-
-    compile group: 'uk.co.caprica', name: 'vlcj', version: '2.4.1'
+    compile project(':commons-speech')
 
     compile group: 'com.google.inject', name: 'guice', version: '4.1.0'
 
-    // https://mvnrepository.com/artifact/commons-lang/commons-lang
     compile group: 'commons-lang', name: 'commons-lang', version: '2.6'
 
     compile group: 'org.apache.logging.log4j', name: 'log4j-api', version: '2.10.0'
     compile group: 'org.apache.logging.log4j', name: 'log4j-core', version: '2.10.0'
 
-    // https://mvnrepository.com/artifact/net.java.dev.jna/jna
     compile group: 'net.java.dev.jna', name: 'jna', version: '4.2.2'
-
-
-
 }
 
 
-task fatJar(type: Jar) {
 
-    manifest {
-        attributes 'Implementation-Title': 'Gradle Jar File Example',
-                'Implementation-Version': version,
-                'Main-Class': 'dkarlsso.smartmirror.javafx.JavaFxApplication'
-    }
-    baseName = project.name + '-all'
-
-    println " FILENAME: " + baseName + "-" + version + ".jar"
-
-    from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
-    with jar
-}
-
-task runApp(type: JavaExec) {
-    classpath = sourceSets.main.runtimeClasspath
-
-    main = 'dkarlsso.smartmirror.javafx.JavaFxApplication'
-
-    // arguments to pass to the dkarlsso.application
-    //args 'appArg1'
-}

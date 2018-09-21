@@ -1,7 +1,7 @@
 package dkarlsso.smartmirror.spring.controllers;
 
 import com.google.api.client.googleapis.auth.oauth2.GoogleCredential;
-import dkarlsso.commons.application.ApplicationUtils;
+import dkarlsso.smartmirror.javafx.model.application.ApplicationUtils;
 import dkarlsso.commons.calendar.CalendarException;
 import dkarlsso.commons.calendar.GoogleCalendar;
 import dkarlsso.commons.calendar.dto.EventDTO;
