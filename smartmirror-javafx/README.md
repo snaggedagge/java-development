@@ -14,7 +14,7 @@
 
 
 ### Features coming up?
-* Motion detection
+* Motion detection. I actually already have this software, but i need to get the opencv installed and configured for the RPI
 * Gesture controls using camera
 * Alarm
 * Face recognition
