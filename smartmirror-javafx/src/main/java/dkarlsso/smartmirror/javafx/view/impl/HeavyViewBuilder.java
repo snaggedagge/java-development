@@ -7,6 +7,7 @@ import dkarlsso.commons.weather.Weather;
 import dkarlsso.commons.weather.WeatherPrognosis;
 import dkarlsso.smartmirror.javafx.model.interfaces.DataService;
 import dkarlsso.smartmirror.javafx.model.interfaces.DataServiceException;
+import dkarlsso.smartmirror.javafx.view.ViewBuilder;
 import javafx.geometry.Pos;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
@@ -21,7 +22,7 @@ import java.io.FileNotFoundException;
 import java.util.Date;
 import java.util.List;
 
-public class HeavyViewBuilder extends AbstractViewBuilder implements dkarlsso.smartmirror.javafx.view.ViewBuilder {
+public class HeavyViewBuilder extends AbstractViewBuilder implements ViewBuilder {
 
     private int weatherIndex = 0; // TODO This is not viable, since it will grow really big..
 
@@ -29,7 +30,7 @@ public class HeavyViewBuilder extends AbstractViewBuilder implements dkarlsso.sm
         super(dataService);
     }
 
-    public dkarlsso.smartmirror.javafx.view.ViewBuilder addWeatherData() {
+    public ViewBuilder addWeatherData() {
         final WeatherPrognosis weatherPrognosis;
 
         int largestWeatherListSize = 0;

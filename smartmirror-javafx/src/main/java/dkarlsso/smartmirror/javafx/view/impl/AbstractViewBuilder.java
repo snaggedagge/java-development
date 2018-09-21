@@ -263,7 +263,7 @@ public abstract class AbstractViewBuilder implements ViewBuilder {
                         final Text eventText = createText(eventTextString + "\n" + DayUtils.getTime(event.getStart()) + "\n"
                                 , 14, Color.GREEN);
 
-                        //eventText.setId(userWeekInfo.getName());
+                        eventText.setId(userWeekInfo.getName() + "-events");
 //                        eventText.setFont(Font.getDefault());
 
                         gridPane.add(eventText, dayIndex+1, rowIndex+eventIndex +(userIndex*eventMaxCount), 1, 1);

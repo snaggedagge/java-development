@@ -8,9 +8,6 @@ ext {
 subprojects {
 
 
-
-	group 'dkarlsso'
-
 	apply plugin: 'java'
 	apply plugin: 'maven-publish'
 
@@ -27,47 +24,23 @@ subprojects {
 		options.encoding = 'UTF-8'
 	}
 
-
-	task fatWar(type: War) {
-
+	// Will also package every dependency
+	task fatJar(type: Jar) {
+		manifest {
+			attributes 'Implementation-Title': 'Gradle Jar File Example',
+					'Implementation-Version': version,
+					'Main-Class': "$main_class_path"
+		}
 		baseName = project.name + '-all'
+
+		println " FILENAME: " + baseName + "-" + version + ".jar"
+
 		from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
 		with jar
 	}
 
-
-
-
-
-
-	task tesst() {
-
-		doFirst {
-
-			println "TESTING "
-
-			println project.name
-			println mainClassddName
+		task runApp(type: JavaExec) {
+			classpath = sourceSets.main.runtimeClasspath
+			main =  main_class_path
 		}
 	}
-
-task fatJar(type: Jar) {
-
-    manifest {
-        attributes 'Implementation-Title': 'Gradle Jar File Example',
-                'Implementation-Version': version,
-                'Main-Class': "$main_class_path"
-    }
-    baseName = project.name + '-all'
-
-    println " FILENAME: " + baseName + "-" + version + ".jar"
-
-    from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
-    with jar
-}
-
-	task runApp(type: JavaExec) {
-		classpath = sourceSets.main.runtimeClasspath
-		main =  main_class_path
-	}
-}

@@ -17,12 +17,12 @@ dependencies {
 
     compile group: 'commons-lang', name: 'commons-lang', version: '2.6'
 
-    compile group: 'org.reflections', name: 'reflections', version: '0.9.11'
+    compile group: 'org.reflections', name: 'reflections', version: '0.9.10'
 
     compile 'com.pi4j:pi4j-core:1.2-SNAPSHOT'
 
 
-    compile group: 'org.slf4j', name: 'slf4j-log4j12', version: '1.7.25'
+//    compile group: 'org.slf4j', name: 'slf4j-log4j12', version: '1.7.25'
 
 
     compile group: 'uk.co.caprica', name: 'vlcj', version: '2.4.1'

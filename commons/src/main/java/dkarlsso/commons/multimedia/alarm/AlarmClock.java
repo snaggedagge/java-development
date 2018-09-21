@@ -3,8 +3,8 @@ package dkarlsso.commons.multimedia.alarm;
 import dkarlsso.commons.model.CommonsException;
 import dkarlsso.commons.multimedia.MediaPlayer;
 import dkarlsso.commons.raspberry.settings.SoundController;
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
+//import org.apache.log4j.LogManager;
+//import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
 import org.joda.time.Minutes;
 
@@ -14,7 +14,7 @@ import java.util.stream.Stream;
 
 public class AlarmClock implements Runnable{
 
-    private final Logger LOG = LogManager.getLogger(AlarmClock.class);
+//    private final Logger LOG = LogManager.getLogger(AlarmClock.class);
 
     private final SoundController soundController;
 
@@ -58,7 +58,7 @@ public class AlarmClock implements Runnable{
                         try {
                             soundController.setVolume((int)(alarmTimeSetting.getStartVolume() + (increaseVolumeInterval * alarmQuoteElapsed)));
                         } catch (CommonsException e) {
-                            LOG.error("Error while changing volume " + e.getMessage(), e);
+//                            LOG.error("Error while changing volume " + e.getMessage(), e);
                         }
                         shouldPlayAlarm = true;
                     }
@@ -78,7 +78,7 @@ public class AlarmClock implements Runnable{
                     mediaPlayer.stop();
                 }
             } catch (final InterruptedException e) {
-                LOG.error("Error in alarm thread: " + e.getMessage(), e);
+//                LOG.error("Error in alarm thread: " + e.getMessage(), e);
             }
         }
     }

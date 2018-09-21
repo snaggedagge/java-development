@@ -36,6 +36,11 @@
     -fx-font-size: 16px;
 }
 
+#Dag-events {
+    -fx-fill: #c0f58b;
+    -fx-font-size: 16px;
+}
+
 #Dag-today {
     -fx-fill: #cef513;
     -fx-font-size: 16px;

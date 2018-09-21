@@ -104,9 +104,15 @@ public class ApplicationManager implements CommandInvoker<CommandEnum>, Runnable
         }
 
         if(shouldCallFunction) {
-            lastActivated = new DateTime();
-            actionExecutor.executeCommand(commandEnum);
-            viewInterface.displayStandardView(commandEnum.prettyName());
+            try {
+                LOG.info("Function was called: " + commandEnum.prettyName());
+                lastActivated = new DateTime();
+                actionExecutor.executeCommand(commandEnum);
+                viewInterface.displayStandardView(commandEnum.prettyName());
+            }
+            catch (final CommandActionException e) {
+                LOG.error("Error occured while calling command " + commandEnum.prettyName(), e);
+            }
         }
     }
 }
