@@ -16,6 +16,21 @@ public final class AnnotationFinder {
 
     private static final List<Object> allInstantiatedObjects = new ArrayList<>();
 
+    public static <E, A extends Annotation>  List<E> findClassesWithAnnotation(final String packageToSearch,
+                                                                               final Class<A> targetAnnotation) throws CommonsException {
+        final List<E> list = new ArrayList<>();
+        final Reflections ref = new Reflections(packageToSearch);
+        for (final Class<?> cl : ref.getTypesAnnotatedWith(targetAnnotation)) {
+            try {
+                final Object object = cl.getConstructor().newInstance();
+                allInstantiatedObjects.add(object);
+                list.add((E)object);
+            } catch (final Exception e) {
+                throw new CommonsException("Could not create objects on all annotated classes: " + e.getMessage(), e);
+            }
+        }
+        return list;
+    }
 
     public static <E extends Enum, A extends Annotation, I>  Map<E, I> findClassesWithAnnotation(final String packageToSearch,
                                                                                                           Class<A> targetAnnotation,
@@ -23,11 +38,11 @@ public final class AnnotationFinder {
         final Map<E, I> map = new LinkedHashMap<>();
         final Reflections ref = new Reflections(packageToSearch);
         for (Class<?> cl : ref.getTypesAnnotatedWith(targetAnnotation)) {
-            final A findable = cl.getAnnotation(targetAnnotation);
+            final A annotation = cl.getAnnotation(targetAnnotation);
             try {
                 final Object object = cl.getConstructor().newInstance();
                 allInstantiatedObjects.add(object);
-                map.put(function.apply(findable), (I)object);
+                map.put(function.apply(annotation), (I)object);
             } catch (final Exception e) {
                 throw new CommonsException("Could not create objects on all annotated classes: " + e.getMessage(), e);
             }
@@ -79,7 +94,9 @@ public final class AnnotationFinder {
     }
 
     public static List<Object> getAllInstantiatedObjects() {
-        return allInstantiatedObjects;
+        final List<Object> objects = new ArrayList<>(allInstantiatedObjects);
+        allInstantiatedObjects.clear();
+        return objects;
     }
 
 }

@@ -4,12 +4,15 @@ import dkarlsso.commons.multimedia.MediaPlayer;
 import dkarlsso.commons.raspberry.settings.SoundController;
 import dkarlsso.smartmirror.javafx.model.interfaces.StateService;
 import dkarlsso.smartmirror.javafx.model.VoiceApplicationState;
+import org.joda.time.DateTime;
 
 public class DefaultStateService implements StateService {
 
     private final MediaPlayer radioPlayer;
 
     private final SoundController soundController;
+
+    private DateTime lastActivated = new DateTime();
 
     public DefaultStateService(final MediaPlayer radioPlayer, final SoundController soundController) {
         this.radioPlayer = radioPlayer;
@@ -40,5 +43,15 @@ public class DefaultStateService implements StateService {
     @Override
     public int getVolumeInPercent() {
         return soundController.getVolumeInPercent();
+    }
+
+    @Override
+    public DateTime getLastActivated() {
+        return lastActivated;
+    }
+
+    @Override
+    public void setLastActivated(final DateTime lastActivated) {
+        this.lastActivated = lastActivated;
     }
 }

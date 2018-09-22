@@ -1,4 +1,4 @@
-package dkarlsso.smartmirror.javafx.threads;
+package dkarlsso.smartmirror.javafx.threads.impl;
 
 import com.google.inject.Inject;
 import dkarlsso.commons.model.CommonsException;
@@ -8,6 +8,7 @@ import dkarlsso.commons.multimedia.alarm.impl.AlarmTimeSetting;
 import dkarlsso.commons.multimedia.alarm.impl.DayOfWeek;
 import dkarlsso.commons.multimedia.alarm.impl.WeekdayAlarm;
 import dkarlsso.commons.raspberry.settings.SoundController;
+import dkarlsso.smartmirror.javafx.threads.RunnableService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.joda.time.DateTime;
@@ -15,7 +16,8 @@ import org.joda.time.DateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-public class RunnableAlarmClock implements Runnable{
+@RunnableService
+public class RunnableAlarmClock implements Runnable {
 
     private final Logger LOG = LogManager.getLogger(RunnableAlarmClock.class);
 

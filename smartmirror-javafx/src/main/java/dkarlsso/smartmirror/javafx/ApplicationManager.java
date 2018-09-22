@@ -2,23 +2,25 @@ package dkarlsso.smartmirror.javafx;
 
 import com.google.inject.Inject;
 import com.google.inject.Injector;
+import dkarlsso.commons.annotation.AnnotationFinder;
+import dkarlsso.commons.model.CommonsException;
 import dkarlsso.commons.speech.speechrecognition.SpeechException;
 import dkarlsso.commons.speech.speechrecognition.SpeechRecognizer;
 import dkarlsso.smartmirror.javafx.model.application.ApplicationUtils;
 import dkarlsso.commons.commandaction.CommandActionException;
 import dkarlsso.commons.commandaction.CommandInvoker;
 import dkarlsso.commons.raspberry.screen.ScreenHandler;
-import dkarlsso.commons.raspberry.screen.ScreenHandlerException;
 import dkarlsso.smartmirror.javafx.actions.ActionExecutor;
 import dkarlsso.smartmirror.javafx.model.CommandEnum;
 import dkarlsso.smartmirror.javafx.model.VoiceApplicationState;
 import dkarlsso.smartmirror.javafx.model.interfaces.StateService;
-import dkarlsso.smartmirror.javafx.threads.RunnableAlarmClock;
+import dkarlsso.smartmirror.javafx.threads.RunnableService;
 import dkarlsso.smartmirror.javafx.view.ViewControllerInterface;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.joda.time.DateTime;
-import org.joda.time.Minutes;
+
+import java.util.List;
 
 public class ApplicationManager implements CommandInvoker<CommandEnum>, Runnable{
 
@@ -37,19 +39,20 @@ public class ApplicationManager implements CommandInvoker<CommandEnum>, Runnable
 
     private SpeechRecognizer<CommandEnum> speechRecognizer;
 
-    private DateTime lastActivated = new DateTime();
-
-    private final RunnableAlarmClock runnableAlarmClock = new RunnableAlarmClock();
-
-
     public ApplicationManager(final Injector injector) {
         actionExecutor = new ActionExecutor(injector);
         try {
             speechRecognizer = new SpeechRecognizer<>(ApplicationUtils.getSubfolder("voicerecognition"), this, CommandEnum.class);
-        } catch (final SpeechException e) {
+            final List<Runnable> listOfThreads = AnnotationFinder.findClassesWithAnnotation(getClass().getPackage().getName(), RunnableService.class);
+
+            for(final Runnable runnable : listOfThreads) {
+                injector.injectMembers(runnable);
+                new Thread(runnable).start();
+            }
+
+        } catch (final CommonsException | SpeechException e) {
             LOG.error(e.getMessage(), e);
         }
-        injector.injectMembers(runnableAlarmClock);
     }
 
 
@@ -58,30 +61,7 @@ public class ApplicationManager implements CommandInvoker<CommandEnum>, Runnable
         viewInterface.initAnimation(5000, null);
         speechRecognizer.startRecognition();
 
-
 //        new Thread(motionDetectionThread).start();
-        new Thread(runnableAlarmClock).start();
-
-        new Thread(() -> {
-            boolean isRunning = true;
-            while (isRunning) {
-                try {
-                    int minutesSinceActive = Minutes.minutesBetween(lastActivated,new DateTime()).getMinutes();
-                    LOG.info("Minutes since active: " + minutesSinceActive);
-                    if(minutesSinceActive > 5) {
-                        LOG.info("Powering off screen");
-                        screenHandler.setScreenPowerMode(false);
-                    }
-                    Thread.sleep(1000 * 60);
-                } catch (InterruptedException e) {
-                    isRunning = false;
-                } catch (ScreenHandlerException e) {
-                    synchronized (LOG) {
-                        LOG.error("Could not turn screen off", e);
-                    }
-                }
-            }
-        });
 
         while (true) {
             try {
@@ -110,7 +90,7 @@ public class ApplicationManager implements CommandInvoker<CommandEnum>, Runnable
         if(shouldCallFunction) {
             try {
                 LOG.info("Function was called: " + commandEnum.prettyName());
-                lastActivated = new DateTime();
+                stateService.setLastActivated(new DateTime());
                 actionExecutor.executeCommand(commandEnum);
                 viewInterface.displayStandardView(commandEnum.prettyName());
             }

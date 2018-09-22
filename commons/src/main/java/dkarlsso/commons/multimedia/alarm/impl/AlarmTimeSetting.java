@@ -11,9 +11,18 @@ public class AlarmTimeSetting<T> {
 
     private final DateTime alarmTimeOnDay;
 
+    private final boolean isReoccuring;
+
     public AlarmTimeSetting(final T alarmDay, final DateTime alarmTimeOnDay) {
         this.alarmDay = alarmDay;
         this.alarmTimeOnDay = alarmTimeOnDay;
+        this.isReoccuring = true;
+    }
+
+    public AlarmTimeSetting(final T alarmDay, final DateTime alarmTimeOnDay, final boolean isReoccuring) {
+        this.alarmDay = alarmDay;
+        this.alarmTimeOnDay = alarmTimeOnDay;
+        this.isReoccuring = isReoccuring;
     }
 
     public T getAlarmDay() {
@@ -34,4 +43,7 @@ public class AlarmTimeSetting<T> {
         return alarmTimeSettings;
     }
 
+    public boolean isReoccuring() {
+        return isReoccuring;
+    }
 }
