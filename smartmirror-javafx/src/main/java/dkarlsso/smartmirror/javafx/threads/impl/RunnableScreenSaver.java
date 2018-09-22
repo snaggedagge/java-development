@@ -27,7 +27,7 @@ public class RunnableScreenSaver implements Runnable {
         while (isRunning) {
             try {
                 Thread.sleep(1000 * 60);
-                int minutesSinceActive = Minutes.minutesBetween(stateService.getLastActivated(),new DateTime()).getMinutes();
+                int minutesSinceActive = Minutes.minutesBetween(stateService.getLastActivated(), new DateTime()).getMinutes();
                 LOG.info("Minutes since active: " + minutesSinceActive);
                 if(minutesSinceActive > 5) {
                     screenHandler.setScreenPowerMode(false);

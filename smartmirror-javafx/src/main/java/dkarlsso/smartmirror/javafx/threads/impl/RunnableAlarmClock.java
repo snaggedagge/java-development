@@ -57,10 +57,6 @@ public class RunnableAlarmClock implements Runnable {
         LOG.warn("Starting alarm thread");
         boolean isRunning = true;
 
-        if(soundController == null || radioPlayer == null) {
-            throw new IllegalArgumentException("Interfaces must be injected");
-        }
-
         while (isRunning) {
             try {
                 LOG.info("Checking for active alarms");
