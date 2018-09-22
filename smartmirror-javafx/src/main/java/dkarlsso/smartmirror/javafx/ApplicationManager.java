@@ -13,6 +13,7 @@ import dkarlsso.smartmirror.javafx.actions.ActionExecutor;
 import dkarlsso.smartmirror.javafx.model.CommandEnum;
 import dkarlsso.smartmirror.javafx.model.VoiceApplicationState;
 import dkarlsso.smartmirror.javafx.model.interfaces.StateService;
+import dkarlsso.smartmirror.javafx.threads.RunnableAlarmClock;
 import dkarlsso.smartmirror.javafx.view.ViewControllerInterface;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -38,6 +39,8 @@ public class ApplicationManager implements CommandInvoker<CommandEnum>, Runnable
 
     private DateTime lastActivated = new DateTime();
 
+    private final RunnableAlarmClock runnableAlarmClock = new RunnableAlarmClock();
+
 
     public ApplicationManager(final Injector injector) {
         actionExecutor = new ActionExecutor(injector);
@@ -46,6 +49,7 @@ public class ApplicationManager implements CommandInvoker<CommandEnum>, Runnable
         } catch (final SpeechException e) {
             LOG.error(e.getMessage(), e);
         }
+        injector.injectMembers(runnableAlarmClock);
     }
 
 
@@ -56,7 +60,7 @@ public class ApplicationManager implements CommandInvoker<CommandEnum>, Runnable
 
 
 //        new Thread(motionDetectionThread).start();
-//        new Thread(alarmClock).start();
+        new Thread(runnableAlarmClock).start();
 
         new Thread(() -> {
             boolean isRunning = true;
