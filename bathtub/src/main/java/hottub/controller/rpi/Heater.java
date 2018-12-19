@@ -121,6 +121,12 @@ public class Heater implements HeaterInterface{
             circulate = false;
         }
 
+        // In case RPI gets rebooted while at correct temp, when limits are reset to much below correct value
+        if (overTemp  > overTempLimit + 10 && returnTemp  > returnTempLimit + 10) {
+            heat = false;
+            circulate = false;
+        }
+
         this.checkHighTemperatures();
         this.setCirculationOnTimer();
     }
