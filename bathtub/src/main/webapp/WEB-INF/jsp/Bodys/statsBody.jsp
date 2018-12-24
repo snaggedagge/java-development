@@ -16,6 +16,12 @@
     <div class="row">
         <div class="col-sm-3">
             <div class="alert alert-info">
+                Heater time since started: <strong><fmt:formatNumber type="number" maxFractionDigits="2" value="${timeHeatingSinceStarted}"/></strong>
+            </div>
+        </div>
+
+        <div class="col-sm-3">
+            <div class="alert alert-info">
                 Heater hours is <strong><fmt:formatNumber type="number" maxFractionDigits="2" value="${runningTimeDAO.runningTimeHeaterHours}"/></strong>
             </div>
         </div>
@@ -31,10 +37,6 @@
                 Total effective bath time is <strong><fmt:formatNumber type="number" maxFractionDigits="2" value="${runningTimeDAO.bathTotalTimeHours}"/></strong>
             </div>
         </div>
-
-
-
-
     </div>
 </div>
 

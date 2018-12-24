@@ -8,6 +8,10 @@ import java.util.List;
 
 public class SoundController {
 
+
+    // RUN alsamixer, get card info from F2
+    // amixer -c 1 set PCM 15%
+
     private static final String SOUND_PROGRAM = "amixer";
 
     private int currentSoundVolume = 49;
@@ -18,6 +22,7 @@ public class SoundController {
         synchronized (this) {
             try {
                 currentSoundVolume = volumeInPercentage;
+
                 final ProcessBuilder builder = new ProcessBuilder(createCommand(volumeInPercentage));
                 final Process process = builder.start();
                 process.waitFor();
@@ -44,8 +49,8 @@ public class SoundController {
         final List<String> command = new ArrayList<String>();
         command.add(SOUND_PROGRAM);
         command.add("-c");
-        command.add("0");
-        command.add("sset");
+        command.add("1");
+        command.add("set");
         command.add("PCM");
         command.add("playback");
         command.add(volumeInPercentage + "%");

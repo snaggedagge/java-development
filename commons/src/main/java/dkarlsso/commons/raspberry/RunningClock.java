@@ -14,6 +14,9 @@ public class RunningClock {
 
     private BigDecimal totalRunningHoursSinceReset = new BigDecimal(0);
 
+    // How long it has been on since program started
+    private BigDecimal totalRunningTime = new BigDecimal(0);
+
     public void setStartedRunning(boolean isRunning) {
 
         if(this.isRunning) {
@@ -28,8 +31,13 @@ public class RunningClock {
     public BigDecimal getRunningTimeAndReset() {
         final BigDecimal runningTime = totalRunningHoursSinceReset;
         totalRunningHoursSinceReset = new BigDecimal(0);
+        totalRunningTime = totalRunningTime.add(runningTime);
 
         return runningTime;
+    }
+
+    public BigDecimal getTotalRunningTime() {
+        return totalRunningTime;
     }
 
 }

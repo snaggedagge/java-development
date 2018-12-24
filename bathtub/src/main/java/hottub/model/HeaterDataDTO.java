@@ -14,6 +14,8 @@ public class HeaterDataDTO extends SettingsDTO {
 
     private TimerDTO timerDTO = null;
 
+    private double heaterTimeSinceStarted = 0;
+
     public HeaterDataDTO() {
 
     }
@@ -68,6 +70,14 @@ public class HeaterDataDTO extends SettingsDTO {
 
     public void setTimerDTO(TimerDTO timerDTO) {
         this.timerDTO = timerDTO;
+    }
+
+    public double getHeaterTimeSinceStarted() {
+        return heaterTimeSinceStarted;
+    }
+
+    public void setHeaterTimeSinceStarted(double heaterTimeSinceStarted) {
+        this.heaterTimeSinceStarted = heaterTimeSinceStarted;
     }
 
     public void applySettings(final SettingsDTO settingsDTO) {

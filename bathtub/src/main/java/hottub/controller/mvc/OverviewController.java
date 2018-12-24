@@ -107,6 +107,9 @@ public class OverviewController {
     @RequestMapping(value = "/stats", method = RequestMethod.GET)
     public String stats(final ModelMap model) {
         model.addAttribute("runningTime", runningTimeService.getRunningTime());
+        synchronized (heaterDTO) {
+            model.addAttribute("timeHeatingSinceStarted", heaterDTO.getHeaterTimeSinceStarted());
+        }
         return "stats";
     }
 }

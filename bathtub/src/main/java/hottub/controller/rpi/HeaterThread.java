@@ -54,7 +54,7 @@ public class HeaterThread extends Thread{
 
                     runningTimeService.saveTime(new RunningTimeDAO(heaterClock.getRunningTimeAndReset(),
                             circulationClock.getRunningTimeAndReset(), bathClock.getRunningTimeAndReset()));
-
+                    heaterDTO.setHeaterTimeSinceStarted(heaterClock.getTotalRunningTime().doubleValue());
 
 
                     final TimerDTO timerDTO = heaterDTO.getTimerDTO();
