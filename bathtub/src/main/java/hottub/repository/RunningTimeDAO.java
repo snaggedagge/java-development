@@ -7,7 +7,7 @@ import javax.persistence.Id;
 import javax.validation.constraints.Digits;
 import java.math.BigDecimal;
 
-@Entity
+@Entity(name = "running_time")
 public class RunningTimeDAO {
 
     @Id

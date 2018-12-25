@@ -1,5 +1,7 @@
 package hottub.controller.mvc;
 
+import hottub.model.HeaterDataDTO;
+import hottub.model.TimerDTO;
 import org.joda.time.DateTime;
 import org.joda.time.Minutes;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,9 +10,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import hottub.model.HeaterDataDTO;
-import hottub.model.TimerDTO;
 
+import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -47,7 +48,7 @@ public class TimerController {
     }
 
     @PostMapping("/setTimer")
-    public String setTimer(final Model model, @ModelAttribute TimerDTO timerDTO) {
+    public String setTimer(final Model model, HttpSession session, @ModelAttribute TimerDTO timerDTO) {
 
         final List<String> errorList = new ArrayList<>();
 
@@ -56,9 +57,15 @@ public class TimerController {
                 errorList.add("Need to set a correct date");
             }
             if(errorList.isEmpty()) {
-                synchronized (heaterDTO) {
-                    model.addAttribute("timerIsSet",true);
-                    heaterDTO.setTimerDTO(timerDTO);
+                if (session.getAttribute("ADMIN") != null && (boolean) session.getAttribute("ADMIN")) {
+                    synchronized (heaterDTO) {
+                        model.addAttribute("timerIsSet",true);
+                        heaterDTO.setTimerDTO(timerDTO);
+                    }
+                }
+                else {
+                    errorList.add("Need to be logged in");
+                    model.addAttribute("INFO","Assholes who are not superior or admins shall not pass");
                 }
             }
         }

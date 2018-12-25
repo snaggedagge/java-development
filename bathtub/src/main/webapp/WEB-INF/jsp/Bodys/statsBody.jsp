@@ -22,19 +22,19 @@
 
         <div class="col-sm-3">
             <div class="alert alert-info">
-                Heater hours is <strong><fmt:formatNumber type="number" maxFractionDigits="2" value="${runningTimeDAO.runningTimeHeaterHours}"/></strong>
+                Heater hours is <strong><fmt:formatNumber type="number" maxFractionDigits="2" value="${runningTime.runningTimeHeaterHours}"/></strong>
             </div>
         </div>
 
         <div class="col-sm-3">
             <div class="alert alert-info">
-                Circulation hours is <strong><fmt:formatNumber type="number" maxFractionDigits="2" value="${runningTimeDAO.runningTimeCirculationHours}"/></strong>
+                Circulation hours is <strong><fmt:formatNumber type="number" maxFractionDigits="2" value="${runningTime.runningTimeCirculationHours}"/></strong>
             </div>
         </div>
 
         <div class="col-sm-3">
             <div class="alert alert-info">
-                Total effective bath time is <strong><fmt:formatNumber type="number" maxFractionDigits="2" value="${runningTimeDAO.bathTotalTimeHours}"/></strong>
+                Total effective bath time is <strong><fmt:formatNumber type="number" maxFractionDigits="2" value="${runningTime.bathTotalTimeHours}"/></strong>
             </div>
         </div>
     </div>
