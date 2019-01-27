@@ -1,0 +1,12 @@
+#JSGF V1.0;
+
+/**
+ * JSGF Grammar
+ */
+
+grammar grammar;
+
+public <syntax>  = ( listen |hello | hi | set)
+                   ( to | multiply | alarm)
+                   ( radio | ass | clock | at)
+                   ( extreme | seven | vega | steel fm);com.sun.javafx.font.PrismFontLoader.loadFont(PrismFontLoader.java:196)

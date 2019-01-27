@@ -6,7 +6,8 @@ public enum CustomFont {
     LEMON_JELLY("ttf"),
     BULGATTI("ttf"),
     MISDEMEANOR("ttf"),
-    URBAN_JUNGLE("otf");
+    URBAN_JUNGLE("otf"),
+    OPENSANS_REGULAR("ttf");
 
     private final String fontType;
 

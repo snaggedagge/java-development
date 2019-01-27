@@ -33,7 +33,7 @@ subprojects {
 	}
 
 	// Will also package every dependency
-	task fatJar(type: Jar) {
+	task fatJar(type: Jar, group : 'build') {
 		manifest {
 			attributes 'Implementation-Title': 'Gradle Jar File Example',
 					'Implementation-Version': version,

@@ -89,21 +89,25 @@ public abstract class AbstractViewBuilder implements ViewBuilder {
 
     protected Text createText(final String message,final int fontSize, final Paint color) {
         final Text tempText = new Text(message);
-        tempText.setFont(new Font(fontSize));
+        tempText.setFont(FontLoader.getFont(CustomFont.OPENSANS_REGULAR, fontSize));
+        //tempText.setFont(Font.font(Font.getDefault().getFamily(),fontSize));
+        //tempText.setFont(new Font(fontSize));
         tempText.setFill(color);
         return tempText;
     }
 
     protected Text createText(final String message,final int fontSize) {
         final Text tempText = new Text(message);
-        tempText.setFont(new Font(fontSize));
+        tempText.setFont(FontLoader.getFont(CustomFont.OPENSANS_REGULAR, fontSize));
+        //tempText.setFont(Font.font(Font.getDefault().getFamily(),fontSize));
         tempText.setFill(COLOR);
         return tempText;
     }
 
     protected Text createText(final String message) {
         final Text tempText = new Text(message);
-        tempText.setFont(new Font(FONT_SIZE));
+        tempText.setFont(FontLoader.getFont(CustomFont.OPENSANS_REGULAR, FONT_SIZE));
+        //tempText.setFont(Font.font(Font.getDefault().getFamily(),FONT_SIZE));
         tempText.setFill(COLOR);
         return tempText;
     }

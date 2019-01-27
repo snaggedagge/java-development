@@ -10,7 +10,7 @@ public class CacheableMethods {
         System.out.println("RUNNING METHOD");
 
 
-        Stream.empty().collect(Col)
+//        Stream.empty().collect(Col)
 
 
 

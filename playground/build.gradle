@@ -57,7 +57,10 @@ dependencies {
     compile "org.aspectj:aspectjweaver:1.9.1"
 
 
+    compile project(":commons-speech")
 
+    compile group: 'edu.cmu.sphinx', name: 'sphinx4-core', version:'5prealpha-SNAPSHOT'
+    compile group: 'edu.cmu.sphinx', name: 'sphinx4-data', version:'5prealpha-SNAPSHOT'
 
 //    compile project(':commons')
     // https://mvnrepository.com/artifact/org.openpnp/opencv

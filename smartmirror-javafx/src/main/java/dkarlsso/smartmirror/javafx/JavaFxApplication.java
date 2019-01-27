@@ -61,7 +61,8 @@ public class JavaFxApplication extends Application implements ViewControllerInte
 
     public JavaFxApplication() {
         if (OSHelper.isRaspberryPi()) {
-            GpioFactory.getInstance();
+            //TODO : IS NOT WORKING WITH ORANGE PI CURRENTLY
+            //GpioFactory.getInstance();
         }
 
         final Injector injector = Guice.createInjector(new SmartMirrorModule(this));
