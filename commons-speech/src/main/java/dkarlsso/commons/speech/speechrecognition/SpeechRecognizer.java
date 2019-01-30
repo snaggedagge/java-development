@@ -2,6 +2,7 @@ package dkarlsso.commons.speech.speechrecognition;
 
 import dkarlsso.commons.commandaction.CommandActionException;
 import dkarlsso.commons.commandaction.CommandInvoker;
+import dkarlsso.commons.commandaction.UnknownCommandException;
 import edu.cmu.sphinx.api.Configuration;
 import edu.cmu.sphinx.api.LiveSpeechRecognizer;
 import edu.cmu.sphinx.api.SpeechResult;
@@ -48,7 +49,7 @@ public class SpeechRecognizer <E extends Enum<E>>
     }
 
 
-    public void getResult() throws SpeechException {
+    public void getResult() throws SpeechException, UnknownCommandException {
         final SpeechResult result = recognizer.getResult();
 
         //Checking if recognizer has recognized the grammars
@@ -64,7 +65,7 @@ public class SpeechRecognizer <E extends Enum<E>>
         }
     }
 
-    private void callInterfaces(final String command) throws SpeechException {
+    private void callInterfaces(final String command) throws SpeechException, UnknownCommandException {
          try {
              if (!command.equals("<unk>")) {
                  commandInvoker.executeCommand(E.valueOf(commandEnumerationClass, command.toUpperCase()));
@@ -73,7 +74,7 @@ public class SpeechRecognizer <E extends Enum<E>>
              throw new SpeechException("Exception from command invoker" + e.getMessage(), e);
          }
          catch (final IllegalArgumentException e) {
-             throw new SpeechException("No enum command named : " + command);
+             throw new UnknownCommandException("No enum command named : " + command);
          }
     }
 

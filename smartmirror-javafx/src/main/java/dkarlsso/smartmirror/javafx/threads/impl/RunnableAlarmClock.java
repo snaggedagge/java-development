@@ -59,7 +59,7 @@ public class RunnableAlarmClock implements Runnable {
 
         while (isRunning) {
             try {
-                LOG.info("Checking for active alarms");
+                LOG.info("Checking for active alarms. Alarms in list: " + alarms.size());
 
                 for(final Alarm alarm : alarms) {
                     if(alarm.shouldAlarmBeActive()) {

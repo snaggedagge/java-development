@@ -5,6 +5,7 @@ import com.google.inject.Injector;
 import dkarlsso.commons.annotation.AnnotationFinder;
 import dkarlsso.commons.commandaction.CommandActionException;
 import dkarlsso.commons.commandaction.CommandInvoker;
+import dkarlsso.commons.commandaction.UnknownCommandException;
 import dkarlsso.commons.model.CommonsException;
 import dkarlsso.commons.raspberry.OSHelper;
 import dkarlsso.commons.raspberry.screen.ScreenHandler;
@@ -87,9 +88,13 @@ public class ApplicationManager implements CommandInvoker<CommandEnum>, Runnable
         while (true) {
             try {
                 speechRecognizer.getResult();
-            } catch (SpeechException e) {
+            } catch (final SpeechException e) {
                 synchronized (LOG) {
                     LOG.error(e.getMessage(), e);
+                }
+            } catch (final UnknownCommandException e) {
+                synchronized (LOG) {
+                    LOG.error(e.getMessage());
                 }
             }
         }
