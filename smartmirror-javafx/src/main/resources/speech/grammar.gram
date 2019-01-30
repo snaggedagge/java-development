@@ -6,5 +6,5 @@
 
 grammar grammar;
 
-public <syntax>  = ( command )
+public <syntax>  = ( run | command | call | hello )
                    ( weather | selfie | radio | lights | volume | sleep );

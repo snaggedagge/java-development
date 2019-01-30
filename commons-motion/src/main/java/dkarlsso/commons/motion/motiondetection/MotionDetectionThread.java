@@ -1,4 +1,4 @@
-package dkarlsso.commons.motiondetection;
+package dkarlsso.commons.motion.motiondetection;
 
 import dkarlsso.commons.model.CommonsException;
 import dkarlsso.commons.raspberry.camera.Camera;

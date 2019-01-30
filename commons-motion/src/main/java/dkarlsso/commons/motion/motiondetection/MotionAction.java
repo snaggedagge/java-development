@@ -1,4 +1,4 @@
-package dkarlsso.commons.motiondetection;
+package dkarlsso.commons.motion.motiondetection;
 
 public interface MotionAction {
 

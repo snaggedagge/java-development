@@ -1,12 +1,11 @@
 package dkarlsso;
 
 import dkarlsso.commons.model.CommonsException;
-import dkarlsso.commons.motiondetection.MotionAction;
-import dkarlsso.commons.motiondetection.MotionDetectionThread;
-import dkarlsso.commons.motiondetection.MotionType;
+import dkarlsso.commons.motion.motiondetection.MotionAction;
+import dkarlsso.commons.motion.motiondetection.MotionDetectionThread;
+import dkarlsso.commons.motion.motiondetection.MotionType;
 import dkarlsso.commons.raspberry.camera.impl.ThreadSafeCameraSingleton;
 import dkarlsso.commons.raspberry.camera.impl.WebCam;
-import org.opencv.core.Core;
 
 import java.io.File;
 

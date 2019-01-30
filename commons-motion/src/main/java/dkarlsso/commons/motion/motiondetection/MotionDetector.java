@@ -1,4 +1,4 @@
-package dkarlsso.commons.motiondetection;
+package dkarlsso.commons.motion.motiondetection;
 
 import org.opencv.core.*;
 import org.opencv.imgcodecs.Imgcodecs;
@@ -6,7 +6,6 @@ import org.opencv.imgproc.Imgproc;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 public class MotionDetector {

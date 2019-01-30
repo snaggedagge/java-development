@@ -8,6 +8,8 @@ include 'smartmirror-spring'
 include 'playground'
 include 'commons-javafx'
 include 'commons-speech'
+include 'commons-motion'
 include 'helloFx'
 include 'hello-alexa'
+
 
