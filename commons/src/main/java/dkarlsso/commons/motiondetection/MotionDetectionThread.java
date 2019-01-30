@@ -14,7 +14,7 @@ public class MotionDetectionThread implements Runnable {
 
     private final Camera camera;
 
-    private final MotionDetector motionDetector = new MotionDetector();
+    private final MotionDetector motionDetector = new MotionDetector(100);
 
     private File oldImage = null;
 
@@ -37,16 +37,14 @@ public class MotionDetectionThread implements Runnable {
 
                 if(oldImage != null && newImage != null) {
                     sensedMotion = motionDetector.senseMotion(oldImage, newImage);
+                    if(sensedMotion) {
+                        // Sense fingers, motions and stuff
+                        motionAction.motionEvent(MotionType.MOTION_DETECTED);
+                    }
+                    oldImage.delete();
                 }
 
-                if(sensedMotion) {
-                    // Sense fingers, motions and stuff
-                    motionAction.motionEvent(MotionType.MOTION_DETECTED);
-                }
-                else {
-                    TimeUnit.SECONDS.sleep(5);
-                }
-
+                TimeUnit.SECONDS.sleep(3);
             } catch (CommonsException e) {
                 e.printStackTrace();
             } catch (InterruptedException e) {

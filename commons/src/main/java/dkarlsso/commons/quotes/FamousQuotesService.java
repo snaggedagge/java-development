@@ -11,7 +11,7 @@ public class FamousQuotesService {
 
     // TODO: Create this into a real implementation, storing in database perhaps and retrieve on an increasing index?
 
-    public FamousQuoteDTO getRandomQuote() throws FamousQuoteException {
+    public List<FamousQuoteDTO> getRandomQuotes() throws FamousQuoteException {
         final RestTemplate restTemplate = new RestTemplate();
 
         final HttpHeaders headers = new HttpHeaders();
@@ -28,7 +28,7 @@ public class FamousQuotesService {
         if (response.getStatusCode() != HttpStatus.OK || response.getBody() == null) {
             throw new FamousQuoteException("Could not retrieve quotes: " + response.getStatusCodeValue());
         }
-        return response.getBody().get(0);
+        return response.getBody();
     }
 
 }

@@ -30,22 +30,23 @@ public class LockedAction {
     @Inject
     private StateService stateService;
 
-    @Action(commandName = CommandEnum.START)
+    @Action(commandName = CommandEnum.COMMAND)
     public void executeStartCommand() {
-        powerOnScreen();
-        if (viewBuilder == null) {
-            viewBuilder = new HeavyViewBuilder(dataService);
-        }
 
-        final VoiceApplicationState state = stateService.getVoiceApplicationState();
-
-        if(state == VoiceApplicationState.LOCKED) {
-            Platform.runLater(() -> viewBuilder.showMessage("Say " + CommandEnum.START.prettyName() + " again to unlock", 5));
-            stateService.setVoiceApplicationState(VoiceApplicationState.UNLOCKING);
-        }
-        else {
-            stateService.setVoiceApplicationState(VoiceApplicationState.UNLOCKED);
-        }
+//        powerOnScreen();
+//        if (viewBuilder == null) {
+//            viewBuilder = new HeavyViewBuilder(dataService);
+//        }
+//
+//        final VoiceApplicationState state = stateService.getVoiceApplicationState();
+//
+//        if(state == VoiceApplicationState.LOCKED) {
+//            Platform.runLater(() -> viewBuilder.showMessage("Say " + CommandEnum.COMMAND.prettyName() + " again to unlock", 5));
+//            stateService.setVoiceApplicationState(VoiceApplicationState.UNLOCKING);
+//        }
+//        else {
+//            stateService.setVoiceApplicationState(VoiceApplicationState.UNLOCKED);
+//        }
     }
 
     @Action(commandName = CommandEnum.SLEEP)

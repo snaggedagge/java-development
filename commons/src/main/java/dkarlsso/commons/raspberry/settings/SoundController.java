@@ -49,8 +49,12 @@ public class SoundController {
         final List<String> command = new ArrayList<String>();
         command.add(SOUND_PROGRAM);
         command.add("-c");
-        command.add("1");
-        command.add("set");
+
+        // -c 1 set for orange
+        // -c 0 sset rpi?
+
+        command.add("0");
+        command.add("sset");
         command.add("PCM");
         command.add("playback");
         command.add(volumeInPercentage + "%");

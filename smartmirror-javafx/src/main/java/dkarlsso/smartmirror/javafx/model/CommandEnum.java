@@ -6,7 +6,7 @@ public enum CommandEnum {
     WEATHER,
     SELFIE,
     RADIO,
-    START,
+    COMMAND,
     LIGHTS,
     VOLUME,
     SLEEP,

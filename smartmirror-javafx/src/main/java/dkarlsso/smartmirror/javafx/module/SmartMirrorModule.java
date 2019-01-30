@@ -52,10 +52,10 @@ public class SmartMirrorModule extends AbstractModule {
         final RelayInterface lightsRelay;
         if (OSHelper.isRaspberryPi()) {
 
-            lightsRelay = new MockRelay();
+            //lightsRelay = new MockRelay();
             // TODO: THIS IS NOW MOCKED
-            //lightsRelay = new OptoRelay(GPIOPins.GPIO14_TXDO);
-            //lightsRelay.setHigh();
+            lightsRelay = new OptoRelay(GPIOPins.GPIO14_TXDO);
+            lightsRelay.setHigh();
         }
         else {
             lightsRelay = new MockRelay();

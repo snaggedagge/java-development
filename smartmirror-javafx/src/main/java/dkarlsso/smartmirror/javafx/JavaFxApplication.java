@@ -6,6 +6,7 @@ import com.google.inject.Injector;
 import com.pi4j.io.gpio.GpioFactory;
 import dkarlsso.commons.container.BasicContainer;
 import dkarlsso.commons.raspberry.OSHelper;
+import dkarlsso.smartmirror.javafx.model.CommandEnum;
 import dkarlsso.smartmirror.javafx.model.VoiceApplicationState;
 import dkarlsso.smartmirror.javafx.model.interfaces.DataService;
 import dkarlsso.smartmirror.javafx.model.interfaces.DataServiceException;
@@ -62,7 +63,7 @@ public class JavaFxApplication extends Application implements ViewControllerInte
     public JavaFxApplication() {
         if (OSHelper.isRaspberryPi()) {
             //TODO : IS NOT WORKING WITH ORANGE PI CURRENTLY
-            //GpioFactory.getInstance();
+            GpioFactory.getInstance();
         }
 
         final Injector injector = Guice.createInjector(new SmartMirrorModule(this));
@@ -103,7 +104,7 @@ public class JavaFxApplication extends Application implements ViewControllerInte
             }
 
             timeline = new Timeline(new KeyFrame(Duration.millis(updateSequenceMillis),
-                    ae -> this.displayStandardView(command)));
+                    ae -> this.displayStandardView(null)));
             timeline.setCycleCount(Animation.INDEFINITE);
             this.displayStandardView(command);
         });
@@ -136,6 +137,11 @@ public class JavaFxApplication extends Application implements ViewControllerInte
             this.displayView(builder.getView());
             timeline.play();
         });
+    }
+
+    @Override
+    public void showMessage(String command, int timeToShow) {
+        Platform.runLater(() -> viewBuilder.get().showMessage(command, timeToShow));
     }
 
     @Override

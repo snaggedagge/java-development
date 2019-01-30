@@ -1,6 +1,11 @@
 package dkarlsso.commons.quotes;
 
-public class FamousQuoteDTO {
+import java.io.Serializable;
+import java.util.Objects;
+
+public class FamousQuoteDTO implements Serializable {
+
+    private static final long serialVersionUID = -4415920372743853048L;
 
     private String quote;
 
@@ -30,5 +35,20 @@ public class FamousQuoteDTO {
 
     public void setCategory(String category) {
         this.category = category;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        final FamousQuoteDTO that = (FamousQuoteDTO) o;
+        return Objects.equals(quote, that.quote) &&
+                Objects.equals(author, that.author) &&
+                Objects.equals(category, that.category);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(quote, author, category);
     }
 }

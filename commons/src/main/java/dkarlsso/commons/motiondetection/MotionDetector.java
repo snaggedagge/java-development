@@ -11,13 +11,9 @@ import java.util.List;
 
 public class MotionDetector {
 
-    private Mat resultImage = new Mat();
+//    private Mat resultImage = new Mat();
 
     private final double maxArea;
-
-    public MotionDetector() {
-        maxArea = 100;
-    }
 
     public MotionDetector(final double maxAreaToChange) {
         maxArea = maxAreaToChange;
@@ -29,13 +25,13 @@ public class MotionDetector {
         final Mat matNewImage = preparePicture(
                 Imgcodecs.imread(newFile.getAbsolutePath()));
 
-        resultImage = matOldImage.clone();
+//        resultImage = matOldImage.clone();
         return getDifferance(matOldImage, matNewImage);
     }
 
-    public void writeDetectionImageToFile(final File file) {
-        Imgcodecs.imwrite(file.getAbsolutePath(), resultImage);
-    }
+//    public void writeDetectionImageToFile(final File file) {
+//        Imgcodecs.imwrite(file.getAbsolutePath(), resultImage);
+//    }
 
     private Mat preparePicture(final Mat originalImage) {
         final Mat preparedPicture = new Mat(originalImage.size(), CvType.CV_8UC1);
@@ -56,12 +52,12 @@ public class MotionDetector {
         List<Rect> contoursList = detection_contours(diff_frame);
         if (contoursList.size() > 0) {
 
-            Iterator<Rect> it2 = contoursList.iterator();
-            while (it2.hasNext()) {
-                Rect obj = it2.next();
-                Imgproc.rectangle(resultImage, obj.br(), obj.tl(),
-                        new Scalar(0, 255, 0), 1);
-            }
+//            Iterator<Rect> it2 = contoursList.iterator();
+//            while (it2.hasNext()) {
+//                Rect obj = it2.next();
+//                Imgproc.rectangle(resultImage, obj.br(), obj.tl(),
+//                        new Scalar(0, 255, 0), 1);
+//            }
             return true;
         }
         return false;
@@ -85,7 +81,9 @@ public class MotionDetector {
                 // maxArea = contourarea;
                 r = Imgproc.boundingRect(contours.get(idx));
                 rect_array.add(r);
-                Imgproc.drawContours(resultImage, contours, idx, new Scalar(0,0, 255));
+
+                // Draw image??
+                //Imgproc.drawContours(resultImage, contours, idx, new Scalar(0,0, 255));
             }
         }
 

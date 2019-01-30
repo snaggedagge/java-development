@@ -11,4 +11,5 @@ public interface ViewControllerInterface {
 
     void displayStandardView(String command);
 
+    void showMessage(String command, int timeToShow);
 }

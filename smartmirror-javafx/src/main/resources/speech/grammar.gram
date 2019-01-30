@@ -1,0 +1,10 @@
+#JSGF V1.0;
+
+/**
+ * JSGF Grammar
+ */
+
+grammar grammar;
+
+public <syntax>  = ( command )
+                   ( weather | selfie | radio | lights | volume | sleep );

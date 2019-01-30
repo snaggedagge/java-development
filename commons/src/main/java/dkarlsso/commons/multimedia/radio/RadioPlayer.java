@@ -36,7 +36,6 @@ public class RadioPlayer implements MediaPlayer {
             if (!isPlaying) {
                 isPlaying = true;
                 //final File x3mFile = new File(getClass().getClassLoader().getResource("x3m.m3u8").toURI());
-
                 mediaPlayer.playMedia(radioplayerRootFolder.getAbsolutePath() + File.separator + "x3m.m3u8");
             }
         }
@@ -48,6 +47,7 @@ public class RadioPlayer implements MediaPlayer {
             if (isPlaying) {
                 isPlaying = false;
                 mediaPlayer.stop();
+
             }
         }
     }
