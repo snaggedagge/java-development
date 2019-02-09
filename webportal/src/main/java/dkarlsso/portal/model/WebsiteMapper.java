@@ -21,6 +21,7 @@ public class WebsiteMapper {
 
     public static WebsiteDAO map(final WebsiteDTO dto) {
         final WebsiteDAO dao = new WebsiteDAO();
+        dao.setWebsiteId(dto.getWebsiteId());
         dao.setImageBase64(dto.getImageBase64());
         dao.setWebsiteDescription(dto.getWebsiteDescription());
         dao.setWebsiteLink(dto.getWebsiteLink());

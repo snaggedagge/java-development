@@ -1,0 +1,22 @@
+
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout}">
+
+    <body>
+    <div layout:fragment="~{content}">
+        <div th:if="${!websites.isEmpty()}" class="container row">
+
+            <th:block th:each="website : ${websites}">
+                <a th:href="${website.websiteLink}">
+                    <div class="alert alert-success col-md-4">
+                        <h1 th:text="${website.websiteName}"></h1>
+                        <p th:text="${website.websiteDescription}"></p>
+                    </div>
+                </a>
+            </th:block>
+
+        </div>
+    </div>
+    </body>
+</html>

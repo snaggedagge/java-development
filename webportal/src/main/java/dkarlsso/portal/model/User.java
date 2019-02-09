@@ -5,7 +5,7 @@ import portalconnector.model.Permission;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
-@Entity
+//@Entity
 public class User {
 
     @Id

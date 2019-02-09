@@ -10,6 +10,8 @@ import java.util.Date;
 public class WebsiteDAO {
 
     @Id
+    private String websiteId;
+
     private String websiteName;
 
     private String websiteDescription;
@@ -22,6 +24,13 @@ public class WebsiteDAO {
 
     private Date dateSinceLastConnection;
 
+    public String getWebsiteId() {
+        return websiteId;
+    }
+
+    public void setWebsiteId(String websiteId) {
+        this.websiteId = websiteId;
+    }
 
     public String getWebsiteName() {
         return websiteName;
@@ -69,5 +78,18 @@ public class WebsiteDAO {
 
     public void setDateSinceLastConnection(Date dateSinceLastConnection) {
         this.dateSinceLastConnection = dateSinceLastConnection;
+    }
+
+
+    @Override
+    public String toString() {
+        return "WebsiteDAO{" +
+                "websiteName='" + websiteName + '\'' +
+                ", websiteDescription='" + websiteDescription + '\'' +
+                ", imageBase64='" + imageBase64 + '\'' +
+                ", websiteLink='" + websiteLink + '\'' +
+                ", permission=" + permission +
+                ", dateSinceLastConnection=" + dateSinceLastConnection +
+                '}';
     }
 }

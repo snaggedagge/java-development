@@ -1,23 +1,31 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
-<%@ taglib prefix="security" uri="http://www.springframework.org/security/tags" %>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:sec="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta charset="UTF-8"/>
+        <title>IoT Webportal</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
 
+        <link rel="stylesheet" type="text/css" href="/webjars/bootstrap/3.3.7/css/bootstrap.min.css" />
+        <script src="/webjars/jquery/2.1.1/jquery.js"></script>
+        <script src="/webjars/jquery/3.3.1-1/jquery.js"></script>
+        <script src="/webjars/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
-<nav class="navbar navbar-default">
-    <div class="container">
-        <div id="navbar" class="navbar-inner">
-            <ul class="nav navbar-nav">
-                <li class=""><a href="/">Home</a></li>
-            </ul>
+    </head>
+    <body>
+    <!---- Header-->
+    <nav class="navbar navbar-default">
+        <div class="container">
+            <div id="navbar" class="navbar-inner">
+                <ul class="nav navbar-nav">
+                    <li class=""><a href="/">Home</a></li>
+                </ul>
 
-            <security:authorize access="isAuthenticated()">
-                <security:authentication var="user" property="principal" />
-                <ul class="nav navbar-nav navbar-right">
+                <ul sec:authorize="hasAuthority('USER')" class="nav navbar-nav navbar-right">
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                             <span class="glyphicon glyphicon-user"></span> 
-                            <strong><c:out value="${user}"/></strong>
+                            <strong th:text="${user}"></strong>
                             <span class="glyphicon glyphicon-chevron-down"></span>
                         </a>
                         <ul class="dropdown-menu">
@@ -25,7 +33,7 @@
                                 <div class="navbar-login">
                                     <div class="row">
                                         <div class="col-lg-8">
-                                            <p class="text-left"><strong><c:out value="${user}"/></strong></p>
+                                            <p class="text-left" th:text="${user}"></strong></p>
                                             <p class="text-left">
                                                 <a href="#" class="btn btn-primary btn-block btn-sm">Settings</a>
                                             </p>
@@ -48,8 +56,20 @@
                         </ul>
                     </li>
                 </ul>
-            </security:authorize>
+            </div>
+        </div>
+    </nav>
 
+    <!---- Header-->
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-3"></div>
+            <div layout:fragment="~{content}">
+                Page content goes here
+            </div>
+            <div class="col-md-3"></div>
         </div>
     </div>
-</nav>
+    </body>
+</html>

@@ -1,7 +1,6 @@
 buildscript {
     ext {
-        springBootVersion = '2.0.1.RELEASE'
-        springSecurityVersion = '3.1.4.RELEASE'
+        springBootVersion = '2.1.2.RELEASE'
     }
     repositories {
         mavenCentral()
@@ -36,22 +35,30 @@ dependencies {
     compile group: 'org.webjars', name: 'jquery', version: '3.3.1-1'
 
 
-
-    // https://mvnrepository.com/artifact/org.apache.tomcat.embed/tomcat-embed-jasper
-    compile group: 'org.apache.tomcat.embed', name: 'tomcat-embed-jasper', version: '9.0.7'
-
-    // https://mvnrepository.com/artifact/javax.servlet/jstl
-    compile group: 'javax.servlet', name: 'jstl', version: '1.2'
-
-    // https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-social-facebook
-    compile group: 'org.springframework.social', name: 'spring-social-facebook', version: springBootVersion
+//
+//    // https://mvnrepository.com/artifact/org.apache.tomcat.embed/tomcat-embed-jasper
+//    compile group: 'org.apache.tomcat.embed', name: 'tomcat-embed-jasper', version: '9.0.7'
+//
+//    // https://mvnrepository.com/artifact/javax.servlet/jstl
+//    compile group: 'javax.servlet', name: 'jstl', version: '1.2'
+//
+//    // https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-social-facebook
+//    compile group: 'org.springframework.social', name: 'spring-social-facebook', version: springBootVersion
 
     compile group: 'org.springframework.boot', name: 'spring-boot-starter-data-jpa', version: springBootVersion
     compile group: 'org.springframework.boot', name: 'spring-boot-starter-web', version: springBootVersion
+    compile group: 'org.springframework.boot', name: 'spring-boot-starter-thymeleaf', version: springBootVersion
+
+    compile group: 'org.thymeleaf.extras', name: 'thymeleaf-extras-springsecurity4', version: '3.0.4.RELEASE'
+    compile group: 'org.thymeleaf', name: 'thymeleaf-spring5', version: '3.0.11.RELEASE'
+    compile group: 'org.thymeleaf', name: 'thymeleaf', version: '3.0.11.RELEASE'
+    compile group: 'nz.net.ultraq.thymeleaf', name: 'thymeleaf-layout-dialect', version: '2.3.0'
+
 
     compile group: 'org.springframework.boot', name: 'spring-boot-starter-security', version: springBootVersion
-    compile group: 'org.springframework.security', name: 'spring-security-taglibs', version: springSecurityVersion
+//    compile group: 'org.springframework.security', name: 'spring-security-taglibs', version: springSecurityVersion
 
-    compile group: 'mysql', name: 'mysql-connector-java', version: '5.1.13'
+    compile group: 'mysql', name: 'mysql-connector-java', version: '8.0.15'
+
     testCompile('org.springframework.boot:spring-boot-starter-test')
 }

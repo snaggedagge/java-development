@@ -19,9 +19,9 @@ public class PortalConnector {
 
     public static final String URL_STANDARD_PORTAL = "https://www.dkarlsso.ax"; // >Domain not existing yet
 
-    public static final String URI_ADD_WEBSITE = "/rest/addWebsite";
+    public static final String URI_ADD_WEBSITE = "/webportal/{websiteId}";
 
-    public static final String URI_GET_ALL_WEBSITES = "/rest/getAllWebsites";
+    public static final String URI_GET_ALL_WEBSITES = "/webportal/websites";
 
     private final String portalURL;
 

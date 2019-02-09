@@ -2,6 +2,8 @@ package portalconnector.model;
 
 public class WebsiteDTO {
 
+    private String websiteId;
+
     private String websiteName;
 
     private String websiteDescription;
@@ -12,6 +14,16 @@ public class WebsiteDTO {
 
     private Permission permission;
 
+// TODO: Lombok
+
+
+    public String getWebsiteId() {
+        return websiteId;
+    }
+
+    public void setWebsiteId(String websiteId) {
+        this.websiteId = websiteId;
+    }
 
     public String getWebsiteName() {
         return websiteName;
@@ -51,5 +63,17 @@ public class WebsiteDTO {
 
     public void setWebsiteLink(String websiteLink) {
         this.websiteLink = websiteLink;
+    }
+
+    @Override
+    public String toString() {
+        return "WebsiteDTO{" +
+                "websiteId='" + websiteId + '\'' +
+                ", websiteName='" + websiteName + '\'' +
+                ", websiteDescription='" + websiteDescription + '\'' +
+                ", imageBase64='" + imageBase64 + '\'' +
+                ", websiteLink='" + websiteLink + '\'' +
+                ", permission=" + permission +
+                '}';
     }
 }

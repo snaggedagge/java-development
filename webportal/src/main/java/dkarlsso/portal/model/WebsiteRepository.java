@@ -6,7 +6,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface WebsiteRepository extends CrudRepository<WebsiteDAO, Long> {
+public interface WebsiteRepository extends CrudRepository<WebsiteDAO, String> {
 
     WebsiteDAO findByWebsiteName(String websiteName);
 
