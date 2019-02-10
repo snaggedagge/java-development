@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:sec="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Hottub</title>
+
+        <link rel="stylesheet" type="text/css" href="/webjars/bootstrap/3.3.7/css/bootstrap.min.css" />
+        <script src="/webjars/jquery/2.1.1/jquery.js"></script>
+        <script src="/webjars/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+        <link href="/css/main.css" rel="stylesheet" />
+        <script src="/javascript/scripts.js"></script>
+
+        <head layout:fragment="~{additionalHead}"></head>
+
+    </head>
+    <body>
+    <div id="pageheader">
+        <nav class="navbar navbar-default">
+            <div class="container">
+                <div id="navbar" class="navbar-inner">
+                    <ul class="nav navbar-nav">
+                        <li class=""><a href="/">Overview</a></li>
+                        <li class=""><a href="/stats">Stats</a></li>
+                        <li class=""><a href="/login">Login</a></li>
+                        <li class=""><a href="/seeLogs?linesPerError=10">See Logs</a></li>
+                        <li class=""><a href="/setTimer">Set Timer</a></li>
+                        <li th:if="${session.ADMIN}" class="" style="color: #ffac1d">Logged in as admin</li>
+                        <!--TODO: Add real auth-->
+                        <!--<li sec:authorize="hasAuthority('ADMIN')" class="" style="color: #ffac1d">Logged in as admin</li>-->
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </div>
+    <div id="body">
+        <div class="container">
+            <div th:if="${errorList != null && !errorList.isEmpty()}"  class="alert alert-danger">
+                <th:block th:each="error : ${errorList}">
+                    <p th:text="${error}"></p>
+                </th:block>
+            </div>
+
+            <div th:if="${infoList != null && !infoList.isEmpty()}"  class="alert alert-warning">
+                <th:block th:each="info : ${infoList}">
+                    <p th:text="${info}"></p>
+                </th:block>
+            </div>
+        </div>
+
+        <div class="container">
+            <div layout:fragment="~{content}">
+                Page content goes here
+            </div>
+        </div>
+    </div>
+    </body>
+</html>

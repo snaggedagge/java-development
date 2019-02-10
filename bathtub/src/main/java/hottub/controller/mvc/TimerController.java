@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -65,7 +66,6 @@ public class TimerController {
                 }
                 else {
                     errorList.add("Need to be logged in");
-                    model.addAttribute("INFO","Assholes who are not superior or admins shall not pass");
                 }
             }
         }

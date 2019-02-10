@@ -122,7 +122,10 @@ public class Heater implements HeaterInterface{
         }
 
         // In case RPI gets rebooted while at correct temp, when limits are reset to much below correct value
-        if (overTemp  > overTempLimit + 10 && returnTemp  > returnTempLimit + 10) {
+        if (overTemp  > returnTempLimit + 10 && returnTemp  > returnTempLimit + 10) {
+            if (debug) {
+                log.warn("Turning off due to much higher temperatures");
+            }
             heat = false;
             circulate = false;
         }

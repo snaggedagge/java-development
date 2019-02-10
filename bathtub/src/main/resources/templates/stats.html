@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{standard_template}">
+
+<head layout:fragment="~{additionalHead}">
+    <meta http-equiv="refresh" content="30" />
+</head>
+
+<body>
+<div layout:fragment="~{content}">
+    <img src="/images/logo.png" style="width:inherit;max-width: 100%;"/>
+
+    <div class="row">
+        <div class="col-sm-3">
+            <div class="alert alert-info">
+                Heater time since started: <strong th:text="${#numbers.formatDecimal(timeHeatingSinceStarted, 1, 'DEFAULT', 2, 'DEFAULT')}"></strong>
+            </div>
+        </div>
+
+        <div class="col-sm-3">
+            <div class="alert alert-info">
+                Heater hours is <strong th:text="${#numbers.formatDecimal(runningTime.runningTimeHeaterHours, 1, 'DEFAULT', 2, 'DEFAULT')}"></strong>
+            </div>
+        </div>
+
+        <div class="col-sm-3">
+            <div class="alert alert-info">
+                Circulation hours is <strong th:text="${#numbers.formatDecimal(runningTime.runningTimeCirculationHours, 1, 'DEFAULT', 2, 'DEFAULT')}"></strong>
+            </div>
+        </div>
+
+        <div class="col-sm-3">
+            <div class="alert alert-info">
+                Total effective bath time is <strong th:text="${#numbers.formatDecimal(runningTime.bathTotalTimeHours, 1, 'DEFAULT', 2, 'DEFAULT')}"></strong>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
+
+
+
+
+
+
+

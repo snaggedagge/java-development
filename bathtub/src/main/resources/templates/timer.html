@@ -1,0 +1,39 @@
+
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{standard_template}">
+
+<body>
+<div layout:fragment="~{content}">
+    <div th:if="${timerIsSet}" class="alert alert-success">
+        <h1>Timer is set!</h1>
+    </div>
+    <div th:if="${alreadyOnTimer}" class="alert alert-info">
+        <h1>Timer is already on!</h1>
+        <h3>Starts in <span th:text="${hoursUntilStart}"></span> Hours and <span th:text="${minutesUntilStart}"></span> Minutes</h3>
+    </div>
+
+
+    <form th:object="${timer}" action="/setTimer" method="post">
+        <div class="form-group row">
+            <label th:field="*{hottubTemperature}" class="col-sm-2 col-form-label">Hottub Temperature</label>
+            <input th:field="*{hottubTemperature}" class="form-control"/>
+        </div>
+        <div class="form-group row">
+            <label th:field="*{circulationTemperature}" class="col-sm-2 col-form-label">Circulation Temperature</label>
+            <input th:field="*{circulationTemperature}" class="form-control" aria-describedby="help"/>
+            <small id="help" class="form-text text-muted">This property is else automatically set</small>
+        </div>
+        <div class="form-group row">
+            <label th:field="*{startHeatingTime}" class="col-sm-2 col-form-label">Time</label>
+            <input th:field="*{startHeatingTime}" class="form-control" aria-describedby="timeHelp"/>
+            <small id="timeHelp" class="form-text text-muted">Pattern is dd-MM-yyyy HH:mm</small>
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+</div>
+</body>
+</html>
+
+
+

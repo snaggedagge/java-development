@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{standard_template}">
+
+<head layout:fragment="~{additionalHead}">
+    <meta http-equiv="refresh" content="10" />
+</head>
+
+<body>
+<div layout:fragment="~{content}">
+    <h1>Logs</h1>
+
+    <th:block th:each="logLine : ${logEntries}">
+        <br><br>
+        <p th:text="${logLine}"></p>
+    </th:block>
+</div>
+</body>
+</html>

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{standard_template}">
+
+<body>
+<div layout:fragment="~{content}">
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <div class="form-group">
+                    <label for="username">Admin username</label>
+                    <input type="text" class="form-control" id="username">
+                </div>
+            </div>
+            <div class="col">
+                <div class="form-group">
+                    <label for="password">Admin password </label>
+                    <input type="password" class="form-control" id="password">
+                </div>
+            </div>
+        </div>
+        <a href="#" id="test" class="btn btn-success" role="button" onclick="sendLogin()">Login</a>
+
+    </div>
+
+    <script>
+
+        function sendLogin() {
+            var username = document.getElementById('username').value;
+            var password = document.getElementById('password').value;
+
+            //$.get("/login" + "?username=" + username +"&password="+password,"_self");
+
+            document.getElementById("test").href="/login" + "?username=" + username +"&password="+password;
+        }
+
+    </script>
+</div>
+</body>
+</html>

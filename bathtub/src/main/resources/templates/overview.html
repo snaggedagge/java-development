@@ -1,0 +1,184 @@
+
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{standard_template}">
+
+<head layout:fragment="~{additionalHead}">
+    <meta http-equiv="refresh" content="30" />
+</head>
+
+
+<body>
+<div layout:fragment="~{content}">
+    <img src="/images/logo.png" style="width:inherit;max-width: 100%;"/>
+
+
+    <div class="row">
+        <div class="col-sm-3">
+            <div class="alert" th:classappend="${!settingsDTO.lightsOn} ? 'alert-warning' : 'alert-success'">
+                <strong>Lights <span th:text="${!settingsDTO.lightsOn} ? 'Off' : 'On'"></span></strong>
+            </div>
+        </div>
+
+        <div class="col-sm-3">
+            <div class="alert" th:classappend="${!settingsDTO.heating} ? 'alert-warning' : 'alert-success'">
+                <strong>Heating <span th:text="${!settingsDTO.heating} ? 'Off' : 'On'"></span></strong>
+            </div>
+        </div>
+
+        <div class="col-sm-3">
+            <div class="alert" th:classappend="${!settingsDTO.circulating} ? 'alert-warning' : 'alert-success'">
+                <strong>Circulation <span th:text="${!settingsDTO.circulating} ? 'Off' : 'On'"></span></strong>
+            </div>
+        </div>
+
+        <div class="col-sm-3">
+            <div class="alert" th:classappend="${!settingsDTO.debug} ? 'alert-warning' : 'alert-success'">
+                <strong>Debug <span th:text="${!settingsDTO.debug} ? 'Off' : 'On'"></span></strong>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-3">
+            <div class="alert alert-info">
+                Tub Temperature is <strong th:text="${settingsDTO.returnTemp}"></strong>
+            </div>
+        </div>
+
+        <div class="col-sm-3">
+            <div class="alert alert-info">
+                Heater Temperature is <strong th:text="${settingsDTO.overTemp}"></strong>
+            </div>
+        </div>
+
+        <div class="col-sm-3">
+            <div class="alert alert-danger">
+                Desired Temperature is <strong th:text="${settingsDTO.returnTempLimit}"></strong>
+            </div>
+        </div>
+
+        <div class="col-sm-3">
+            <div class="alert alert-danger">
+                Heater Temperature limit is <strong th:text="${settingsDTO.overTempLimit}"></strong>
+            </div>
+        </div>
+
+
+        <div class="col-sm-2" id="settingsButton">
+            <a class="btn btn-success" role="button" onclick="showSettings()">Change Settings</a>
+        </div>
+
+
+        <form method="post" action="/" th:object="${settingsDTO}" id="settingsForm" style="display: none">
+            <div class="row">
+                <div class="col-lg-4">
+                    <div class="form-group">
+                        <label th:field="*{returnTempLimit}">Desired Temperature </label>
+                        <input th:field="*{returnTempLimit}" class="form-control" id="returnTempLimit" aria-describedby="returnTempHelp"/>
+                        <small id="returnTempHelp" class="form-text text-muted">Temperature has to be between 6-45</small>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-lg-4">
+                    <div class="form-group">
+                        <label th:field="*{overTempLimit}">Max Heater Temperature </label>
+                        <input th:field="*{overTempLimit}" class="form-control" id="overTempLimit" aria-describedby="overTempHelp"/>
+                        <small id="overTempHelp" class="form-text text-muted">Temperature has to be less than 60</small>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-lg-4">
+                    <div class="form-group">
+                        <label th:field="*{circulationTimeCycle}">Circulation Timer Cycle </label>
+                        <input th:field="*{circulationTimeCycle}" class="form-control" id="circulationTimeCycle" aria-describedby="timeCycleHelp"/>
+                        <small id="timeCycleHelp" class="form-text text-muted">Time has to be between 5 - 120.</small>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-2">
+                    <input type="hidden" th:field="*{lightsOn}" id="lightsOn"/>
+                    <a href="#" class="btn" id="lightswitch" onclick="lightsFlip()" role="button"></a>
+                </div>
+
+                <div class="col-sm-2">
+                    <input type="hidden" th:field="*{debug}" id="debug" />
+                    <a href="#" class="btn" id="debugswitch" onclick="debugFlip()" role="button"></a>
+                </div>
+
+                <div class="col-sm-2">
+                    <input type="submit" class="btn btn-success" value="Update Settings"/>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        // For snoopy fuckers, this is all disgusting, yeah i know. But also it doesn't feel like i give a fuck :)
+
+        $( document ).ready(function() {
+            var lightsInputElement = document.getElementById("lightsOn");
+            prepareButton(!lightsInputElement.value, 'Lights', document.getElementById("lightswitch"));
+
+            var debugInputElement = document.getElementById("debug");
+            prepareButton(!debugInputElement.value, 'Debug', document.getElementById("debugswitch"));
+        });
+
+        function showSettings() {
+            document.getElementById("settingsForm").style.display = "block";
+            document.getElementById("settingsButton").style.display = "none";
+        }
+
+        function lightsFlip() {
+            var lightsInputElement = document.getElementById("lightsOn");
+
+            prepareButton(lightsInputElement.value === 'false', 'Lights', document.getElementById("lightswitch"));
+            lightsInputElement.value = lightsInputElement.value === 'true' ? 'false' : 'true';
+        }
+
+
+        function debugFlip() {
+            var debugInputElement = document.getElementById("debug");
+
+            prepareButton(debugInputElement.value === 'false', 'Debug', document.getElementById("debugswitch"));
+
+            debugInputElement.value = debugInputElement.value === 'true' ? 'false' : 'true';
+
+            console.log("Debug is " + debugInputElement.value);
+        }
+
+        function prepareButton(isOn, textPrefix, buttonElement) {
+            if(isOn) {
+                buttonElement.innerHTML = textPrefix + ": Off";
+                buttonElement.classList.add('btn-danger');
+                buttonElement.classList.remove('btn-success');
+            }
+            else {
+                buttonElement.innerHTML = textPrefix + ": On";
+                buttonElement.classList.add('btn-success');
+                buttonElement.classList.remove('btn-danger');
+            }
+        }
+
+    </script>
+
+
+
+</div>
+</body>
+</html>
+
+
+
+
+
+
+
+
+

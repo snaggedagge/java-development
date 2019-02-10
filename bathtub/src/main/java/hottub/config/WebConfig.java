@@ -1,6 +1,8 @@
 package hottub.config;
 
 
+import com.pi4j.io.gpio.GpioFactory;
+import dkarlsso.commons.raspberry.OSHelper;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.EnableScheduling;
@@ -18,6 +20,9 @@ public class WebConfig extends WebMvcConfigurerAdapter  {
     private final HeaterDataDTO heaterDataDTO;
 
     public WebConfig() {
+        if (OSHelper.isRaspberryPi()) {
+            GpioFactory.getInstance();
+        }
         heaterDataDTO = new HeaterDataDTO();
     }
 

@@ -19,6 +19,8 @@ import dkarlsso.commons.raspberry.OSHelper;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.util.Arrays;
+import java.util.Collections;
 
 @Controller
 public class OverviewController {
@@ -45,7 +47,7 @@ public class OverviewController {
             GpioFactory.getInstance();
         }
         else {
-            heater = new MockHeater();
+            heater = new MockHeater(heaterDTO);
             synchronized (heaterDTO) {
                 heaterDTO.setReturnTemp(heaterDTO.getReturnTempLimit()-1);
                 heaterDTO.setOverTemp(heaterDTO.getOverTempLimit()-1);
@@ -77,7 +79,7 @@ public class OverviewController {
                 }
             }
             else {
-                model.addAttribute("INFO","Assholes who are not superior or admins shall not pass");
+                model.addAttribute("infoList", Collections.singletonList("Assholes who are not superior or admins shall not pass"));
             }
         }
         synchronized (heaterDTO) {
@@ -99,7 +101,7 @@ public class OverviewController {
             session.setAttribute("ADMIN",true);
             return "redirect:/";
         } else if(!password.equals("lol") || !username.equals("lol")) {
-            model.addAttribute("INFO","Assholes who are not superior or admins shall not pass");
+            model.addAttribute("infoList", Collections.singletonList("Assholes who are not superior or admins shall not pass"));
         }
         return "login";
     }

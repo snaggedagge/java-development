@@ -210,5 +210,21 @@ public class HeaterTest {
         assertEquals(heaterDTO.isHeating(), false);
     }
 
+    @Test
+    public void testReset2() throws Exception {
+        MAX6675 returnTempMax = EasyMock.mock(MAX6675.class);
+        MAX6675 overTempMax = EasyMock.mock(MAX6675.class);
+        EasyMock.expect(returnTempMax.readTemp()).andStubReturn(25.0);
+        EasyMock.expect(overTempMax.readTemp()).andStubReturn(25.0);
+        EasyMock.replay(overTempMax);
+        EasyMock.replay(returnTempMax);
+        Heater heater = new Heater(overTempMax,returnTempMax,heaterDTO,relay,relay,relay);
 
+        heaterDTO.setReturnTempLimit(8);
+        heaterDTO.setOverTempLimit(23);
+        heater.loop();
+
+        assertEquals(heaterDTO.isCirculating(), false);
+        assertEquals(heaterDTO.isHeating(), false);
+    }
 }
