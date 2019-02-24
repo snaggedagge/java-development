@@ -45,17 +45,19 @@ public class PortalConnector {
     }
 
     // TODO: Should probably have some kind of hashed clientSecret for this...
-    public WebsiteDTO addWebsite(final WebsiteDTO websiteDTO, final boolean httpsActivated) throws PortalConnectorException {
+    public WebsiteDTO addWebsite(final WebsiteDTO websiteDTO, final boolean httpsActivated, final int port)
+            throws PortalConnectorException {
         final String uriAddWebsite = URI_ADD_WEBSITE.replace("{websiteId}", websiteDTO.getWebsiteId());
         final String prefix = httpsActivated ? "https://" : "http://";
 
+        final String portString = port == 80 ? "" : "" + port;
         if (websiteDTO.getWebsiteLink() == null) {
-            websiteDTO.setWebsiteLink(prefix + restTemplate.getForObject("http://bot.whatismyipaddress.com/", String.class));
+            websiteDTO.setWebsiteLink(prefix + restTemplate.getForObject("http://bot.whatismyipaddress.com/", String.class) + portString);
         }
 
         if (websiteDTO.getLocalWebsiteLink() == null) {
             try {
-                websiteDTO.setLocalWebsiteLink(prefix + InetAddress.getLocalHost().getHostAddress());
+                websiteDTO.setLocalWebsiteLink(prefix + InetAddress.getLocalHost().getHostAddress() + portString);
             } catch (final UnknownHostException e) {
                 websiteDTO.setLocalWebsiteLink(e.getMessage());
             }

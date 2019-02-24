@@ -43,7 +43,7 @@ public class SmartmirrorWebPortalConnector {
         }
 
         try {
-            portalConnector.addWebsite(websiteDTO, false);
+            portalConnector.addWebsite(websiteDTO, false, 80);
         } catch (final PortalConnectorException e) {
             log.error("Could not update Webportal of servers location: " + e.getMessage());
         }

@@ -23,12 +23,11 @@
                     <ul class="nav navbar-nav">
                         <li class=""><a href="/">Overview</a></li>
                         <li class=""><a href="/stats">Stats</a></li>
-                        <li class=""><a href="/login">Login</a></li>
+                        <li sec:authorize="!isAuthenticated()" class=""><a href="http://dkarlsso.com/login">Login</a></li>
                         <li class=""><a href="/seeLogs?linesPerError=10">See Logs</a></li>
                         <li class=""><a href="/setTimer">Set Timer</a></li>
-                        <li th:if="${session.ADMIN}" class="" style="color: #ffac1d">Logged in as admin</li>
-                        <!--TODO: Add real auth-->
-                        <!--<li sec:authorize="hasAuthority('ADMIN')" class="" style="color: #ffac1d">Logged in as admin</li>-->
+                        <li sec:authorize="hasAuthority('CAN_EXECUTE_AS_ROOT')" class="" style="color: #ffac1d">Logged in as root</li>
+                        <li sec:authorize="hasAuthority('WRITE_PRIVILEGE')" class="" style="color: #ffac1d">Logged in as admin</li>
                     </ul>
                 </div>
             </div>
