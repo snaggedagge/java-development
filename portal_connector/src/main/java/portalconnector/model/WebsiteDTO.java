@@ -21,6 +21,8 @@ public class WebsiteDTO {
 
     private String localWebsiteLink;
 
+    private String infoLink;
+
     private Permission permission;
 
     private boolean hasLogin;

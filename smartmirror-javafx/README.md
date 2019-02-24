@@ -14,6 +14,7 @@
 * Alarm with radio. Heightening sound over time if wanted
 
 ### Features coming up?
+* Latest emails and support to read them
 * Motion detection. I actually already have this software, but i need to get the opencv installed and configured for the RPI
 * Gesture controls using camera
 * Face recognition

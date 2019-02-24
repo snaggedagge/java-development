@@ -5,18 +5,13 @@ buildscript {
 }
 
 dependencies {
-
 	compile project(':commons')
 	compile project(':portal_connector')
 	compile project(':authentication-lib')
 	compile project(':authentication-web-lib')
 
-	compile group: 'io.jsonwebtoken', name: 'jjwt', version: '0.9.1'
-
 	compile group: 'org.springframework.boot', name: 'spring-boot-starter-web', version: springBootVersion
 	compile group: 'org.springframework.boot', name: 'spring-boot-starter-security', version: springBootVersion
-	//compile group: 'org.springframework.security.oauth.boot', name: 'spring-security-oauth2-autoconfigure', version: '2.0.1.RELEASE'
-	compile group: 'org.springframework.boot', name: 'spring-boot-devtools', version: springBootVersion
 	compile group: 'org.springframework.boot', name: 'spring-boot-starter-thymeleaf', version: springBootVersion
 
 	compile group: 'org.thymeleaf.extras', name: 'thymeleaf-extras-springsecurity5', version: '3.0.4.RELEASE'
@@ -24,20 +19,17 @@ dependencies {
 	compile group: 'org.thymeleaf', name: 'thymeleaf', version: '3.0.11.RELEASE'
 	compile group: 'nz.net.ultraq.thymeleaf', name: 'thymeleaf-layout-dialect', version: '2.3.0'
 
-
 	compile group: 'org.webjars', name: 'bootstrap', version: '4.2.1'
 	compile group: 'org.webjars', name: 'jquery', version: '3.3.1-1'
 	compile group: 'org.webjars', name: 'font-awesome', version: '5.0.13'
 
 	compile group: 'joda-time', name: 'joda-time', version: '2.9.9'
-
 	compile group: 'ch.qos.logback', name: 'logback-classic'
-
 	compile group: 'mysql', name: 'mysql-connector-java', version: '5.1.13'
-
-
+	compile 'commons-io:commons-io:2.6'
+	compile group: 'io.jsonwebtoken', name: 'jjwt', version: '0.9.1'
 
 	//compile group: 'org.springframework.security', name: 'spring-security-oauth2-client', version: '5.0.5.RELEASE'
 	//compile group: 'org.springframework.security', name: 'spring-security-oauth2-jose', version: '5.0.5.RELEASE'
-
+	//compile group: 'org.springframework.security.oauth.boot', name: 'spring-security-oauth2-autoconfigure', version: '2.0.1.RELEASE'
 }

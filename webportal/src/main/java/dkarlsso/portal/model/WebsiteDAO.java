@@ -32,6 +32,8 @@ public class WebsiteDAO {
 
     private String localWebsiteLink;
 
+    private String infoLink;
+
     private Permission permission;
 
     private Date dateSinceLastConnection;

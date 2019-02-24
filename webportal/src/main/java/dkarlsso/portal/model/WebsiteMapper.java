@@ -19,6 +19,7 @@ public class WebsiteMapper {
         dto.setLocalWebsiteLink(dao.getLocalWebsiteLink());
         dto.setWebsiteId(dao.getWebsiteId());
         dto.setHasLogin(dao.isHasLogin());
+        dto.setInfoLink(dao.getInfoLink());
         return dto;
     }
 
@@ -33,6 +34,7 @@ public class WebsiteMapper {
         dao.setLocalWebsiteLink(dto.getLocalWebsiteLink());
         dao.setDateSinceLastConnection(new Date());
         dao.setHasLogin(dto.isHasLogin());
+        dao.setInfoLink(dto.getInfoLink());
         return dao;
     }
 

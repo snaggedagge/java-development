@@ -1,5 +1,6 @@
 package dkarlsso.smartmirror.spring.config;
 
+import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.io.ClassPathResource;
@@ -28,9 +29,19 @@ public class SmartmirrorWebPortalConnector {
                 .permission(Permission.ADMIN)
                 .websiteId("smartmirror-web")
                 .websiteName("SmartMirror Webpage")
-                .websiteDescription("Webpage for configuring the smartmirror")
+                .websiteDescription("Webpage for configuring the smart mirror. Plan is to be able to configure multiple mirrors from here"
+                        + " if i ever create another one for friends. (Which has been requested on multiple times :D)")
+                .infoLink("https://github.com/snaggedagge/java-development/tree/master/smartmirror-javafx")
                 .hasLogin(true)
                 .build();
+        try {
+            final InputStream inputStream = new ClassPathResource("static/images/mirror.jpg").getInputStream();
+            websiteDTO.setImageBase64(Base64.getEncoder().encodeToString(IOUtils.toByteArray(inputStream)));
+        }
+        catch (Exception e) {
+            log.error("Could not get image " + e.getMessage(), e);
+        }
+
         try {
             portalConnector.addWebsite(websiteDTO, false);
         } catch (final PortalConnectorException e) {
