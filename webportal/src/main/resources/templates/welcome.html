@@ -33,6 +33,18 @@
             </th:block>
         </div>
 
+
+        <div th:if="${!offlineWebsites.isEmpty()}" class="container row">
+            <th:block th:each="website : ${offlineWebsites}">
+                <div class="alert alert-dark col-lg-10">
+                    <h1 class="text-center" th:text="${website.getWebsiteName()}"></h1>
+                    <p class="text-center" th:text="${website.getWebsiteDescription()}"></p>
+                    <p class="text-center"><strong class="text-center">Website has not been online for at least 20 minutes</strong></p>
+                    <img th:if="${website.getImageBase64() != null}" th:src="'/api/image/' + ${website.getWebsiteId()}" class="img-fluid img-thumbnail rounded-circle">
+                </div>
+            </th:block>
+        </div>
+
     </div>
     </body>
 </html>

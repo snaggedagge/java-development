@@ -1,7 +1,7 @@
 package dkarlsso.portal.model.credentials;
 
 
-import com.nimbusds.oauth2.sdk.util.StringUtils;
+
 import dkarlsso.authentication.AuthorityType;
 import lombok.*;
 import portalconnector.model.Permission;
@@ -43,7 +43,7 @@ public class UserInfo implements Serializable {
     }
 
     public Permission getPermission() {
-        if (StringUtils.isBlank(authorities)) {
+        if (authorities == null) {
             return Permission.UNAUTHORIZED;
         }
         else if(authorities.contains(AuthorityType.CAN_EXECUTE_AS_ROOT.name())) {
