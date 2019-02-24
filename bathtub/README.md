@@ -24,4 +24,4 @@ one for circulation pump and one for the lights which are located underneath the
  
 ###  Realworld result
 Some modifications has been made since this picture, like proper exhaust and a really sporty spoiler to put dry things away on.
-![alt text](https://github.com/snaggedagge/java-development/blob/master/documentation/images/hottub/hottub.JPG?raw=true)
+![alt text](https://github.com/snaggedagge/java-development/blob/master/documentation/images/hottub/hottub.jpg?raw=true)
