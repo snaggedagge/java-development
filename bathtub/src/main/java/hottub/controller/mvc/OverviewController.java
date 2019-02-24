@@ -1,6 +1,7 @@
 package hottub.controller.mvc;
 
 import com.pi4j.io.gpio.*;
+import dkarlsso.authentication.CustomAuthentication;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import hottub.controller.rpi.Heater;
@@ -72,8 +73,8 @@ public class OverviewController {
 
     @PostMapping(value = "/")
     public String overviewPost(final ModelMap model, HttpSession session, final HttpServletResponse response,
-                           final HttpServletRequest request,
-                           @ModelAttribute(value = "settingsDTO") final HeaterDataDTO settingsDTO) {
+                               final HttpServletRequest request, final CustomAuthentication authentication,
+                               @ModelAttribute(value = "settingsDTO") final HeaterDataDTO settingsDTO) {
         if (settingsDTO != null) {
             synchronized (heaterDTO) {
                 heaterDTO.applySettings(settingsDTO);
@@ -81,6 +82,9 @@ public class OverviewController {
         }
         synchronized (heaterDTO) {
             model.addAttribute("settingsDTO", heaterDTO.clone());
+        }
+        if (!authentication.isAuthenticated()) {
+            model.addAttribute("infoList", Arrays.asList("Needs to be logged in to change temperature settings"));
         }
 
         return "overview";
