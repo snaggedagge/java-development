@@ -35,15 +35,15 @@
     </div>
     <div id="body">
         <div class="container">
-            <div th:if="${errorList != null && !errorList.isEmpty()}"  class="alert alert-danger">
+            <div th:if="${errorList != null && !errorList.isEmpty()}">
                 <th:block th:each="error : ${errorList}">
-                    <p th:text="${error}"></p>
+                    <p class="alert alert-danger" th:text="${error}"></p>
                 </th:block>
             </div>
 
-            <div th:if="${infoList != null && !infoList.isEmpty()}"  class="alert alert-warning">
+            <div th:if="${infoList != null && !infoList.isEmpty()}">
                 <th:block th:each="info : ${infoList}">
-                    <p th:text="${info}"></p>
+                    <p class="alert alert-warning" th:text="${info}"></p>
                 </th:block>
             </div>
         </div>

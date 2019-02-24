@@ -64,16 +64,25 @@ public class OverviewController {
     }
 
     @GetMapping(value = "/")
-    public String overview(final ModelMap model) {
+    public String overview(final ModelMap model, final CustomAuthentication authentication) {
         synchronized (heaterDTO) {
             model.addAttribute("settingsDTO", heaterDTO.clone());
         }
+
+        final List<String> infoList = new ArrayList<>();
+        if (authentication == null || !authentication.isAuthenticated()) {
+            infoList.add("Needs to be logged in to change temperature settings");
+        }
+        if (!OSHelper.isRaspberryPi()) {
+            infoList.add("This instance is a mocked website, Eg. It is not running on the actual bathtub, so it aint controlling shit");
+        }
+        model.addAttribute("infoList", infoList);
         return "overview";
     }
 
     @PostMapping(value = "/")
     public String overviewPost(final ModelMap model, HttpSession session, final HttpServletResponse response,
-                               final HttpServletRequest request, final CustomAuthentication authentication,
+                               final HttpServletRequest request,
                                @ModelAttribute(value = "settingsDTO") final HeaterDataDTO settingsDTO) {
         if (settingsDTO != null) {
             synchronized (heaterDTO) {
@@ -82,9 +91,6 @@ public class OverviewController {
         }
         synchronized (heaterDTO) {
             model.addAttribute("settingsDTO", heaterDTO.clone());
-        }
-        if (!authentication.isAuthenticated()) {
-            model.addAttribute("infoList", Arrays.asList("Needs to be logged in to change temperature settings"));
         }
 
         return "overview";
