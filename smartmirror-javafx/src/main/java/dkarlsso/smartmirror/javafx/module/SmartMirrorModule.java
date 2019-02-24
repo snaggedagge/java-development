@@ -13,7 +13,7 @@ import dkarlsso.commons.raspberry.relay.MockRelay;
 import dkarlsso.commons.raspberry.relay.OptoRelay;
 import dkarlsso.commons.raspberry.relay.interfaces.RelayInterface;
 import dkarlsso.commons.raspberry.screen.ScreenHandler;
-import dkarlsso.commons.raspberry.settings.SoundController;
+import dkarlsso.commons.multimedia.settings.SoundController;
 import dkarlsso.smartmirror.javafx.model.interfaces.DataService;
 import dkarlsso.smartmirror.javafx.model.interfaces.StateService;
 import dkarlsso.smartmirror.javafx.model.interfaces.impl.DefaultDataService;

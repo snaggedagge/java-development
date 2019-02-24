@@ -1,5 +1,6 @@
 package dkarlsso.smartmirror.spring.controllers;
 
+import dkarlsso.authentication.CustomAuthentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,7 +13,7 @@ public class OverviewController {
 
 
     @GetMapping("/")
-    public String overview(final Model model) {
+    public String overview(final Model model, final CustomAuthentication customAuthentication) {
 
        //test.getTokenResponse()
 
@@ -21,8 +22,8 @@ public class OverviewController {
         //GoogleCredential sa = new GoogleCredential();
 
         //sa.setAccessToken()
-
-        return "overview";
+        model.addAttribute("user", customAuthentication);
+        return "welcome";
     }
 
 

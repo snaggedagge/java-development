@@ -11,5 +11,7 @@ include 'commons-speech'
 include 'commons-motion'
 include 'helloFx'
 include 'hello-alexa'
-
+include 'commons-raspberry'
+include 'authentication-lib'
+include 'authentication-web-lib'
 

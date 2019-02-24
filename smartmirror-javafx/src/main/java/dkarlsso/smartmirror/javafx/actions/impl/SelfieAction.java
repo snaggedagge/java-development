@@ -28,7 +28,7 @@ public class SelfieAction implements CommandAction {
                 pt.play();
             });
 
-        } catch (CommonsException e) {
+        } catch (CommonsRaspberryException e) {
             LOG.error(e.getMessage(), e);
         }*/
     }

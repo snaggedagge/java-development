@@ -1,20 +1,23 @@
 package hottub.config;
 
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
-import portalconnector.model.Permission;
 import portalconnector.PortalConnector;
+import portalconnector.model.Permission;
 import portalconnector.model.PortalConnectorException;
 import portalconnector.model.WebsiteDTO;
 
+import java.io.ByteArrayInputStream;
+import java.io.File;
 import java.io.IOException;
-import java.net.InetAddress;
-import java.net.InetSocketAddress;
-import java.net.Socket;
-import java.net.UnknownHostException;
+import java.io.InputStream;
+import java.net.URISyntaxException;
+import java.util.Base64;
 
 @Service
 public class WebPortalConnector {
@@ -27,16 +30,24 @@ public class WebPortalConnector {
 
     @Scheduled(fixedDelay = SCHEDULED_FIFTEEN_MINUTES)
     public void scheduleFixedDelayTask() {
+        final WebsiteDTO websiteDTO = WebsiteDTO.builder()
+                .permission(Permission.UNAUTHORIZED)
+                .websiteId("hottub")
+                .websiteName("Hottub Time Machine")
+                .hasLogin(true)
+                .websiteDescription("Hottub website, used for monitoring and controlling my own hottub functionality and temperatures.")
+                .build();
 
-        final WebsiteDTO websiteDTO = new WebsiteDTO();
-        websiteDTO.setPermission(Permission.UNAUTHORIZED);
-        websiteDTO.setWebsiteId("hottub");
-        websiteDTO.setWebsiteName("Hottub Time Machine");
-        websiteDTO.setWebsiteDescription("Hottub website, used for monitoring and controlling hottub functionality and temperatures.");
-//        websiteDTO.setWebsiteLink("http://dkarlsso.ddns.net");
         try {
+            final InputStream inputStream = new ClassPathResource("static/images/hottub.jpg").getInputStream();
+            websiteDTO.setImageBase64(Base64.getEncoder().encodeToString(IOUtils.toByteArray(inputStream)));
+        }
+        catch (Exception e) {
+            log.error("Could not get image " + e.getMessage(), e);
+        }
 
-            portalConnector.addWebsite(websiteDTO);
+        try {
+            portalConnector.addWebsite(websiteDTO, false);
         } catch (final PortalConnectorException e) {
             log.error("Could not update Webportal of servers location: " + e.getMessage());
         }

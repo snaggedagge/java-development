@@ -13,6 +13,8 @@ import portalconnector.model.PortalConnectorException;
 import portalconnector.model.WebsiteDTO;
 
 import javax.net.ssl.HttpsURLConnection;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -20,8 +22,8 @@ import java.util.List;
 public class PortalConnector {
 
     public static final List<String> urlLocations = new ArrayList<>();
-    public static final String URL_HTTPS_STANDARD_PORTAL = "https://www.dkarlsso.com"; // >Domain not existing yet
-    public static final String URL_HTTP_STANDARD_PORTAL = "http://www.dkarlsso.com"; // >Domain not existing yet
+    public static final String URL_HTTPS_STANDARD_PORTAL = "https://dkarlsso.com"; // >Domain not existing yet
+    public static final String URL_HTTP_STANDARD_PORTAL = "http://dkarlsso.com"; // >Domain not existing yet
 
 
     public static final String URI_ADD_WEBSITE = "/webportal/{websiteId}";
@@ -42,11 +44,21 @@ public class PortalConnector {
         urlLocations.addAll(Arrays.asList(urlPortal));
     }
 
-    public WebsiteDTO addWebsite(final WebsiteDTO websiteDTO) throws PortalConnectorException {
+    // TODO: Should probably have some kind of hashed clientSecret for this...
+    public WebsiteDTO addWebsite(final WebsiteDTO websiteDTO, final boolean httpsActivated) throws PortalConnectorException {
         final String uriAddWebsite = URI_ADD_WEBSITE.replace("{websiteId}", websiteDTO.getWebsiteId());
+        final String prefix = httpsActivated ? "https://" : "http://";
 
         if (websiteDTO.getWebsiteLink() == null) {
-            websiteDTO.setWebsiteLink(restTemplate.getForObject("http://bot.whatismyipaddress.com/", String.class));
+            websiteDTO.setWebsiteLink(prefix + restTemplate.getForObject("http://bot.whatismyipaddress.com/", String.class));
+        }
+
+        if (websiteDTO.getLocalWebsiteLink() == null) {
+            try {
+                websiteDTO.setLocalWebsiteLink(prefix + InetAddress.getLocalHost().getHostAddress());
+            } catch (final UnknownHostException e) {
+                websiteDTO.setLocalWebsiteLink(e.getMessage());
+            }
         }
 
         for (int i=0;i<urlLocations.size(); i++) {

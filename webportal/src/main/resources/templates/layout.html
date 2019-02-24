@@ -5,62 +5,49 @@
         <meta charset="UTF-8"/>
         <title>IoT Webportal</title>
         <meta name="viewport" content="width=device-width, initial-scale=1">
-
-        <link rel="stylesheet" type="text/css" href="/webjars/bootstrap/3.3.7/css/bootstrap.min.css" />
-        <script src="/webjars/jquery/2.1.1/jquery.js"></script>
+        <meta property="og:image" content="https://prod-acb5.kxcdn.com/wp-content/uploads/2018/02/spring-boot-icon-200x196.png">
+        <meta property="og:image:type" content="image/png">
+        <meta property="og:image:width" content="200">
+        <meta property="og:image:height" content="196">
+        <link rel="stylesheet" type="text/css" href="/webjars/bootstrap/4.2.1/css/bootstrap.min.css" />
         <script src="/webjars/jquery/3.3.1-1/jquery.js"></script>
-        <script src="/webjars/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+        <script src="/webjars/bootstrap/4.2.1/js/bootstrap.min.js"></script>
 
     </head>
     <body>
-    <!---- Header-->
-    <nav class="navbar navbar-default">
-        <div class="container">
-            <div id="navbar" class="navbar-inner">
-                <ul class="nav navbar-nav">
-                    <li class=""><a href="/">Home</a></li>
-                </ul>
 
-                <ul sec:authorize="hasAuthority('USER')" class="nav navbar-nav navbar-right">
-                    <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                            <span class="glyphicon glyphicon-user"></span> 
-                            <strong th:text="${user}"></strong>
-                            <span class="glyphicon glyphicon-chevron-down"></span>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="http://dkarlsso.com">Home</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse justify-content-between" id="navbarSupportedContent">
+            <ul class="navbar-nav ml-md-auto">
+
+                <li class="nav-item navbar-nav mr-auto">
+                    <li class="nav-item col-sm-1">
+                        <a href="https://github.com/snaggedagge">
+                            <img th:src="@{/images/github.png}" class="nav-link img-fluid img-thumbnail">
                         </a>
-                        <ul class="dropdown-menu">
-                            <li>
-                                <div class="navbar-login">
-                                    <div class="row">
-                                        <div class="col-lg-8">
-                                            <p class="text-left" th:text="${user}"></strong></p>
-                                            <p class="text-left">
-                                                <a href="#" class="btn btn-primary btn-block btn-sm">Settings</a>
-                                            </p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </li>
-                            <li class="divider"></li>
-                            <li>
-                                <div class="navbar-login navbar-login-session">
-                                    <div class="row">
-                                        <div class="col-lg-12">
-                                            <p>
-                                                <a href="#" class="btn btn-danger btn-block">Logout</a>
-                                            </p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </li>
-                        </ul>
                     </li>
-                </ul>
-            </div>
+                    <li th:if="${session.user.getPermission().getPermissionLevel() == 0}" class="nav-item">
+                        <a class="nav-link" href="/login">Login</a>
+                    </li>
+
+                    <div th:if="${session.user.getPermission().getPermissionLevel() > 0}" class="nav-item dropdown navbar-nav">
+                        <a th:text="${session.user.firstName + ' ' + session.user.lastName}" class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" href="#">Account Information</a>
+                            <a class="dropdown-item" href="/logout">Logout</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="#">Something else here</a>
+                        </div>
+                    </div>
+                </li>
+
+            </ul>
         </div>
     </nav>
-
-    <!---- Header-->
 
     <div class="container">
         <div class="row">

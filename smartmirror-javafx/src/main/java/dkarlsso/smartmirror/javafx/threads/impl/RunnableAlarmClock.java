@@ -7,7 +7,7 @@ import dkarlsso.commons.multimedia.alarm.Alarm;
 import dkarlsso.commons.multimedia.alarm.impl.AlarmTimeSetting;
 import dkarlsso.commons.multimedia.alarm.impl.DayOfWeek;
 import dkarlsso.commons.multimedia.alarm.impl.WeekdayAlarm;
-import dkarlsso.commons.raspberry.settings.SoundController;
+import dkarlsso.commons.multimedia.settings.SoundController;
 import dkarlsso.smartmirror.javafx.threads.RunnableService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

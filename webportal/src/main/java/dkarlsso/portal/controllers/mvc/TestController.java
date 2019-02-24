@@ -1,8 +1,10 @@
 package dkarlsso.portal.controllers.mvc;
 
+import dkarlsso.portal.model.NotAuthorizedException;
 import dkarlsso.portal.model.WebsiteDAO;
 import dkarlsso.portal.model.WebsiteException;
 import dkarlsso.portal.model.WebsiteService;
+import dkarlsso.portal.model.credentials.UserInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -27,38 +29,17 @@ class TestController {
 
     private final RestTemplate restTemplate = new RestTemplate();
 
-    @GetMapping("/hello/{microservice}")
-    public String test(@PathVariable final String microservice) {
-        System.out.println(microservice);
-
-        return restTemplate.getForObject("http://localhost:8080/", String.class);
-    }
-
     @GetMapping("/service/{microservice}")
     public String service(@PathVariable final String microservice,
-                          final Authentication authentication) throws WebsiteException {
-
-        Permission permission = Permission.UNAUTHORIZED;
-        if (authentication.isAuthenticated()) {
-            permission = Permission.AUTHORIZED;
-            // TODO: Once users actually have a repo, fix this
-        }
-
-        final WebsiteDAO websiteDAO = websiteService.getWebsite(microservice, permission);
+                          final UserInfo userInfo) throws WebsiteException, NotAuthorizedException {
+        final WebsiteDAO websiteDAO = websiteService.getWebsite(microservice, userInfo.getPermission());
         return restTemplate.getForObject(websiteDAO.getWebsiteLink(), String.class);
     }
 
     @GetMapping("/{microservice}")
-    public ResponseEntity service2(@PathVariable final String microservice, final HttpServletRequest request,
-                          final Authentication authentication) throws WebsiteException, URISyntaxException {
-
-        Permission permission = Permission.UNAUTHORIZED;
-        if (authentication != null && authentication.isAuthenticated()) {
-            permission = Permission.AUTHORIZED;
-            // TODO: Once users actually have a repo, fix this
-        }
-
-        final WebsiteDAO websiteDAO = websiteService.getWebsite(microservice, permission);
+    public ResponseEntity service2(@PathVariable final String microservice,
+                                   final UserInfo userInfo) throws WebsiteException, URISyntaxException, NotAuthorizedException {
+        final WebsiteDAO websiteDAO = websiteService.getWebsite(microservice, userInfo.getPermission());
 
         URI service = new URI(websiteDAO.getWebsiteLink());
         HttpHeaders httpHeaders = new HttpHeaders();

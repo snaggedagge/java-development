@@ -6,17 +6,53 @@
     <body>
     <div layout:fragment="~{content}">
         <div th:if="${!websites.isEmpty()}" class="container row">
-
             <th:block th:each="website : ${websites}">
-                <a th:href="${website.websiteLink}">
-                    <div class="alert alert-success col-md-4">
-                        <h1 th:text="${website.websiteName}"></h1>
-                        <p th:text="${website.websiteDescription}"></p>
-                    </div>
-                </a>
-            </th:block>
+                <div th:if="${session.user.getPermission().getPermissionLevel() >= website.getPermission().getPermissionLevel()}" class="alert alert-success col-lg-10">
+                    <h1 class="text-center" th:text="${website.getWebsiteName()}"></h1>
+                    <p class="text-center" th:text="${website.getWebsiteDescription()}"></p>
 
+
+                    <a th:if="${!website.isHasLogin() || !session.user.isLoggedIn()}" th:href="${website.getWebsiteLink()}" class="btn btn-outline-primary d-flex justify-content-center">Enter page</a>
+                    <a th:if="${website.isHasLogin() && session.user.isLoggedIn()}" th:id="${website.getWebsiteId()}" th:href="${website.getWebsiteLink()}" onclick="return loginToWebsite(this)" class="btn btn-outline-primary d-flex justify-content-center">Enter page</a>
+
+                    <img th:if="${website.getImageBase64() != null}" th:src="'/api/image/' + ${website.getWebsiteId()}" class="img-fluid img-thumbnail rounded-circle">
+                </div>
+            </th:block>
         </div>
+
+        <div th:if="${!websites.isEmpty()}" class="container row">
+            <th:block th:each="website : ${websites}">
+                <div th:if="${session.user.getPermission().getPermissionLevel() < website.getPermission().getPermissionLevel()}" class="alert alert-warning col-lg-10">
+                    <h1 class="text-center" th:text="${website.getWebsiteName()}"></h1>
+                    <p class="text-center" th:text="${website.getWebsiteDescription()}"></p>
+                    <p class="text-center"><strong class="text-center">You don't have permission to see this page</strong></p>
+                    <a th:if="${session.user.getPermission().getPermissionLevel() == 0}" href="/login" class="btn btn-outline-primary d-flex justify-content-center">Login</a>
+
+                    <img th:if="${website.getImageBase64() != null}" th:src="'/api/image/' + ${website.getWebsiteId()}" class="img-fluid img-thumbnail rounded-circle">
+                </div>
+            </th:block>
+        </div>
+
     </div>
     </body>
 </html>
+
+<script>
+
+    function loginToWebsite(href) {
+        var websiteId = href.id;
+        var websiteJwt;
+        jQuery.ajax({
+            url: '/jwt/' + websiteId,
+            success: function(jwt) {
+                websiteJwt = jwt;
+                href.href = href.href + 'login/' + websiteJwt;
+                window.location.href = href.href;
+            },
+            async:false
+        });
+        return false;
+    }
+
+
+</script>

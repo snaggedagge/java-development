@@ -1,6 +1,8 @@
 package dkarlsso.commons.model;
 
-public class CommonsException extends Exception {
+import dkarlsso.commons.raspberry.exception.CommonsRaspberryException;
+
+public class CommonsException extends CommonsRaspberryException {
 
     public CommonsException() {
         super();

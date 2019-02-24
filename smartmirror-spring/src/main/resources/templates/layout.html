@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:sec="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta charset="UTF-8"/>
+        <title>IoT Webportal</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta property="og:image" content="https://prod-acb5.kxcdn.com/wp-content/uploads/2018/02/spring-boot-icon-200x196.png">
+        <meta property="og:image:type" content="image/png">
+        <meta property="og:image:width" content="200">
+        <meta property="og:image:height" content="196">
+        <link rel="stylesheet" type="text/css" href="/webjars/bootstrap/4.2.1/css/bootstrap.min.css" />
+        <script src="/webjars/jquery/3.3.1-1/jquery.js"></script>
+        <script src="/webjars/bootstrap/4.2.1/js/bootstrap.min.js"></script>
+
+    </head>
+    <body>
+
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="http://dkarlsso.com">Home</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse justify-content-between" id="navbarSupportedContent">
+            <ul class="navbar-nav ml-md-auto">
+
+                <li sec:authorize="isAuthenticated()" class="nav-item navbar-nav mr-auto">
+                    authenticated
+                    <!--<li th:if="${session.user.getPermission().getPermissionLevel() == 0}" class="nav-item">-->
+                        <!--<a class="nav-link" href="http://dkarlsso.com/login">Login</a>-->
+                    <!--</li>-->
+
+                    <!--<div th:if="${session.user.getPermission().getPermissionLevel() > 0}" class="nav-item dropdown navbar-nav">-->
+                        <!--<a th:text="${session.user.firstName + ' ' + session.user.lastName}" class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></a>-->
+                        <!--<div class="dropdown-menu" aria-labelledby="navbarDropdown">-->
+                            <!--<a class="dropdown-item" href="#">Account Information</a>-->
+                            <!--<a class="dropdown-item" href="/logout">Logout</a>-->
+                            <!--<div class="dropdown-divider"></div>-->
+                            <!--<a class="dropdown-item" href="#">Something else here</a>-->
+                        <!--</div>-->
+                    <!--</div>-->
+                </li>
+
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-3"></div>
+            <div layout:fragment="~{content}">
+                Page content goes here
+            </div>
+            <div class="col-md-3"></div>
+        </div>
+    </div>
+    </body>
+</html>

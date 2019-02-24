@@ -1,6 +1,8 @@
 
 dependencies {
 
+    compile project(':commons-raspberry')
+
     compile 'com.google.api-client:google-api-client:1.23.0'
     compile 'com.google.oauth-client:google-oauth-client-jetty:1.23.0'
     compile 'com.google.apis:google-api-services-calendar:v3-rev291-1.23.0'
@@ -12,23 +14,14 @@ dependencies {
 
     compile group: 'org.codehaus.jackson', name: 'jackson-mapper-asl', version: '1.9.13'
     compile group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.9.5'
-
-    compile group: 'joda-time', name: 'joda-time', version: '2.9.9'
+//
+//    compile group: 'joda-time', name: 'joda-time', version: '2.9.9'
 
     compile group: 'commons-lang', name: 'commons-lang', version: '2.6'
 
     compile group: 'org.reflections', name: 'reflections', version: '0.9.10'
 
-    compile 'com.pi4j:pi4j-core:1.2-SNAPSHOT'
-
-
-//    compile group: 'org.slf4j', name: 'slf4j-log4j12', version: '1.7.25'
-
-
     compile group: 'uk.co.caprica', name: 'vlcj', version: '2.4.1'
-
-//    compile group: 'edu.cmu.sphinx', name: 'sphinx4-core', version:'5prealpha-SNAPSHOT'
-//    compile group: 'edu.cmu.sphinx', name: 'sphinx4-data', version:'5prealpha-SNAPSHOT'
 
 
     compile group: 'com.github.sarxos', name: 'webcam-capture-driver-v4l4j', version: '0.3.12'

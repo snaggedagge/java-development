@@ -13,16 +13,20 @@ public class WebsiteService {
     @Autowired
     private WebsiteRepository websiteRepository;
 
+    public WebsiteDAO getWebsite(final String websiteId) throws WebsiteException {
+        return websiteRepository.findById(websiteId)
+                .orElseThrow(WebsiteException::new);
+    }
 
     public WebsiteDAO getWebsite(final String websiteId,
-                                       final Permission permission) throws WebsiteException {
+                                       final Permission permission) throws WebsiteException, NotAuthorizedException {
         final WebsiteDAO websiteDAO = websiteRepository.findById(websiteId)
                 .orElseThrow(WebsiteException::new);
 
         if(websiteDAO.getPermission().getPermissionLevel() <= permission.getPermissionLevel()) {
             return websiteDAO;
         }
-        throw new WebsiteException("Not authorized to see that page.");
+        throw new NotAuthorizedException("Not authorized to see that page.");
     }
 
     public List<WebsiteDAO> getWebsites(final Permission permission) {
@@ -36,6 +40,11 @@ public class WebsiteService {
         }
         return authorizedWebsites;
     }
+
+    public List<WebsiteDAO> getWebsites() {
+        return websiteRepository.findAll();
+    }
+
 
     public void addWebsite(final WebsiteDAO websiteDAO) {
         if(websiteRepository.existsByWebsiteName(websiteDAO.getWebsiteName())) {

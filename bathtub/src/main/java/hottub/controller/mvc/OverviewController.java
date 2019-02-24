@@ -19,8 +19,10 @@ import dkarlsso.commons.raspberry.OSHelper;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.List;
 
 @Controller
 public class OverviewController {
@@ -73,13 +75,8 @@ public class OverviewController {
                            final HttpServletRequest request,
                            @ModelAttribute(value = "settingsDTO") final HeaterDataDTO settingsDTO) {
         if (settingsDTO != null) {
-            if (session.getAttribute("ADMIN") != null && (boolean) session.getAttribute("ADMIN")) {
-                synchronized (heaterDTO) {
-                    heaterDTO.applySettings(settingsDTO);
-                }
-            }
-            else {
-                model.addAttribute("infoList", Collections.singletonList("Assholes who are not superior or admins shall not pass"));
+            synchronized (heaterDTO) {
+                heaterDTO.applySettings(settingsDTO);
             }
         }
         synchronized (heaterDTO) {
@@ -91,19 +88,15 @@ public class OverviewController {
 
     @RequestMapping(value = "/login", method = RequestMethod.GET)
     public String login(final ModelMap model, HttpSession session, final HttpServletResponse response,
-                        final HttpServletRequest request,
-                        @RequestParam(required = false, defaultValue = "lol") String password,
-                        @RequestParam(required = false, defaultValue = "lol") String username) {
-
-        // Oh you cought me, too lazy to setup spring security right now
-        if(password.equals("banan") && username.equals("admin"))
-        {
-            session.setAttribute("ADMIN",true);
-            return "redirect:/";
-        } else if(!password.equals("lol") || !username.equals("lol")) {
-            model.addAttribute("infoList", Collections.singletonList("Assholes who are not superior or admins shall not pass"));
+                        final HttpServletRequest request) {
+        synchronized (heaterDTO) {
+            model.addAttribute("settingsDTO", heaterDTO.clone());
         }
-        return "login";
+        final List<String> errorList = new ArrayList<>();
+        errorList.add("Need to have access to do that!");
+
+        model.addAttribute("errorList", errorList);
+        return "overview";
     }
 
     @RequestMapping(value = "/stats", method = RequestMethod.GET)

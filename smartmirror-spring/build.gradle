@@ -1,53 +1,33 @@
 buildscript {
 	ext {
-		springBootVersion = '2.0.2.RELEASE'
-	}
-	repositories {
-		mavenCentral()
-	}
-	dependencies {
-		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+		springBootVersion = '2.1.3.RELEASE'
 	}
 }
-
-subprojects {
-	apply plugin: 'java'
-}
-
-apply plugin: 'java'
-apply plugin: 'eclipse'
-apply plugin: 'idea'
-apply plugin: 'org.springframework.boot'
-apply plugin: 'io.spring.dependency-management'
-apply plugin: 'war'
-apply plugin: 'application'
-
-group = 'dkarlsso'
-version = '0.0.1-SNAPSHOT'
-sourceCompatibility = 1.8
-
-repositories {
-	mavenCentral()
-	maven { url "https://oss.sonatype.org/content/repositories/snapshots" }
-}
-
 
 dependencies {
 
 	compile project(':commons')
+	compile project(':portal_connector')
+	compile project(':authentication-lib')
+	compile project(':authentication-web-lib')
 
-	compile group: 'org.springframework.boot', name: 'spring-boot-starter-web', version: '2.0.2.RELEASE'
-	compile group: 'org.springframework.boot', name: 'spring-boot-starter-security', version: '2.0.2.RELEASE'
+	compile group: 'io.jsonwebtoken', name: 'jjwt', version: '0.9.1'
+
+	compile group: 'org.springframework.boot', name: 'spring-boot-starter-web', version: springBootVersion
+	compile group: 'org.springframework.boot', name: 'spring-boot-starter-security', version: springBootVersion
 	//compile group: 'org.springframework.security.oauth.boot', name: 'spring-security-oauth2-autoconfigure', version: '2.0.1.RELEASE'
-	compile group: 'org.springframework.boot', name: 'spring-boot-devtools', version: '2.0.2.RELEASE'
+	compile group: 'org.springframework.boot', name: 'spring-boot-devtools', version: springBootVersion
+	compile group: 'org.springframework.boot', name: 'spring-boot-starter-thymeleaf', version: springBootVersion
+
+	compile group: 'org.thymeleaf.extras', name: 'thymeleaf-extras-springsecurity5', version: '3.0.4.RELEASE'
+	compile group: 'org.thymeleaf', name: 'thymeleaf-spring5', version: '3.0.11.RELEASE'
+	compile group: 'org.thymeleaf', name: 'thymeleaf', version: '3.0.11.RELEASE'
+	compile group: 'nz.net.ultraq.thymeleaf', name: 'thymeleaf-layout-dialect', version: '2.3.0'
 
 
+	compile group: 'org.webjars', name: 'bootstrap', version: '4.2.1'
 	compile group: 'org.webjars', name: 'jquery', version: '3.3.1-1'
-	compile group: 'org.webjars', name: 'bootstrap', version: '4.1.1'
 	compile group: 'org.webjars', name: 'font-awesome', version: '5.0.13'
-
-	compile group: 'javax.servlet', name: 'jstl', version: '1.2'
-	compile group: 'org.apache.tomcat.embed', name: 'tomcat-embed-jasper', version: '9.0.7'
 
 	compile group: 'joda-time', name: 'joda-time', version: '2.9.9'
 

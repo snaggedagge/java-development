@@ -80,7 +80,7 @@ public class ApplicationManager implements CommandInvoker<CommandEnum>, Runnable
 //            ThreadSafeCameraSingleton.setCamera(new WebCam(ApplicationUtils.getSubfolder("pictures")));
 //            motionDetectionThread = new MotionDetectionThread(ThreadSafeCameraSingleton.getCamera(), this::motionEvent);
 //            new Thread(motionDetectionThread).start();
-//        } catch (CommonsException e) {
+//        } catch (CommonsRaspberryException e) {
 //            LOG.error("Could not start motion detection " + e.getMessage(), e);
 //        }
 

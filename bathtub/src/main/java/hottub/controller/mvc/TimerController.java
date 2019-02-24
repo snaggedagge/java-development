@@ -58,14 +58,9 @@ public class TimerController {
                 errorList.add("Need to set a correct date");
             }
             if(errorList.isEmpty()) {
-                if (session.getAttribute("ADMIN") != null && (boolean) session.getAttribute("ADMIN")) {
-                    synchronized (heaterDTO) {
-                        model.addAttribute("timerIsSet",true);
-                        heaterDTO.setTimerDTO(timerDTO);
-                    }
-                }
-                else {
-                    errorList.add("Need to be logged in");
+                synchronized (heaterDTO) {
+                    model.addAttribute("timerIsSet",true);
+                    heaterDTO.setTimerDTO(timerDTO);
                 }
             }
         }

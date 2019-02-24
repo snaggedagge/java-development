@@ -7,13 +7,14 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 import hottub.model.HeaterDataDTO;
 
 
 @Configuration
 @EnableScheduling
-public class WebConfig extends WebMvcConfigurerAdapter  {
+public class WebConfig implements WebMvcConfigurer {
 
     private final LoggerInterceptor loggerInterceptor = new LoggerInterceptor();
 
