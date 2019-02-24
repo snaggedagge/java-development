@@ -40,7 +40,7 @@ public class WebPortalConnector {
                 .build();
 
         try {
-            final InputStream inputStream = new ClassPathResource("static/images/hottub.jpg").getInputStream();
+            final InputStream inputStream = new ClassPathResource("static/images/realHottub.jpg").getInputStream();
             websiteDTO.setImageBase64(Base64.getEncoder().encodeToString(IOUtils.toByteArray(inputStream)));
         }
         catch (Exception e) {
