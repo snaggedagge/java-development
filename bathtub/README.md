@@ -15,12 +15,17 @@ selecting temperatures which should take effect on a specific time
 * It circulates regularly for 20 seconds on set intervals to ensure nothing freezes in the piping during cold winters.
 
 ## Technical details
-It's eqiupped with an Oilburner, Circulation pump,
-temperaturesensors for both heater and return water temperature.
+It's equipped with an Oilburner, Circulation pump,
+two temperaturesensors for both heater and return water temperature.
 
 I've got three relays controlling this Hottub, one for oilburner, 
 one for circulation pump and one for the lights which are located underneath the water.
 
+It is 50mm isolation all around so it drops only about 6 - 10 degrees in 24 hours
+
+* If can take about 1900 L of water (about 1600L used for ~6 people) 
+* Room for 8 - 10 people
+* Heats up in about 1600L water in 3 hours from approximately 6 - 10 degrees to 37
  
 ###  Realworld result
 Some modifications has been made since this picture, like proper exhaust and a really sporty spoiler to put dry things away on.

@@ -2,6 +2,8 @@
 
 ## So this is a Voice controlled Smart Mirror. Ofc it also has radio.
 
+Pictures of the entire physical project can be found on my [facebook](https://www.facebook.com/snaggedagge/media_set?set=a.10156777749778112&type=3)
+
 ### Features
 
 * Voice controlled system
