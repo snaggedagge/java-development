@@ -26,7 +26,7 @@ public class WebPortalConnector {
 
     private static final int SCHEDULED_FIFTEEN_MINUTES = 15 * 60 * 1000;
 
-    private PortalConnector portalConnector = new PortalConnector("http://dkarlsso-webportal.eu-west-1.elasticbeanstalk.com:8080");
+    private PortalConnector portalConnector = new PortalConnector("http://localhost:8080");
 
     @Scheduled(fixedDelay = SCHEDULED_FIFTEEN_MINUTES)
     public void scheduleFixedDelayTask() {
