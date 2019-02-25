@@ -26,7 +26,7 @@ public class WebPortalConnector {
 
     private static final int SCHEDULED_FIFTEEN_MINUTES = 15 * 60 * 1000;
 
-    private PortalConnector portalConnector = new PortalConnector("http://localhost:8080");
+    private PortalConnector portalConnector = new PortalConnector();
 
     @Scheduled(fixedDelay = SCHEDULED_FIFTEEN_MINUTES)
     public void scheduleFixedDelayTask() {
@@ -34,7 +34,7 @@ public class WebPortalConnector {
                 .permission(Permission.UNAUTHORIZED)
                 .websiteId("hottub")
                 .websiteName("Hottub Time Machine")
-                .infoLink("https://github.com/snaggedagge/java-development/tree/master/bathtub")
+                .infoLink("https://github.com/snaggedagge/java-development/blob/master/bathtub/README.md")
                 .hasLogin(true)
                 .websiteDescription("Hottub website, used for monitoring and controlling my own hottub functionality and temperatures.")
                 .build();

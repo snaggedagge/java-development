@@ -25,7 +25,7 @@ It is 50mm isolation all around so it drops only about 6 - 10 degrees in 24 hour
 
 * If can take about 1900 L of water (about 1600L used for ~6 people) 
 * Room for 8 - 10 people
-* Heats up in about 1600L water in 3 hours from approximately 6 - 10 degrees to 37
+* Heats up 1600L water in 3 - 3½ hours from approximately 6 - 10 degrees to 37
  
 ###  Realworld result
 Some modifications has been made since this picture, like proper exhaust and a really sporty spoiler to put dry things away on.
