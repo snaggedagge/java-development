@@ -14,4 +14,5 @@ include 'hello-alexa'
 include 'commons-raspberry'
 include 'authentication-lib'
 include 'authentication-web-lib'
+include 'helloWorld'
 

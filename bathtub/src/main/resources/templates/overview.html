@@ -14,26 +14,26 @@
 
     <div class="row">
         <div class="col-sm-3">
-            <div class="alert" th:classappend="${!settingsDTO.lightsOn} ? 'alert-warning' : 'alert-success'">
-                <strong>Lights <span th:text="${!settingsDTO.lightsOn} ? 'Off' : 'On'"></span></strong>
+            <div class="alert" th:classappend="${!settingsDAO.lightsOn} ? 'alert-warning' : 'alert-success'">
+                <strong>Lights <span th:text="${!settingsDAO.lightsOn} ? 'Off' : 'On'"></span></strong>
             </div>
         </div>
 
         <div class="col-sm-3">
-            <div class="alert" th:classappend="${!settingsDTO.heating} ? 'alert-warning' : 'alert-success'">
-                <strong>Heating <span th:text="${!settingsDTO.heating} ? 'Off' : 'On'"></span></strong>
+            <div class="alert" th:classappend="${!settingsDAO.heating} ? 'alert-warning' : 'alert-success'">
+                <strong>Heating <span th:text="${!settingsDAO.heating} ? 'Off' : 'On'"></span></strong>
             </div>
         </div>
 
         <div class="col-sm-3">
-            <div class="alert" th:classappend="${!settingsDTO.circulating} ? 'alert-warning' : 'alert-success'">
-                <strong>Circulation <span th:text="${!settingsDTO.circulating} ? 'Off' : 'On'"></span></strong>
+            <div class="alert" th:classappend="${!settingsDAO.circulating} ? 'alert-warning' : 'alert-success'">
+                <strong>Circulation <span th:text="${!settingsDAO.circulating} ? 'Off' : 'On'"></span></strong>
             </div>
         </div>
 
         <div class="col-sm-3">
-            <div class="alert" th:classappend="${!settingsDTO.debug} ? 'alert-warning' : 'alert-success'">
-                <strong>Debug <span th:text="${!settingsDTO.debug} ? 'Off' : 'On'"></span></strong>
+            <div class="alert" th:classappend="${!settingsDAO.debug} ? 'alert-warning' : 'alert-success'">
+                <strong>Debug <span th:text="${!settingsDAO.debug} ? 'Off' : 'On'"></span></strong>
             </div>
         </div>
     </div>
@@ -41,25 +41,25 @@
     <div class="row">
         <div class="col-sm-3">
             <div class="alert alert-info">
-                Tub Temperature is <strong th:text="${settingsDTO.returnTemp}"></strong>
+                Tub Temperature is <strong th:text="${settingsDAO.returnTemp}"></strong>
             </div>
         </div>
 
         <div class="col-sm-3">
             <div class="alert alert-info">
-                Heater Temperature is <strong th:text="${settingsDTO.overTemp}"></strong>
+                Heater Temperature is <strong th:text="${settingsDAO.overTemp}"></strong>
             </div>
         </div>
 
         <div class="col-sm-3">
             <div class="alert alert-danger">
-                Desired Temperature is <strong th:text="${settingsDTO.returnTempLimit}"></strong>
+                Desired Temperature is <strong th:text="${settingsDAO.returnTempLimit}"></strong>
             </div>
         </div>
 
         <div class="col-sm-3">
             <div class="alert alert-danger">
-                Heater Temperature limit is <strong th:text="${settingsDTO.overTempLimit}"></strong>
+                Heater Temperature limit is <strong th:text="${settingsDAO.overTempLimit}"></strong>
             </div>
         </div>
 
@@ -69,7 +69,7 @@
         </div>
 
 
-        <form method="post" action="/" th:object="${settingsDTO}" id="settingsForm" style="display: none">
+        <form method="post" action="/" th:object="${settingsDAO}" id="settingsForm" style="display: none">
             <div class="row">
                 <div class="col-lg-4">
                     <div class="form-group">

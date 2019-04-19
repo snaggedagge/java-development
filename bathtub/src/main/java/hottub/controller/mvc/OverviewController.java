@@ -2,6 +2,7 @@ package hottub.controller.mvc;
 
 import com.pi4j.io.gpio.*;
 import dkarlsso.authentication.CustomAuthentication;
+import hottub.repository.SettingsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import hottub.controller.rpi.Heater;
@@ -21,8 +22,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 @Controller
@@ -36,8 +35,11 @@ public class OverviewController {
 
     private final HeaterDataDTO heaterDTO;
 
+    private final SettingsService settingsService;
+
     @Autowired
-    public OverviewController(final RunningTimeService runningTimeService, final HeaterDataDTO heaterDTO) {
+    public OverviewController(final RunningTimeService runningTimeService, final HeaterDataDTO heaterDTO, SettingsService settingsService) {
+        this.settingsService = settingsService;
         log.info("Starting Overview Controller");
 
         this.runningTimeService = runningTimeService;
@@ -66,7 +68,7 @@ public class OverviewController {
     @GetMapping(value = "/")
     public String overview(final ModelMap model, final CustomAuthentication authentication) {
         synchronized (heaterDTO) {
-            model.addAttribute("settingsDTO", heaterDTO.clone());
+            model.addAttribute("settingsDAO", heaterDTO.clone());
         }
 
         final List<String> infoList = new ArrayList<>();
@@ -83,14 +85,15 @@ public class OverviewController {
     @PostMapping(value = "/")
     public String overviewPost(final ModelMap model, HttpSession session, final HttpServletResponse response,
                                final HttpServletRequest request,
-                               @ModelAttribute(value = "settingsDTO") final HeaterDataDTO settingsDTO) {
-        if (settingsDTO != null) {
+                               @ModelAttribute(value = "settingsDAO") final HeaterDataDTO settingsDAO) {
+        if (settingsDAO != null) {
             synchronized (heaterDTO) {
-                heaterDTO.applySettings(settingsDTO);
+                heaterDTO.applySettings(settingsDAO);
+                settingsService.saveSettings(settingsDAO.getSettings());
             }
         }
         synchronized (heaterDTO) {
-            model.addAttribute("settingsDTO", heaterDTO.clone());
+            model.addAttribute("settingsDAO", heaterDTO.clone());
         }
 
         return "overview";
@@ -100,7 +103,7 @@ public class OverviewController {
     public String login(final ModelMap model, HttpSession session, final HttpServletResponse response,
                         final HttpServletRequest request) {
         synchronized (heaterDTO) {
-            model.addAttribute("settingsDTO", heaterDTO.clone());
+            model.addAttribute("settingsDAO", heaterDTO.clone());
         }
         final List<String> errorList = new ArrayList<>();
         errorList.add("Need to have access to do that!");

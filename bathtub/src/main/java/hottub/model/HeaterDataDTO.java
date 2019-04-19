@@ -1,6 +1,14 @@
 package hottub.model;
 
-public class HeaterDataDTO extends SettingsDTO {
+import hottub.repository.SettingsDAO;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+
+import javax.persistence.Transient;
+
+@EqualsAndHashCode(callSuper = true)
+@Data
+public class HeaterDataDTO extends SettingsDAO {
 
     private int returnTemp = 0;
 
@@ -12,6 +20,7 @@ public class HeaterDataDTO extends SettingsDTO {
 
     private boolean settingsChanged = false;
 
+    @Transient
     private TimerDTO timerDTO = null;
 
     private double heaterTimeSinceStarted = 0;
@@ -20,76 +29,20 @@ public class HeaterDataDTO extends SettingsDTO {
 
     }
 
-    public HeaterDataDTO(final SettingsDTO settingsDTO) {
-        super(settingsDTO);
+    public HeaterDataDTO(final SettingsDAO settingsDAO) {
+        super(settingsDAO);
     }
 
-    public int getReturnTemp() {
-        return returnTemp;
-    }
-
-    public void setReturnTemp(int returnTemp) {
-        this.returnTemp = returnTemp;
-    }
-
-    public int getOverTemp() {
-        return overTemp;
-    }
-
-    public void setOverTemp(int overTemp) {
-        this.overTemp = overTemp;
-    }
-
-    public boolean isHeating() {
-        return heating;
-    }
-
-    public void setHeating(boolean heating) {
-        this.heating = heating;
-    }
-
-    public boolean isCirculating() {
-        return circulating;
-    }
-
-    public void setCirculating(boolean circulating) {
-        this.circulating = circulating;
-    }
-
-    public boolean isSettingsChanged() {
-        return settingsChanged;
-    }
-
-    public void setSettingsChanged(boolean settingsChanged) {
-        this.settingsChanged = settingsChanged;
-    }
-
-    public TimerDTO getTimerDTO() {
-        return timerDTO;
-    }
-
-    public void setTimerDTO(TimerDTO timerDTO) {
-        this.timerDTO = timerDTO;
-    }
-
-    public double getHeaterTimeSinceStarted() {
-        return heaterTimeSinceStarted;
-    }
-
-    public void setHeaterTimeSinceStarted(double heaterTimeSinceStarted) {
-        this.heaterTimeSinceStarted = heaterTimeSinceStarted;
-    }
-
-    public void applySettings(final SettingsDTO settingsDTO) {
+    public void applySettings(final SettingsDAO settingsDAO) {
         this.settingsChanged = true;
-        this.circulationTimeCycle = settingsDTO.getCirculationTimeCycle();
-        this.returnTempLimit = settingsDTO.getReturnTempLimit();
-        this.overTempLimit = settingsDTO.getOverTempLimit();
-        this.debug = settingsDTO.isDebug();
-        this.lightsOn = settingsDTO.isLightsOn();
+        this.circulationTimeCycle = settingsDAO.getCirculationTimeCycle();
+        this.returnTempLimit = settingsDAO.getReturnTempLimit();
+        this.overTempLimit = settingsDAO.getOverTempLimit();
+        this.debug = settingsDAO.isDebug();
+        this.lightsOn = settingsDAO.isLightsOn();
     }
 
-    public SettingsDTO getSettings() {
+    public SettingsDAO getSettings() {
         return super.clone();
     }
 

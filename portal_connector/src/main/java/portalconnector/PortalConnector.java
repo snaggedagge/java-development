@@ -14,9 +14,12 @@ import portalconnector.model.WebsiteDTO;
 
 import javax.net.ssl.HttpsURLConnection;
 import java.net.InetAddress;
+import java.net.NetworkInterface;
+import java.net.SocketException;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Enumeration;
 import java.util.List;
 
 public class PortalConnector {
@@ -56,11 +59,7 @@ public class PortalConnector {
         }
 
         if (websiteDTO.getLocalWebsiteLink() == null) {
-            try {
-                websiteDTO.setLocalWebsiteLink(prefix + InetAddress.getLocalHost().getHostAddress() + portString);
-            } catch (final UnknownHostException e) {
-                websiteDTO.setLocalWebsiteLink(e.getMessage());
-            }
+            websiteDTO.setLocalWebsiteLink(prefix + getLocalAdress() + portString);
         }
 
         for (int i=0;i<urlLocations.size(); i++) {
@@ -97,5 +96,26 @@ public class PortalConnector {
         requestFactory.setHttpClient(httpClient);
 
         return new RestTemplate(requestFactory);
+    }
+
+    private String getLocalAdress() {
+        String localAdress = null;
+        try {
+            final Enumeration<NetworkInterface> networkInterfaces = NetworkInterface.getNetworkInterfaces();
+            while(networkInterfaces.hasMoreElements()) {
+                final Enumeration<InetAddress> addressEnumeration = networkInterfaces.nextElement().getInetAddresses();
+                while(addressEnumeration.hasMoreElements()) {
+                    final InetAddress inetAddress = addressEnumeration.nextElement();
+                    if (inetAddress.getHostAddress().contains("192.")) {
+                        localAdress = inetAddress.getHostAddress();
+                    }
+                }
+            }
+        } catch (final Exception e) {
+            try {
+                localAdress = InetAddress.getLocalHost().getHostAddress();
+            } catch (final Exception e1) { }
+        }
+        return localAdress;
     }
 }
