@@ -7,8 +7,11 @@ dependencies {
     compile 'com.google.oauth-client:google-oauth-client-jetty:1.23.0'
     compile 'com.google.apis:google-api-services-calendar:v3-rev291-1.23.0'
 
+    compile group: 'org.projectlombok', name: 'lombok', version: '1.18.4'
 
     compile group: 'org.springframework', name: 'spring-web', version: '5.0.6.RELEASE'
+    compile group: 'javax.persistence', name: 'javax.persistence-api', version: '2.2'
+
 
     compile group: 'org.apache.httpcomponents', name: 'httpclient', version: '4.4.1'
 

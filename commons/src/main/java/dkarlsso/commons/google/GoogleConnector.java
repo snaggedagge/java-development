@@ -1,6 +1,8 @@
 package dkarlsso.commons.google;
 
 import dkarlsso.commons.model.CommonsException;
+import dkarlsso.commons.oauth2.Oauth2Credential;
+import dkarlsso.commons.oauth2.Oauth2Scope;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -21,6 +23,7 @@ public class GoogleConnector {
 
     private final RestTemplate restTemplate = new RestTemplate();
 
+    private Oauth2Scope lastScopeConnected;
 
     public GoogleConnector(final String clientId, final String clientSecret) {
         this.clientId = clientId;
@@ -28,8 +31,10 @@ public class GoogleConnector {
     }
 
 
-    public String getLoginUrl(final String redirectUri, final GoogleScope scope,
-                              final GoogleAccessType accessType) {
+    public String getLoginUrl(final String redirectUri,
+                              final GoogleAccessType accessType,
+                              final Oauth2Scope scope) {
+        lastScopeConnected = scope;
         return GOOGLE_OAUTH2_ENDPOINT + "?scope=" + scope.getApi()
                 + "&access_type=" + accessType.toString()
                 + "&redirect_uri=" + redirectUri
@@ -37,7 +42,7 @@ public class GoogleConnector {
                 + "&client_id=" + clientId;
     }
 
-    public GoogleAuthorizationResponse authorizeLogin(String authorizationCode, final String redirectUrl) throws CommonsException {
+    public Oauth2Credential authorizeLogin(String authorizationCode, final String redirectUrl) throws CommonsException {
 
         final GoogleAuthorizationRequest request =
                 new GoogleAuthorizationRequest(authorizationCode, clientId, clientSecret, redirectUrl);
@@ -58,11 +63,19 @@ public class GoogleConnector {
 
         verifyResponse(response);
 
-        return response.getBody();
+        if (!response.getStatusCode().is2xxSuccessful() || response.getBody() == null) {
+            throw new CommonsException("Could not authorize: " + response.getStatusCodeValue());
+        }
+
+        return Oauth2Credential.builder()
+                .oauth2Scopes(lastScopeConnected.name()) // TODO: Should probably allow multiple scopes at once...
+                .accessToken(response.getBody().getAccessToken())
+                .refreshToken(response.getBody().getRefreshToken())
+                .expiresIn(response.getBody().getExpiresIn()).build();
     }
 
 
-    public GoogleRefreshTokenResponse refreshAccessToken(GoogleAuthorizationResponse oldToken) throws CommonsException {
+    public GoogleRefreshTokenResponse refreshAccessToken(final Oauth2Credential oldToken) throws CommonsException {
 
         final HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
@@ -73,7 +86,7 @@ public class GoogleConnector {
         map.add("refresh_token", oldToken.getRefreshToken());
         map.add("grant_type","refresh_token");
 
-        final HttpEntity<MultiValueMap<String, String>> formRequest = new HttpEntity<MultiValueMap<String, String>>(map, headers);
+        final HttpEntity<MultiValueMap<String, String>> formRequest = new HttpEntity<>(map, headers);
 
         final ResponseEntity<GoogleRefreshTokenResponse> response =
                 restTemplate.postForEntity( GOOGLE_OAUTH2_TOKEN_ENDPOINT, formRequest , GoogleRefreshTokenResponse.class );
@@ -102,21 +115,4 @@ public class GoogleConnector {
             return this.name().toLowerCase();
         }
     }
-
-    public enum GoogleScope {
-        CALENDAR("https://www.googleapis.com/auth/calendar");
-
-        private final String api;
-
-        private GoogleScope(final String api) {
-            this.api = api;
-        }
-
-
-        public String getApi() {
-            return api;
-        }
-    }
-
-
 }

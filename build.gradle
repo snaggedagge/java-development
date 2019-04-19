@@ -44,7 +44,7 @@ subprojects {
 		with jar
 	}
 
-		task runApp(type: JavaExec) {
+		task runApp(type: JavaExec, group: 'application') {
 			classpath = sourceSets.main.runtimeClasspath
 			main =  main_class_path
 		}

@@ -27,7 +27,7 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
-public class GoogleCalendar {
+public class GoogleCalendar implements CalendarService {
 
 
     private final String ACCOUNT_NAME;
@@ -77,7 +77,6 @@ public class GoogleCalendar {
         try {
             HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
             DATA_STORE_FACTORY = new FileDataStoreFactory(DATA_STORE_DIR);
-
         } catch (Throwable t) {
             throw new CalendarException(t.getMessage());
         }
@@ -88,9 +87,6 @@ public class GoogleCalendar {
         futureTime = new DateTime(c.getTime().getTime());
     }
 
-
-
-
     public GoogleCalendar(final File applicationRootFolder, final String user, final Credential credential) throws CalendarException {
         this(applicationRootFolder, user, 0);
         try {
@@ -98,9 +94,6 @@ public class GoogleCalendar {
         } catch (IOException e) {
             throw new CalendarException(e.getMessage(), e);
         }
-
-
-
     }
 
     public GoogleCalendar(final File applicationRootFolder, final String user) throws CalendarException {
@@ -149,7 +142,6 @@ public class GoogleCalendar {
      */
     private com.google.api.services.calendar.Calendar
     getCalendarService(Credential credential ) throws IOException {
-
         return new com.google.api.services.calendar.Calendar.Builder(
                 HTTP_TRANSPORT, JSON_FACTORY, credential)
                 .setApplicationName(APPLICATION_NAME)
@@ -199,17 +191,14 @@ public class GoogleCalendar {
     }
 
 
-    public void setCalendars(final List<CalendarDTO> newCalendarIds) {
+    public void setCalendars(final List<String> newCalendarIds) {
         if(newCalendarIds != null && !newCalendarIds.isEmpty()) {
             calendarIdList.clear();
-
-            for(CalendarDTO dto : newCalendarIds) {
-                calendarIdList.add(dto.getCalendarId());
-            }
+            calendarIdList.addAll(newCalendarIds);
         }
     }
 
-    public void setdaysInFuture(final int days) {
+    public void setDaysInFuture(final int days) {
         java.util.Calendar c = java.util.Calendar.getInstance();
         c.setTime(new Date());
         c.add(java.util.Calendar.DATE, days);
