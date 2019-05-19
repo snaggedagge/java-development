@@ -6,16 +6,16 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import portalconnector.model.Permission;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Lob;
+import javax.persistence.*;
 import java.util.Date;
+import java.util.Map;
 
 @Entity
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@Table(name = "website")
 public class WebsiteDAO {
 
     @Id
@@ -39,4 +39,8 @@ public class WebsiteDAO {
     private Date dateSinceLastConnection;
 
     private boolean hasLogin;
+
+    @CollectionTable(name="website_user_permissions")
+    @ElementCollection
+    private Map<String, Permission> specialUserPermissions;
 }

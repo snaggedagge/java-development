@@ -37,6 +37,9 @@ public class WebsiteService {
             if(website.getPermission().getPermissionLevel() <= permission.getPermissionLevel()) {
                 authorizedWebsites.add(website);
             }
+            else if (website.getSpecialUserPermissions().containsKey("TODO")) {
+            // TODO: pickup from here
+            }
         }
         return authorizedWebsites;
     }

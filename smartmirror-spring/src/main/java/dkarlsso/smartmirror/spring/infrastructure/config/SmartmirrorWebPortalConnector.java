@@ -30,7 +30,7 @@ public class SmartmirrorWebPortalConnector {
                 .websiteId("smartmirror-web")
                 .websiteName("SmartMirror Webpage")
                 .websiteDescription("Webpage for configuring the smart mirror. Plan is to be able to configure " +
-                        "multiple mirrors from here if i ever create another one for friends. (Which has been requested, repeatedly :D)")
+                        "multiple mirrors from here if i ever create another one for friends.")
                 .infoLink("https://github.com/snaggedagge/java-development/blob/master/smartmirror-javafx/README.md")
                 .hasLogin(true)
                 .build();
