@@ -1,0 +1,30 @@
+plugins {
+    id 'java'
+}
+
+group 'dkarlsso'
+version '1.0'
+
+sourceCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+
+    compile group: 'com.jayway.jsonpath', name: 'json-path', version: '2.4.0'
+
+    compile 'com.amazon.alexa:ask-sdk-core:2.11.2'
+    compile group: 'com.amazon.alexa', name: 'ask-sdk-core', version: '2.11.2'
+
+    compile 'com.amazon.alexa:ask-sdk-lambda-support:2.11.2'
+
+    compile 'com.amazon.alexa:ask-sdk-servlet-support:2.11.2'
+//
+//    compile 'com.amazon.alexa:ask-sdk-apache-client:2.11.2'
+//
+//    compile 'com.amazon.alexa:ask-sdk-servlet-support:2.11.2'
+
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+}
