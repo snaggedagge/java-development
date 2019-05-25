@@ -32,8 +32,7 @@ public class RadioIntentHandler implements RequestHandler {
 
         if (input.getRequest() instanceof IntentRequest) {
             IntentRequest intentRequest = (IntentRequest) input.getRequest();
-
-
+            
             if(intentRequest.getIntent().getSlots().get("RADIO_MODE").getResolutions()
                     .getResolutionsPerAuthority().get(0).getValues() != null || !intentRequest.getIntent().getSlots().get("RADIO_MODE").getResolutions()
                     .getResolutionsPerAuthority().get(0).getValues().isEmpty()) {

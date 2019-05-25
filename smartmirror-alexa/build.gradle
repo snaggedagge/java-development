@@ -15,12 +15,9 @@ dependencies {
 
     compile group: 'com.jayway.jsonpath', name: 'json-path', version: '2.4.0'
 
-    compile 'com.amazon.alexa:ask-sdk-core:2.11.2'
-    compile group: 'com.amazon.alexa', name: 'ask-sdk-core', version: '2.11.2'
-
-    compile 'com.amazon.alexa:ask-sdk-lambda-support:2.11.2'
-
-    compile 'com.amazon.alexa:ask-sdk-servlet-support:2.11.2'
+    compile 'com.amazon.alexa:ask-sdk-core:1.11.559'
+    compile 'com.amazon.alexa:ask-sdk-lambda-support:2.17.2'
+    compile 'com.amazon.alexa:ask-sdk-servlet-support:2.17.2'
 //
 //    compile 'com.amazon.alexa:ask-sdk-apache-client:2.11.2'
 //

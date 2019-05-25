@@ -3,10 +3,7 @@ package dkarlsso.smartmirror.alexa;
 import com.amazon.ask.Skill;
 import com.amazon.ask.SkillStreamHandler;
 import com.amazon.ask.builder.CustomSkillBuilder;
-import dkarlsso.smartmirror.alexa.intents.action.LightsIntentHandler;
-import dkarlsso.smartmirror.alexa.intents.action.RadioIntentHandler;
-import dkarlsso.smartmirror.alexa.intents.action.TakeSelfieIntentHandler;
-import dkarlsso.smartmirror.alexa.intents.action.WeatherIntentHandler;
+import dkarlsso.smartmirror.alexa.intents.action.*;
 import dkarlsso.smartmirror.alexa.intents.builtin.CancelandStopIntentHandler;
 import dkarlsso.smartmirror.alexa.intents.builtin.HelpIntentHandler;
 
@@ -27,7 +24,8 @@ public class SmartMirrorStreamHandler extends SkillStreamHandler {
                 new RadioIntentHandler(),
                 new WeatherIntentHandler(),
                 new TakeSelfieIntentHandler(),
-                new LightsIntentHandler());
+                new LightsIntentHandler(),
+                new GoFingerIntentHandler());
 
         return skillBuilder.build();
 
