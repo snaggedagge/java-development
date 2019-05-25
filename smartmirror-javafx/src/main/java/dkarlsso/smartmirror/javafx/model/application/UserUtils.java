@@ -23,7 +23,6 @@ public class UserUtils {
         final List<String> calendarList = new ArrayList<>();
         if(user.equals("Dag")) {
             calendarList.add("dagPrivate");
-            calendarList.add("dagSchool");
         }
 
         return calendarList;

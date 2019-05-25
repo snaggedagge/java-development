@@ -1,24 +1,38 @@
-group 'dkarlsso'
-version '1.0'
+buildscript {
+    ext {
+        springBootVersion = '2.1.2.RELEASE'
+    }
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+    }
+}
 
 apply plugin: 'java'
-apply plugin: 'maven'
-apply plugin: 'maven-publish'
+apply plugin: 'eclipse'
+apply plugin: 'org.springframework.boot'
+apply plugin: 'io.spring.dependency-management'
 
 compileJava.options.encoding = 'UTF-8'
 sourceCompatibility = 1.8
 
-
+springBoot {
+    mainClassName = 'dkarlsso.smartmirror.javafx.JavaFxApplication'
+}
 
 dependencies {
 
     compile project(':commons')
     compile project(':commons-javafx')
-    compile project(':commons-speech')
+    compile project(':portal_connector')
+//    compile project(':commons-speech')
+
+
+    compile group: 'org.springframework.boot', name: 'spring-boot-starter-web', version: springBootVersion
 
     compile group: 'com.google.inject', name: 'guice', version: '4.1.0'
-
-
     compile group: 'com.google.guava', name: 'guava', version: '23.0'
 
 

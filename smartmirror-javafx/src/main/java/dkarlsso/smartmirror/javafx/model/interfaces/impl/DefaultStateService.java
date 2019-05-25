@@ -12,27 +12,11 @@ public class DefaultStateService implements StateService {
 
     private final SoundController soundController;
 
-    private DateTime lastActivated = new DateTime();
+    private static DateTime lastActivated = new DateTime();
 
     public DefaultStateService(final MediaPlayer radioPlayer, final SoundController soundController) {
         this.radioPlayer = radioPlayer;
         this.soundController = soundController;
-    }
-
-    private VoiceApplicationState voiceApplicationState = VoiceApplicationState.UNLOCKED;
-
-    @Override
-    public VoiceApplicationState getVoiceApplicationState() {
-        synchronized (this) {
-            return voiceApplicationState;
-        }
-    }
-
-    @Override
-    public void setVoiceApplicationState(VoiceApplicationState state) {
-        synchronized (this) {
-            voiceApplicationState = state;
-        }
     }
 
     @Override
@@ -47,11 +31,15 @@ public class DefaultStateService implements StateService {
 
     @Override
     public DateTime getLastActivated() {
-        return lastActivated;
+        synchronized (this) {
+            return DefaultStateService.lastActivated;
+        }
     }
 
     @Override
     public void setLastActivated(final DateTime lastActivated) {
-        this.lastActivated = lastActivated;
+        synchronized (this) {
+            DefaultStateService.lastActivated = lastActivated;
+        }
     }
 }

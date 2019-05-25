@@ -25,6 +25,7 @@ import javafx.scene.text.Text;
 import javafx.util.Duration;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.core.io.ClassPathResource;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -67,9 +68,8 @@ public abstract class AbstractViewBuilder implements ViewBuilder {
     }
 
     protected ImageView getImageView(final String imageName) throws FileNotFoundException {
-        //PATH_IMAGE + "/" +
-        //getClass().getClassLoader().getResource( imageName).getPath()
-        final Image image = new Image(getClass().getClassLoader().getResourceAsStream(PATH_IMAGE + File.separator + imageName));
+        final Image image = new Image(Thread.currentThread().getContextClassLoader().getResourceAsStream(
+                new ClassPathResource(PATH_IMAGE + File.separator + imageName).getPath()));
         return new ImageView(image);
     }
 

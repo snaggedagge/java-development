@@ -1,25 +1,33 @@
 package dkarlsso.smartmirror.javafx.model;
 
-import org.apache.commons.lang.StringUtils;
-
 public enum CommandEnum {
-    WEATHER,
-    SELFIE,
-    RADIO,
-    COMMAND,
-    LIGHTS,
-    VOLUME,
-    SLEEP,
+    WEATHER("Weather"),
+    SELFIE("Selfie"),
+    RADIO("Radio"),
+    LIGHTS("Lights"),
+    ALEXA_LISTENING("Alexa is listening"),
+    ALEXA_STOPPED_LISTENING("Alexa stopped listening");
 
 
-    // Not used
-    SPOTIFY,
-    YOUTUBE,
-    SHUTDOWN,
-    FACEBOOK,
-    SELECT;
+//    VOLUME,
+//    COMMAND,
+//    SLEEP,
+//
+//
+//    // Not used
+//    SPOTIFY,
+//    YOUTUBE,
+//    SHUTDOWN,
+//    FACEBOOK,
+//    SELECT;
+
+    private String prettyName;
+
+    private CommandEnum(final String prettyName) {
+        this.prettyName = prettyName;
+    }
 
     public String prettyName() {
-        return StringUtils.capitalize(this.name().toLowerCase());
+        return prettyName;
     }
 }

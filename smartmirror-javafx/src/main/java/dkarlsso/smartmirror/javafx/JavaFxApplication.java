@@ -4,6 +4,7 @@ import com.google.inject.Guice;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.pi4j.io.gpio.GpioFactory;
+import dkarlsso.commons.commandaction.CommandInvoker;
 import dkarlsso.commons.container.BasicContainer;
 import dkarlsso.commons.raspberry.OSHelper;
 import dkarlsso.smartmirror.javafx.model.CommandEnum;
@@ -29,11 +30,20 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.scheduling.annotation.EnableScheduling;
 
 
+@SpringBootApplication
+@ComponentScan
+@EnableScheduling
 public class JavaFxApplication extends Application implements ViewControllerInterface {
 
-    private final Logger LOG = LogManager.getLogger(JavaFxApplication.class);
+    private static final Logger LOG = LogManager.getLogger(JavaFxApplication.class);
 
     private static final int SCREEN_WIDTH = 1920;
 
@@ -45,7 +55,8 @@ public class JavaFxApplication extends Application implements ViewControllerInte
 
     private Scene scene;
 
-    private Timeline timeline;
+    private Timeline timeline = new Timeline(new KeyFrame(Duration.millis(1000),
+            ae -> this.displayStandardView(null)));;
 
     private ApplicationManager applicationManager;
 
@@ -58,7 +69,12 @@ public class JavaFxApplication extends Application implements ViewControllerInte
     @Inject
     private StateService stateService;
 
+    @Bean
+    public CommandInvoker applicationManager() {
+        return applicationManager;
+    }
 
+    private ConfigurableApplicationContext springContext;
 
     public JavaFxApplication() {
         if (OSHelper.isRaspberryPi()) {
@@ -71,6 +87,22 @@ public class JavaFxApplication extends Application implements ViewControllerInte
         applicationManager = new ApplicationManager(injector);
         injector.injectMembers(applicationManager);
         injector.injectMembers(this);
+    }
+
+    @Override
+    public void init() {
+        LOG.info("Starting Spring application");
+        springContext = SpringApplication.run(JavaFxApplication.class);
+    }
+
+    @Override
+    public void stop() throws Exception {
+        super.stop();
+        springContext.stop();
+    }
+
+    public static void main(String[] args) {
+        launch(args);
     }
 
 
@@ -132,9 +164,11 @@ public class JavaFxApplication extends Application implements ViewControllerInte
                 builder.addImageBelowClock("x3m.png",0.8);
             }
             builder.addImageBelowClock("volume.png", stateService.getVolumeInPercent(),100,0.5);
-            builder.addLockIcon(stateService.getVoiceApplicationState() == VoiceApplicationState.LOCKED);
+//            builder.addLockIcon(stateService.getVoiceApplicationState() == VoiceApplicationState.LOCKED);
             viewBuilder.set(builder);
-            this.displayView(builder.getView());
+            borderPane.setTop(builder.getView());
+            primaryStage.setScene(scene);
+            primaryStage.show();
             timeline.play();
         });
     }
@@ -143,14 +177,4 @@ public class JavaFxApplication extends Application implements ViewControllerInte
     public void showMessage(String command, int timeToShow) {
         Platform.runLater(() -> viewBuilder.get().showMessage(command, timeToShow));
     }
-
-    @Override
-    public synchronized void displayView(final Node node) {
-        Platform.runLater(() -> {
-            borderPane.setTop(node);
-            primaryStage.setScene(scene);
-            primaryStage.show();
-        });
-    }
-
 }

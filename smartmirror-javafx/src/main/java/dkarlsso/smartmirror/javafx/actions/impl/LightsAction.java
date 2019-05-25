@@ -6,16 +6,35 @@ import dkarlsso.smartmirror.javafx.actions.Action;
 import dkarlsso.commons.raspberry.relay.interfaces.RelayInterface;
 import dkarlsso.commons.commandaction.CommandAction;
 import dkarlsso.smartmirror.javafx.model.CommandEnum;
+import dkarlsso.smartmirror.javafx.model.VoiceApplicationState;
 
-@Action( commandName = CommandEnum.LIGHTS)
-public class LightsAction implements CommandAction {
+public class LightsAction {
 
     @Inject
     @Named("LightsRelay")
     private RelayInterface lightsRelay;
 
-    @Override
-    public void execute() {
+    private boolean alexaListening = false;
+
+
+    @Action(commandName = CommandEnum.ALEXA_LISTENING)
+    public void executeListeningCommand() {
+        if (lightsRelay.isHigh()) {
+            lightsRelay.setLow();
+            alexaListening = true;
+        }
+    }
+
+    @Action(commandName = CommandEnum.ALEXA_STOPPED_LISTENING)
+    public void executeStopListeningCommand() {
+        if (alexaListening) {
+            lightsRelay.setHigh();
+            alexaListening = false;
+        }
+    }
+
+    @Action(commandName = CommandEnum.LIGHTS)
+    public void executeLightsCommand() {
         lightsRelay.switchState();
     }
 }

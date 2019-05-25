@@ -5,13 +5,10 @@ import com.google.inject.Injector;
 import dkarlsso.commons.annotation.AnnotationFinder;
 import dkarlsso.commons.commandaction.CommandActionException;
 import dkarlsso.commons.commandaction.CommandInvoker;
-import dkarlsso.commons.commandaction.UnknownCommandException;
 import dkarlsso.commons.model.CommonsException;
 import dkarlsso.commons.raspberry.OSHelper;
 import dkarlsso.commons.raspberry.screen.ScreenHandler;
 import dkarlsso.commons.raspberry.screen.ScreenHandlerException;
-import dkarlsso.commons.speech.speechrecognition.SpeechException;
-import dkarlsso.commons.speech.speechrecognition.SpeechRecognizer;
 import dkarlsso.smartmirror.javafx.actions.ActionExecutor;
 import dkarlsso.smartmirror.javafx.model.CommandEnum;
 import dkarlsso.smartmirror.javafx.model.VoiceApplicationState;
@@ -22,6 +19,9 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.joda.time.DateTime;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 
 public class ApplicationManager implements CommandInvoker<CommandEnum>, Runnable {
@@ -39,7 +39,7 @@ public class ApplicationManager implements CommandInvoker<CommandEnum>, Runnable
     @Inject
     private ScreenHandler screenHandler;
 
-    private SpeechRecognizer<CommandEnum> speechRecognizer;
+    private final static List<CommandEnum> commandQuenue = Collections.synchronizedList(new ArrayList<>());
 
 //    private MotionDetectionThread motionDetectionThread;
 
@@ -56,7 +56,6 @@ public class ApplicationManager implements CommandInvoker<CommandEnum>, Runnable
     public ApplicationManager(final Injector injector) {
         actionExecutor = new ActionExecutor(injector);
         try {
-            speechRecognizer = new SpeechRecognizer<>(this, CommandEnum.class);
             final List<Runnable> listOfThreads = AnnotationFinder.findClassesWithAnnotation(getClass().getPackage().getName(), RunnableService.class);
 
             for(final Runnable runnable : listOfThreads) {
@@ -64,7 +63,7 @@ public class ApplicationManager implements CommandInvoker<CommandEnum>, Runnable
                 new Thread(runnable).start();
             }
 
-        } catch (final CommonsException | SpeechException e) {
+        } catch (final CommonsException e) {
             LOG.error(e.getMessage(), e);
         }
     }
@@ -73,7 +72,6 @@ public class ApplicationManager implements CommandInvoker<CommandEnum>, Runnable
     @Override
     public void run() {
         viewInterface.initAnimation(5000, null);
-        speechRecognizer.startRecognition();
 
 //        /** TODO: Should be moved to {@link RunnableService*/
 //        try {
@@ -84,50 +82,43 @@ public class ApplicationManager implements CommandInvoker<CommandEnum>, Runnable
 //            LOG.error("Could not start motion detection " + e.getMessage(), e);
 //        }
 
-
         while (true) {
             try {
-                speechRecognizer.getResult();
-            } catch (final SpeechException e) {
-                synchronized (LOG) {
-                    LOG.error(e.getMessage(), e);
+                // TODO: Eventhandling??
+                if (screenHandler.isScreenActive()) {
+                    Thread.sleep(200);
                 }
-            } catch (final UnknownCommandException e) {
-                synchronized (LOG) {
-                    LOG.error(e.getMessage());
+                else {
+                    Thread.sleep(1000);
                 }
+            } catch (InterruptedException e) {
+                LOG.error("Dealing with action ", e);
+            }
+            final Iterator<CommandEnum> it = commandQuenue.iterator();
+            while (it.hasNext()) {
+                final CommandEnum command = it.next();
+                LOG.debug("Dealing with action " + command);
+                execute(command);
+                it.remove();
             }
         }
     }
 
     @Override
     public void executeCommand(final CommandEnum commandEnum) {
-        try {
-            /** TODO: Should be moved to corresponding {@link dkarlsso.smartmirror.javafx.actions.Action} */
-            if(CommandEnum.COMMAND.equals(commandEnum)) {
-                stateService.setVoiceApplicationState(VoiceApplicationState.UNLOCKED);
-                new Thread(() -> {
-                    try {
-                        Thread.sleep(2000);
-                    } catch (InterruptedException e) { }
-                    stateService.setVoiceApplicationState(VoiceApplicationState.LOCKED);
-                    viewInterface.displayStandardView(null);
-                }).start();
-            }
+        LOG.debug("Adding action " + commandEnum);
+        commandQuenue.add(commandEnum);
+    }
 
-            final boolean shouldCallFunction = stateService.getVoiceApplicationState() == VoiceApplicationState.UNLOCKED;
-            if(shouldCallFunction) {
-                    LOG.info("Function was called: " + commandEnum.prettyName());
-                    stateService.setLastActivated(new DateTime());
-                    actionExecutor.executeCommand(commandEnum);
-                    if (CommandEnum.COMMAND != commandEnum) {
-                        viewInterface.displayStandardView(commandEnum.prettyName());
-                    }
-            }
-            if (OSHelper.isRaspberryPi()) {
-                if (shouldCallFunction && !screenHandler.isScreenActive()) {
-                    screenHandler.setScreenPowerMode(true);
-                }
+    private void execute(final CommandEnum commandEnum) {
+        try {
+            LOG.info("Function was called: " + commandEnum.prettyName());
+            stateService.setLastActivated(new DateTime());
+            actionExecutor.executeCommand(commandEnum);
+            viewInterface.displayStandardView(commandEnum.prettyName());
+
+            if (OSHelper.isRaspberryPi()) { // TODO: should be injected with something else
+                screenHandler.setScreenPowerMode(true);
             }
         }
         catch (final CommandActionException e) {
@@ -136,6 +127,7 @@ public class ApplicationManager implements CommandInvoker<CommandEnum>, Runnable
             LOG.error("Could not change screen status", e);
         }
     }
+
 //
 //    public void motionEvent(MotionType motionType) {
 //        try {
