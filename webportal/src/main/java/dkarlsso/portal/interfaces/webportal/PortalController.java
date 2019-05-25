@@ -34,6 +34,11 @@ public class PortalController {
         return WebsiteMapper.mapDaos(websiteService.getWebsites(userInfo.getPermission()));
     }
 
+    @GetMapping(PortalConnector.URI_GET_ALL_WEBSITES + "/{websiteId}")
+    public WebsiteDTO getWebsite(@PathVariable final String websiteId) throws WebsiteException {
+        return WebsiteMapper.map(websiteService.getWebsite(websiteId));
+    }
+
     @PutMapping(PortalConnector.URI_ADD_WEBSITE)
     public WebsiteDTO addWebsite(final HttpServletRequest request,
                                  @PathVariable final String websiteId,

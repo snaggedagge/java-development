@@ -2,10 +2,11 @@ package dkarlsso;
 
 import dkarlsso.utils.CacheableMethods;
 
+import java.io.IOException;
+
 public class CacheTest {
 
-
-    public static void main(String[] args) throws InterruptedException {
+    public static void main(String[] args) throws InterruptedException, IOException {
 
         CacheableMethods cacheableMethods = new CacheableMethods();
 

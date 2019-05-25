@@ -51,6 +51,9 @@ dependencies {
     compile project(':commons')
     // https://mvnrepository.com/artifact/org.openpnp/opencv
    compile group: 'org.openpnp', name: 'opencv', version: '3.4.2-1'
+// https://mvnrepository.com/artifact/com.jayway.jsonpath/json-path
+    compile group: 'com.jayway.jsonpath', name: 'json-path', version: '2.4.0'
+
 
 //    // https://mvnrepository.com/artifact/org.springframework/spring-web
 //    compile group: 'org.springframework', name: 'spring-web', version: '5.0.6.RELEASE'

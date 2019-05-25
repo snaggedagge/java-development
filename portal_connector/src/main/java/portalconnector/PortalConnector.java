@@ -53,7 +53,7 @@ public class PortalConnector {
         final String uriAddWebsite = URI_ADD_WEBSITE.replace("{websiteId}", websiteDTO.getWebsiteId());
         final String prefix = httpsActivated ? "https://" : "http://";
 
-        final String portString = port == 80 ? "" : "" + port;
+        final String portString = port == 80 ? "" : ":" + port;
         if (websiteDTO.getWebsiteLink() == null) {
             websiteDTO.setWebsiteLink(prefix + restTemplate.getForObject("http://bot.whatismyipaddress.com/", String.class) + portString);
         }
