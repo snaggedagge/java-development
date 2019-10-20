@@ -1,10 +1,5 @@
 package rpi;
 
-import dkarlsso.commons.raspberry.relay.interfaces.RelayInterface;
-import dkarlsso.commons.raspberry.sensor.MAX6675;
-import hottub.controller.rpi.Heater;
-import hottub.controller.rpi.HeaterThread;
-import hottub.model.HeaterDataDTO;
 import org.junit.Test;
 
 import static org.mockito.Mockito.mock;

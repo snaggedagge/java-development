@@ -4,7 +4,9 @@ package hottub.controller.rpi;
 import dkarlsso.commons.raspberry.enums.GPIOPins;
 import dkarlsso.commons.raspberry.relay.OptoRelay;
 import dkarlsso.commons.raspberry.relay.interfaces.RelayInterface;
-import dkarlsso.commons.raspberry.sensor.MAX6675;
+import dkarlsso.commons.raspberry.sensor.temperature.DS18B20;
+import dkarlsso.commons.raspberry.sensor.temperature.MAX6675;
+import dkarlsso.commons.raspberry.sensor.temperature.TemperatureSensor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import hottub.model.HeaterDataDTO;
@@ -32,8 +34,8 @@ public class Heater implements HeaterInterface{
     private boolean debug = true;
 
 
-    private final MAX6675 ovTemp;
-    private final MAX6675 retTemp;
+    private final TemperatureSensor ovTemp;
+    private final TemperatureSensor retTemp;
 
     private int circulatingTimeLimit = 5;
 
@@ -46,19 +48,13 @@ public class Heater implements HeaterInterface{
     private int heatingTemperatureDelta = 0;
     private int circulationTemperatureDelta = 0;
 
+    /**
+     * Real implementation. Terrible i know, should be dependency injected everything, but im lazy
+     * @param synchronizedData synchronizedData
+     */
     public Heater(final HeaterDataDTO synchronizedData) {
-
-        GPIOPins returnTempCSPin = GPIOPins.GPIO25;
-        GPIOPins returnTempSCKPin = GPIOPins.GPIO23;
-        GPIOPins returnTempSOPin = GPIOPins.GPIO24;
-        retTemp = new MAX6675(returnTempSOPin, returnTempCSPin, returnTempSCKPin);
-
-
-        GPIOPins overTempCSPin = GPIOPins.GPIO20;
-        GPIOPins overTempSCKPin = GPIOPins.GPIO16;
-        GPIOPins overTempSOPin = GPIOPins.GPIO21;
-
-        ovTemp = new MAX6675(overTempSOPin, overTempCSPin, overTempSCKPin);
+        retTemp = new DS18B20("28-030297942385");
+        ovTemp = new DS18B20("28-030c979428d4");
 
         this.synchronizedData = synchronizedData;
 
@@ -68,10 +64,19 @@ public class Heater implements HeaterInterface{
 
     }
 
-    public Heater(MAX6675 overTemp, MAX6675 returnTemp, final HeaterDataDTO synchronizedData,
+    /**
+     * For simplified unittesting...
+     * @param overTemp
+     * @param returnTemp
+     * @param synchronizedData
+     * @param heatingRelay
+     * @param circulationRelay
+     * @param lightRelay
+     */
+    public Heater(TemperatureSensor overTemp, TemperatureSensor returnTemp, final HeaterDataDTO synchronizedData,
                   RelayInterface heatingRelay,RelayInterface circulationRelay,RelayInterface lightRelay) {
-        ovTemp =overTemp;
-        retTemp =returnTemp;
+        ovTemp = overTemp;
+        retTemp = returnTemp;
 
         this.circulationRelay = circulationRelay;
         this.heatingRelay = heatingRelay;
@@ -153,7 +158,7 @@ public class Heater implements HeaterInterface{
             }
             setLogicalOutput();
         } catch (Exception e) {
-            log.error("MAX ERROR: " + e.getMessage());
+            log.error("TEMPERATURE ERROR: " + e.getMessage());
             turnAllOff();
         }
 

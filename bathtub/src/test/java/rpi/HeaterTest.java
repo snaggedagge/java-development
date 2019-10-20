@@ -7,7 +7,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import dkarlsso.commons.raspberry.exception.NoConnectionException;
 import dkarlsso.commons.raspberry.relay.interfaces.RelayInterface;
-import dkarlsso.commons.raspberry.sensor.MAX6675;
+import dkarlsso.commons.raspberry.sensor.temperature.MAX6675;
 import hottub.controller.rpi.Heater;
 import hottub.model.HeaterDataDTO;
 
