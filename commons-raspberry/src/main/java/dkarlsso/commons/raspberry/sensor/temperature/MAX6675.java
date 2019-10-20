@@ -1,4 +1,4 @@
-package dkarlsso.commons.raspberry.sensor;
+package dkarlsso.commons.raspberry.sensor.temperature;
 
 
 import com.pi4j.wiringpi.Gpio;
@@ -6,7 +6,7 @@ import dkarlsso.commons.raspberry.enums.GPIOPins;
 import dkarlsso.commons.raspberry.exception.NoConnectionException;
 
 
-public class MAX6675 {
+public class MAX6675 implements TemperatureSensor {
 
     private int pic_cs;
     private int pin_sck;
@@ -42,6 +42,7 @@ public class MAX6675 {
         //digitalWrite(pin_sck, LOW);
     }
 
+    @Override
     public double readTemp() throws NoConnectionException {
         double temp = readTempOnce();
 

@@ -11,4 +11,8 @@ public class NoConnectionException extends Exception{
         super(message);
     }
 
+
+    public NoConnectionException(String message, Throwable cause) {
+        super(message, cause);
+    }
 }
