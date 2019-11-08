@@ -13,6 +13,10 @@ import java.util.stream.Collectors;
 /**
  * Relies on the one wire interface. Multiple one wires can be configured, following https://pinout.xyz/pinout/1_wire
  *
+ * See devices
+ * ls /sys/bus/w1/devices/
+ *
+ * Enable new pin for 1W
  * sudo dtoverlay w1-gpio gpiopin=17 pullup=0 # header pin 11
  */
 public class DS18B20 implements dkarlsso.commons.raspberry.sensor.temperature.TemperatureSensor {

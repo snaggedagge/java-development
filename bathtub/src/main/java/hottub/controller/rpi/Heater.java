@@ -53,8 +53,8 @@ public class Heater implements HeaterInterface{
      * @param synchronizedData synchronizedData
      */
     public Heater(final HeaterDataDTO synchronizedData) {
-        retTemp = new DS18B20("28-030297942385");
-        ovTemp = new DS18B20("28-030c979428d4");
+        retTemp = new DS18B20("28-030c979428d4");
+        ovTemp = new DS18B20("28-030297942385");
 
         this.synchronizedData = synchronizedData;
 
