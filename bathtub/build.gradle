@@ -20,6 +20,9 @@ dependencies {
     compile project(':commons-raspberry')
     compile project(':authentication-web-lib')
 
+    annotationProcessor  group: 'org.projectlombok', name: 'lombok', version: '1.18.4'
+    compile group: 'org.projectlombok', name: 'lombok', version: '1.18.4'
+
     compile group: 'org.springframework.boot', name: 'spring-boot-starter-web', version: bathSpringBootVersion
     compile group: 'org.springframework.boot', name: 'spring-boot-starter-security', version: bathSpringBootVersion
     compile group: 'org.springframework.boot', name: 'spring-boot-starter-data-jpa', version: bathSpringBootVersion
@@ -40,7 +43,7 @@ dependencies {
 
     compile group: 'mysql', name: 'mysql-connector-java', version: '8.0.15'
 
-    compile 'com.pi4j:pi4j-core:1.2-SNAPSHOT'
+    compile 'com.pi4j:pi4j-core:1.2'
     compile 'commons-io:commons-io:2.6'
 
 

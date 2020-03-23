@@ -40,6 +40,7 @@ public class HeaterDataDTO extends SettingsDAO {
         this.overTempLimit = settingsDAO.getOverTempLimit();
         this.debug = settingsDAO.isDebug();
         this.lightsOn = settingsDAO.isLightsOn();
+        this.temperatureDiff = settingsDAO.getTemperatureDiff();
     }
 
     public SettingsDAO getSettings() {

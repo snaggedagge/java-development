@@ -227,4 +227,45 @@ public class HeaterTest {
         assertEquals(heaterDTO.isCirculating(), false);
         assertEquals(heaterDTO.isHeating(), false);
     }
+
+
+    @Test
+    public void testTemperatureDiffNotHeating() throws Exception {
+        MAX6675 returnTempMax = EasyMock.mock(MAX6675.class);
+        MAX6675 overTempMax = EasyMock.mock(MAX6675.class);
+        EasyMock.expect(returnTempMax.readTemp()).andStubReturn(35.0);
+        EasyMock.expect(overTempMax.readTemp()).andStubReturn(44.0);
+        EasyMock.replay(overTempMax);
+        EasyMock.replay(returnTempMax);
+        Heater heater = new Heater(overTempMax,returnTempMax,heaterDTO,relay,relay,relay);
+
+        // 35 + 3 = 38 == should not heat
+        heaterDTO.setTemperatureDiff(3);
+        heaterDTO.setReturnTempLimit(37);
+        heaterDTO.setOverTempLimit(45);
+        heater.loop();
+
+        assertEquals(38, heaterDTO.getReturnTemp());
+        assertEquals(heaterDTO.isHeating(), false);
+    }
+
+    @Test
+    public void testTemperatureDiffHeating() throws Exception {
+        MAX6675 returnTempMax = EasyMock.mock(MAX6675.class);
+        MAX6675 overTempMax = EasyMock.mock(MAX6675.class);
+        EasyMock.expect(returnTempMax.readTemp()).andStubReturn(33.0);
+        EasyMock.expect(overTempMax.readTemp()).andStubReturn(44.0);
+        EasyMock.replay(overTempMax);
+        EasyMock.replay(returnTempMax);
+        Heater heater = new Heater(overTempMax,returnTempMax,heaterDTO,relay,relay,relay);
+
+        // 33 + 3 = 36 == should heat
+        heaterDTO.setTemperatureDiff(3);
+        heaterDTO.setReturnTempLimit(37);
+        heaterDTO.setOverTempLimit(45);
+        heater.loop();
+
+        assertEquals(36, heaterDTO.getReturnTemp());
+        assertEquals(heaterDTO.isHeating(), true);
+    }
 }

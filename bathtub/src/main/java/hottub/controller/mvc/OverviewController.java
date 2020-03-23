@@ -1,22 +1,16 @@
 package hottub.controller.mvc;
 
-import com.pi4j.io.gpio.*;
 import dkarlsso.authentication.CustomAuthentication;
-import hottub.repository.SettingsService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
-import hottub.controller.rpi.Heater;
-import hottub.controller.rpi.HeaterInterface;
-import hottub.controller.rpi.HeaterThread;
-import hottub.controller.rpi.MockHeater;
+import dkarlsso.commons.raspberry.OSHelper;
 import hottub.model.HeaterDataDTO;
+import hottub.repository.RunningTimeService;
+import hottub.repository.SettingsService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import hottub.repository.RunningTimeService;
-import dkarlsso.commons.raspberry.OSHelper;
-
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -31,38 +25,19 @@ public class OverviewController {
 
     private final RunningTimeService runningTimeService;
 
-    private final HeaterThread thread;
-
     private final HeaterDataDTO heaterDTO;
 
     private final SettingsService settingsService;
 
     @Autowired
-    public OverviewController(final RunningTimeService runningTimeService, final HeaterDataDTO heaterDTO, SettingsService settingsService) {
+    public OverviewController(final RunningTimeService runningTimeService,
+                              final HeaterDataDTO heaterDTO,
+                              final SettingsService settingsService) {
         this.settingsService = settingsService;
         log.info("Starting Overview Controller");
 
         this.runningTimeService = runningTimeService;
         this.heaterDTO = heaterDTO;
-
-        final HeaterInterface heater;
-
-        if(OSHelper.isRaspberryPi()) {
-            heater = new Heater(heaterDTO);
-            GpioFactory.getInstance();
-        }
-        else {
-            heater = new MockHeater(heaterDTO);
-            synchronized (heaterDTO) {
-                heaterDTO.setReturnTemp(heaterDTO.getReturnTempLimit()-1);
-                heaterDTO.setOverTemp(heaterDTO.getOverTempLimit()-1);
-                heaterDTO.setLightsOn(true);
-                heaterDTO.setHeating(true);
-            }
-        }
-
-        thread = new HeaterThread(heaterDTO, runningTimeService, heater);
-        thread.start();
     }
 
     @GetMapping(value = "/")

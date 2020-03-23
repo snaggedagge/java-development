@@ -7,8 +7,12 @@ import org.springframework.stereotype.Service;
 public class SettingsService {
 
 
+    private final SettingsRepository settingsRepository;
+
     @Autowired
-    private SettingsRepository settingsRepository;
+    public SettingsService(SettingsRepository settingsRepository) {
+        this.settingsRepository = settingsRepository;
+    }
 
     public void saveSettings(final SettingsDAO settings) {
         settingsRepository.save(settings);
