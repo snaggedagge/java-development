@@ -100,6 +100,17 @@
                 </div>
             </div>
 
+
+            <div class="row">
+                <div class="col-lg-4">
+                    <div class="form-group">
+                        <label th:field="*{temperatureDiff}">Temperature diff adjustment</label>
+                        <input th:field="*{temperatureDiff}" class="form-control" id="temperatureDiff" aria-describedby="timeCycleHelp"/>
+                        <small id="temperatureDiffHelp" class="form-text text-muted">Difference between surface and sensor</small>
+                    </div>
+                </div>
+            </div>
+
             <div class="row">
                 <div class="col-sm-2">
                     <input type="hidden" th:field="*{lightsOn}" id="lightsOn"/>

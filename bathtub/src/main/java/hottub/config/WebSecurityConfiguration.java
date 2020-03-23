@@ -22,8 +22,9 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .httpBasic().and()
                 .antMatcher("/**")
                 .authorizeRequests()
-                .antMatchers(HttpMethod.POST).hasAnyAuthority(AuthorityType.WRITE_PRIVILEGE.name(), AuthorityType.CAN_EXECUTE_AS_ROOT.name())
+                //.antMatchers(HttpMethod.POST).hasAnyAuthority(AuthorityType.WRITE_PRIVILEGE.name(), AuthorityType.CAN_EXECUTE_AS_ROOT.name())
                 .antMatchers(HttpMethod.GET).permitAll()
+                .antMatchers(HttpMethod.POST).permitAll()
                 .and().formLogin().loginPage("/login/").permitAll()
                 .and().logout().permitAll();
                 //.and()

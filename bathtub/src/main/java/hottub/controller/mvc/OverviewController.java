@@ -83,8 +83,7 @@ public class OverviewController {
     }
 
     @PostMapping(value = "/")
-    public String overviewPost(final ModelMap model, HttpSession session, final HttpServletResponse response,
-                               final HttpServletRequest request,
+    public String overviewPost(final ModelMap model,
                                @ModelAttribute(value = "settingsDAO") final HeaterDataDTO settingsDAO) {
         if (settingsDAO != null) {
             synchronized (heaterDTO) {

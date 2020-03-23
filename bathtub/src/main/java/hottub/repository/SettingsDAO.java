@@ -17,6 +17,10 @@ public class SettingsDAO {
     protected int returnTempLimit = 8;
 
     @Column
+    /** Temperature diff between surface (wanted temp) and sensor */
+    protected int temperatureDiff = 0;
+
+    @Column
     protected int overTempLimit = returnTempLimit + 15;
 
     @Column
@@ -37,6 +41,7 @@ public class SettingsDAO {
         this.overTempLimit = settingsDAO.overTempLimit;
         this.returnTempLimit = settingsDAO.returnTempLimit;
         this.circulationTimeCycle = settingsDAO.circulationTimeCycle;
+        this.temperatureDiff = settingsDAO.temperatureDiff;
     }
 
     @Override
@@ -48,6 +53,7 @@ public class SettingsDAO {
         settingsDAO.setOverTempLimit(overTempLimit);
         settingsDAO.setReturnTempLimit(returnTempLimit);
         settingsDAO.setLightsOn(lightsOn);
+        settingsDAO.setTemperatureDiff(temperatureDiff);
         return settingsDAO;
     }
 }

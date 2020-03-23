@@ -1,6 +1,5 @@
 package hottub.config;
 
-import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,11 +11,7 @@ import portalconnector.model.Permission;
 import portalconnector.model.PortalConnectorException;
 import portalconnector.model.WebsiteDTO;
 
-import java.io.ByteArrayInputStream;
-import java.io.File;
-import java.io.IOException;
 import java.io.InputStream;
-import java.net.URISyntaxException;
 import java.util.Base64;
 
 @Service
@@ -51,6 +46,12 @@ public class WebPortalConnector {
             portalConnector.addWebsite(websiteDTO, false, 80);
         } catch (final PortalConnectorException e) {
             log.error("Could not update Webportal of servers location: " + e.getMessage());
+            try {
+                websiteDTO.setImageBase64(null);
+                portalConnector.addWebsite(websiteDTO, false, 80);
+            } catch (PortalConnectorException ex) {
+                ex.printStackTrace();
+            }
         }
     }
 

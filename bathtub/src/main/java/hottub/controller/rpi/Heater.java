@@ -146,16 +146,18 @@ public class Heater implements HeaterInterface{
             synchronized(synchronizedData) {
                 lightsOn = synchronizedData.isLightsOn();
                 debug = synchronizedData.isDebug();
-            }
 
-            returnTemp = (int) retTemp.readTemp();
-            overTemp = (int) ovTemp.readTemp();
+                returnTemp = (int) retTemp.readTemp() + synchronizedData.getTemperatureDiff();
+                if (debug) {
+                    log.warn("Real temperature is " + (returnTemp - synchronizedData.getTemperatureDiff()));
+                }
+                overTemp = (int) ovTemp.readTemp();
 
-            synchronized(synchronizedData) {
                 this.setReturnTempLimit(synchronizedData.getReturnTempLimit());
                 this.setOverTempLimit(synchronizedData.getOverTempLimit());
                 this.setCirculationTimeCycle(synchronizedData.getCirculationTimeCycle());
             }
+
             setLogicalOutput();
         } catch (Exception e) {
             log.error("TEMPERATURE ERROR: " + e.getMessage());
