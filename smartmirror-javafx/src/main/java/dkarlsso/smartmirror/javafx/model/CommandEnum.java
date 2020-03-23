@@ -5,9 +5,9 @@ public enum CommandEnum {
     SELFIE("Selfie"),
     RADIO("Radio"),
     LIGHTS("Lights"),
-    ALEXA_LISTENING("Alexa is listening"),
-    ALEXA_STOPPED_LISTENING("Alexa stopped listening");
-
+    ALEXA_LISTENING("Mirror is listening"),
+    ALEXA_STOPPED_LISTENING("Mirror stopped listening"),
+    VOLUME("Volume change");
 
 //    VOLUME,
 //    COMMAND,

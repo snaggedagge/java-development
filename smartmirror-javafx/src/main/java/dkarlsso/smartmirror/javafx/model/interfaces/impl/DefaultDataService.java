@@ -1,20 +1,19 @@
 package dkarlsso.smartmirror.javafx.model.interfaces.impl;
 
 
-import dkarlsso.smartmirror.javafx.model.application.ApplicationUtils;
 import dkarlsso.commons.cache.TimeCache;
+import dkarlsso.commons.date.DayUtils;
 import dkarlsso.commons.quotes.FamousQuoteDTO;
 import dkarlsso.commons.quotes.FamousQuoteException;
 import dkarlsso.commons.quotes.FamousQuotesService;
-import dkarlsso.commons.date.DayUtils;
 import dkarlsso.commons.userinfo.UserWeekInfo;
 import dkarlsso.commons.weather.LightWeatherPrognosisDTO;
 import dkarlsso.commons.weather.WeatherException;
 import dkarlsso.commons.weather.WeatherPrognosis;
 import dkarlsso.commons.weather.WeatherService;
+import dkarlsso.smartmirror.javafx.model.application.ApplicationUtils;
 import dkarlsso.smartmirror.javafx.model.interfaces.DataService;
 import dkarlsso.smartmirror.javafx.model.interfaces.DataServiceException;
-import javafx.scene.image.Image;
 
 import java.io.*;
 import java.text.ParseException;
@@ -36,8 +35,6 @@ public class DefaultDataService implements DataService {
     private final FamousQuotesService famousQuotesService = new FamousQuotesService();
 
     private TimeCache cache = new TimeCache();
-
-    private int quoteCounter = 0;
 
     @Override
     public List<Date> getDateList() throws DataServiceException {
@@ -82,21 +79,10 @@ public class DefaultDataService implements DataService {
     }
 
     @Override
-    public Image getIcon(String iconName) throws DataServiceException {
-        File file;
-        try {
-            file = weatherReader.getWeatherIcon(iconName);
-        } catch (WeatherException e) {
-            throw new DataServiceException(e.getMessage(), e);
-        }
-
-        return new Image(file.toURI().toString());
-    }
-
-    @Override
     public FamousQuoteDTO getDailyQuote() throws DataServiceException {
         if(!cache.isValid(CACHE_DAILY_QUOTE)) {
-            cache.put(CACHE_DAILY_QUOTE, getQuoteInOrder(), 60 * 24);
+            // Expires at end of day
+            cache.put(CACHE_DAILY_QUOTE, getQuoteInOrder(), 60 * (24 - Calendar.getInstance().get(Calendar.HOUR)));
 
         }
         return cache.get(CACHE_DAILY_QUOTE);
@@ -130,8 +116,8 @@ public class DefaultDataService implements DataService {
                 outputStream.writeObject(uniqueQuotes);
                 outputStream.close();
             }
-            quoteCounter = quoteCounter % uniqueQuotes.size();
-            return uniqueQuotes.get(quoteCounter++);
+            int quoteIndex = Calendar.getInstance().get(Calendar.DAY_OF_YEAR) % uniqueQuotes.size();
+            return uniqueQuotes.get(quoteIndex);
         } catch (final Exception e) {
             throw new DataServiceException(e.getMessage(), e);
         }

@@ -7,6 +7,7 @@ import lombok.Getter;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
+import java.io.Serializable;
 
 
 @Embeddable
@@ -14,7 +15,10 @@ import javax.persistence.Embeddable;
 @Getter
 @Builder
 @EqualsAndHashCode
-public class UserPreferenceId {
+public class UserPreferenceId implements Serializable {
+
+    private static final long serialVersionUID = 2900842758287553148L;
+
 
     @Column(nullable = false)
     private String email;

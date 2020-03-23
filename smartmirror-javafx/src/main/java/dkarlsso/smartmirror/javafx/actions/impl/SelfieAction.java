@@ -2,9 +2,9 @@ package dkarlsso.smartmirror.javafx.actions.impl;
 
 import dkarlsso.smartmirror.javafx.model.CommandEnum;
 import dkarlsso.commons.commandaction.CommandAction;
-import dkarlsso.smartmirror.javafx.actions.Action;
 
-@Action(commandName = CommandEnum.SELFIE)
+
+
 public class SelfieAction implements CommandAction {
     @Override
     public void execute() {

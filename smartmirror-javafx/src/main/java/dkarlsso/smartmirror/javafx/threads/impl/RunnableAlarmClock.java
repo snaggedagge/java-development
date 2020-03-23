@@ -1,6 +1,5 @@
 package dkarlsso.smartmirror.javafx.threads.impl;
 
-import com.google.inject.Inject;
 import dkarlsso.commons.model.CommonsException;
 import dkarlsso.commons.multimedia.MediaPlayer;
 import dkarlsso.commons.multimedia.alarm.Alarm;
@@ -8,7 +7,7 @@ import dkarlsso.commons.multimedia.alarm.impl.AlarmTimeSetting;
 import dkarlsso.commons.multimedia.alarm.impl.DayOfWeek;
 import dkarlsso.commons.multimedia.alarm.impl.WeekdayAlarm;
 import dkarlsso.commons.multimedia.settings.SoundController;
-import dkarlsso.smartmirror.javafx.threads.RunnableService;
+import dkarlsso.smartmirror.javafx.threads.AutostartedRunnable;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.joda.time.DateTime;
@@ -16,17 +15,17 @@ import org.joda.time.DateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-@RunnableService
-public class RunnableAlarmClock implements Runnable {
+
+public class RunnableAlarmClock implements AutostartedRunnable {
 
     private final Logger LOG = LogManager.getLogger(RunnableAlarmClock.class);
 
     private final List<Alarm> alarms = new ArrayList<>();
 
-    @Inject
+  //  @Inject
     private SoundController soundController;
 
-    @Inject
+  //  @Inject
     private MediaPlayer radioPlayer;
 
     private boolean hasActiveAlarm = false;
@@ -38,12 +37,12 @@ public class RunnableAlarmClock implements Runnable {
 
         final List<AlarmTimeSetting<DayOfWeek>> alarmTimeSettings = new ArrayList<>();
         alarmTimeSettings.addAll(AlarmTimeSetting.getAsList(DayOfWeek.getWeekdays(),
-                new DateTime(0,1,1,6,45,0)));
+                new DateTime(0,1,1,7,15,0)));
 
         alarmTimeSettings.addAll(AlarmTimeSetting.getAsList(DayOfWeek.getWeekenddays(),
                 new DateTime(0,1,1,10,0,0)));
 
-        Alarm weekDayAlarms = new WeekdayAlarm(20,30,50,100, alarmTimeSettings);
+        Alarm weekDayAlarms = new WeekdayAlarm(30,45,60,100, alarmTimeSettings);
 
 
         alarms.add(weekDayAlarms);

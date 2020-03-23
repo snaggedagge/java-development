@@ -23,10 +23,10 @@ public class SmartmirrorWebPortalConnector {
 
     private PortalConnector portalConnector = new PortalConnector();
 
-//    @Scheduled(fixedDelay = SCHEDULED_FIFTEEN_MINUTES)
+    @Scheduled(fixedDelay = SCHEDULED_FIFTEEN_MINUTES)
     public void scheduleFixedDelayTask() {
         final WebsiteDTO websiteDTO = WebsiteDTO.builder()
-                .permission(Permission.ADMIN)
+                .permission(Permission.UNAUTHORIZED) // TODO: how to handle this? I would want it to show but login is required
                 .websiteId("smartmirror-web")
                 .websiteName("SmartMirror Webpage")
                 .websiteDescription("Webpage for configuring the smart mirror. Plan is to be able to configure " +

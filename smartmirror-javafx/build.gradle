@@ -1,41 +1,48 @@
 buildscript {
     ext {
-        springBootVersion = '2.1.2.RELEASE'
+        springBootVersion = '2.2.2.RELEASE'
     }
     repositories {
         mavenCentral()
+        maven {
+            url "https://plugins.gradle.org/m2/"
+        }
     }
     dependencies {
         classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
     }
 }
 
+plugins {
+    id 'org.springframework.boot' version '2.2.2.RELEASE'
+}
+
 apply plugin: 'java'
 apply plugin: 'eclipse'
-apply plugin: 'org.springframework.boot'
 apply plugin: 'io.spring.dependency-management'
 
 compileJava.options.encoding = 'UTF-8'
 sourceCompatibility = 1.8
 
 springBoot {
-    mainClassName = 'dkarlsso.smartmirror.javafx.JavaFxApplication'
+    mainClassName = 'dkarlsso.smartmirror.SpringMirrorApplication'
 }
 
 dependencies {
 
     compile project(':commons')
-    compile project(':commons-javafx')
+    //compile project(':commons-javafx')
     compile project(':portal_connector')
 //    compile project(':commons-speech')
 
+    annotationProcessor("org.projectlombok:lombok:1.18.4")
+    implementation  group: 'org.springframework.boot', name: 'spring-boot-starter-web', version: springBootVersion
+    implementation ("org.springframework.boot:spring-boot-starter-websocket")
 
-    compile group: 'org.springframework.boot', name: 'spring-boot-starter-web', version: springBootVersion
+    //compile group: 'com.google.inject', name: 'guice', version: '4.1.0'
+    //compile group: 'com.google.guava', name: 'guava', version: '23.0'
 
-    compile group: 'com.google.inject', name: 'guice', version: '4.1.0'
-    compile group: 'com.google.guava', name: 'guava', version: '23.0'
-
-
+    compile group: 'org.openjfx', name: 'javafx', version: '11'
 
     compile group: 'commons-lang', name: 'commons-lang', version: '2.6'
 
@@ -43,6 +50,10 @@ dependencies {
     compile group: 'org.apache.logging.log4j', name: 'log4j-core', version: '2.10.0'
 
     compile group: 'net.java.dev.jna', name: 'jna', version: '4.2.2'
+
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+    testCompile group: 'org.easymock', name: 'easymock', version: '3.5.1'
+    testCompile group: 'org.mockito', name: 'mockito-all', version: '1.9.5'
 }
 
 

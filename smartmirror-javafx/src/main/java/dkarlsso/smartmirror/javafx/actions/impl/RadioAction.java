@@ -1,20 +1,35 @@
 package dkarlsso.smartmirror.javafx.actions.impl;
 
-import com.google.inject.Inject;
+import dkarlsso.commons.commandaction.CommandActionException;
 import dkarlsso.commons.multimedia.MediaPlayer;
+import dkarlsso.smartmirror.javafx.actions.ActionAwareInvoker;
 import dkarlsso.smartmirror.javafx.model.CommandEnum;
-import dkarlsso.commons.commandaction.CommandAction;
-import dkarlsso.smartmirror.javafx.actions.Action;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
 
 
-@Action( commandName = CommandEnum.RADIO)
-public class RadioAction implements CommandAction {
+@Component
+public class RadioAction implements ActionAwareInvoker {
 
-    @Inject
-    private MediaPlayer radioPlayer;
+    private final MediaPlayer radioPlayer;
+
+    @Autowired
+    public RadioAction(MediaPlayer radioPlayer) {
+        this.radioPlayer = radioPlayer;
+    }
 
     @Override
-    public void execute() {
+    public Set<CommandEnum> supports() {
+        return new HashSet<>(Collections.singletonList(CommandEnum.RADIO));
+    }
+
+    @Override
+    public void executeCommand(CommandEnum commandEnum) throws CommandActionException {
         radioPlayer.setPlaying(!radioPlayer.isPlaying());
     }
 }

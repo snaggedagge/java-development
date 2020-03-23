@@ -3,7 +3,6 @@ package dkarlsso.smartmirror.javafx.model.interfaces.impl;
 import dkarlsso.commons.multimedia.MediaPlayer;
 import dkarlsso.commons.multimedia.settings.SoundController;
 import dkarlsso.smartmirror.javafx.model.interfaces.StateService;
-import dkarlsso.smartmirror.javafx.model.VoiceApplicationState;
 import org.joda.time.DateTime;
 
 public class DefaultStateService implements StateService {

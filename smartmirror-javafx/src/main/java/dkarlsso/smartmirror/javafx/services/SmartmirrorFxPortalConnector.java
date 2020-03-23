@@ -25,7 +25,7 @@ public class SmartmirrorFxPortalConnector {
                 .websiteId("smartmirror-javafx-dag")
                 .websiteName("SmartMirror JavaFx Application")
                 .websiteDescription("Currently used for AWS lam,bdas to find IP adress of application")
-                .hasLogin(true)
+                .hasLogin(false)
                 .build();
         try {
             portalConnector.addWebsite(websiteDTO, false, 8080);

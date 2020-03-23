@@ -1,42 +1,42 @@
 package dkarlsso.smartmirror.javafx.threads.impl;
 
-import com.google.inject.Inject;
 import dkarlsso.commons.raspberry.screen.ScreenHandler;
 import dkarlsso.commons.raspberry.screen.ScreenHandlerException;
 import dkarlsso.smartmirror.javafx.model.interfaces.StateService;
-import dkarlsso.smartmirror.javafx.threads.RunnableService;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import lombok.extern.slf4j.Slf4j;
 import org.joda.time.DateTime;
 import org.joda.time.Minutes;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.stereotype.Component;
 
-@RunnableService
-public class RunnableScreenSaver implements Runnable {
 
-    private final Logger LOG = LogManager.getLogger(RunnableScreenSaver.class);
+@Component
+@Slf4j
+public class RunnableScreenSaver {
 
-    @Inject
-    private StateService stateService;
+    private final StateService stateService;
 
-    @Inject
-    private ScreenHandler screenHandler;
+    private final ScreenHandler screenHandler;
 
-    @Override
+    @Autowired
+    public RunnableScreenSaver(StateService stateService, ScreenHandler screenHandler) {
+        this.stateService = stateService;
+        this.screenHandler = screenHandler;
+    }
+
+    @Scheduled(fixedDelay = 1000 * 60)
     public void run() {
-        boolean isRunning = true;
-        while (isRunning) {
-            try {
-                Thread.sleep(1000 * 60);
-                int minutesSinceActive = Minutes.minutesBetween(stateService.getLastActivated(), new DateTime()).getMinutes();
-                LOG.info("Minutes since active: " + minutesSinceActive);
-                if(minutesSinceActive > 5) {
-                    screenHandler.setScreenPowerMode(false);
+        try {
+            int minutesSinceActive = Minutes.minutesBetween(stateService.getLastActivated(), new DateTime()).getMinutes();
+            if(minutesSinceActive > 5) {
+                if (screenHandler.isScreenActive()) {
+                    log.info("Disabling screen due to {} min of inactivity", minutesSinceActive);
                 }
-            } catch (InterruptedException e) {
-                isRunning = false;
-            } catch (ScreenHandlerException e) {
-                LOG.error("Could not turn screen off", e);
+                screenHandler.setScreenPowerMode(false);
             }
+        } catch (ScreenHandlerException e) {
+            log.error("Could not turn screen off", e);
         }
     }
 }
