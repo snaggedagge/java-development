@@ -1,0 +1,50 @@
+import javax.crypto.Mac
+import javax.crypto.spec.SecretKeySpec
+import java.text.SimpleDateFormat
+
+task("publishToS3", dependsOn: "assemble", group : 'publish').doLast {
+
+    if (System.env.AWS_S3_BUCKET == null) {
+        throw new Exception("Please set AWS_S3_BUCKET propertiy.")
+    }
+
+    if (System.env.AWS_ACCESS_KEY_ID == null) {
+        throw new Exception("Please set AWS_S3_KEY_ID property.")
+    }
+
+    if (System.env.AWS_SECRET_ACCESS_KEY == null) {
+        throw new Exception("Please set AWS_S3_KEY_SECRET property.")
+    }
+
+    def bucket = System.env.AWS_S3_BUCKET
+    def keyId = System.env.AWS_ACCESS_KEY_ID
+    def keySecret = System.env.AWS_SECRET_ACCESS_KEY
+
+    def targetPath = "uploads/" + project.name + "-" + project.version + ".jar"
+
+    def contentType = "application/octet-stream"
+    def date = new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss ZZZZ").format(new Date())
+
+    def resource = "/${bucket}/${targetPath}"
+    def data = "PUT\n\n${contentType}\n${date}\n${resource}"
+    def signingKey = new SecretKeySpec(keySecret.getBytes(), "HmacSHA1")
+    def mac = Mac.getInstance("HmacSHA1")
+    mac.init(signingKey)
+    def sig = mac.doFinal(data.getBytes()).encodeBase64()
+
+    def lol = project.buildDir.toString() + "/libs/" + project.name + "-" + project.version + ".jar"
+
+
+    exec {
+        executable 'curl'
+        args '-k', '-X', 'PUT',
+                '-T', new File(lol).getAbsolutePath(),
+                '-H', 'Date: ' + date,
+                '-H', 'Authorization: AWS ' + keyId + ':' + sig,
+                '-H', 'Content-Type: ' + contentType,
+                '-H', "Host: ${bucket}.s3.amazonaws.com",
+                'https://' + bucket + '.s3.amazonaws.com/' + targetPath
+    }
+
+    println "Deploying to AWS" + lol
+}

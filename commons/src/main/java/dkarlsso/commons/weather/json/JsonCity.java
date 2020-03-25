@@ -4,6 +4,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.Date;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -19,4 +21,8 @@ public class JsonCity {
 
     // TODO: Unknown field
     private String timezone;
+
+    private Date sunrise;
+
+    private Date sunset;
 }

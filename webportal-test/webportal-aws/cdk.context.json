@@ -1,0 +1,35 @@
+{
+  "@aws-cdk/core:enableStackNameDuplicates": "true",
+  "aws-cdk:enableDiffNoFail": "true",
+  "vpc-provider:account=145158422295:filter.isDefault=true:region=eu-west-1:returnAsymmetricSubnets=true": {
+    "vpcId": "vpc-4c4d672a",
+    "vpcCidrBlock": "172.31.0.0/16",
+    "availabilityZones": [],
+    "subnetGroups": [
+      {
+        "name": "Public",
+        "type": "Public",
+        "subnets": [
+          {
+            "subnetId": "subnet-d1ce6f8b",
+            "cidr": "172.31.32.0/20",
+            "availabilityZone": "eu-west-1a",
+            "routeTableId": "rtb-7e84d907"
+          },
+          {
+            "subnetId": "subnet-04f19562",
+            "cidr": "172.31.0.0/20",
+            "availabilityZone": "eu-west-1b",
+            "routeTableId": "rtb-7e84d907"
+          },
+          {
+            "subnetId": "subnet-4b552203",
+            "cidr": "172.31.16.0/20",
+            "availabilityZone": "eu-west-1c",
+            "routeTableId": "rtb-7e84d907"
+          }
+        ]
+      }
+    ]
+  }
+}

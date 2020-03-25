@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class DefaultScreenHandler  implements ScreenHandler{
+public class DefaultScreenHandler implements ScreenHandler{
 
     /*
         WARNING: Apperently this also kills sound to raspberry pi so this is not the best solution.

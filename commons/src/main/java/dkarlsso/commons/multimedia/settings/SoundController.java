@@ -53,7 +53,7 @@ public class SoundController {
         // -c 1 set for orange
         // -c 0 sset rpi?
 
-        command.add("0");
+        command.add("2");
         command.add("sset");
         command.add("PCM");
         command.add("playback");

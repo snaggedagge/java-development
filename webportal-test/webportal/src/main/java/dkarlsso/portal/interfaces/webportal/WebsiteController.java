@@ -28,7 +28,7 @@ public class WebsiteController {
     @RequestMapping("/")
     public String welcome(final HttpServletRequest request, final Model model, final UserInfo userInfo) {
 
-        final List<WebsiteDAO> websites = websiteService.getWebsites();
+        final List<WebsiteDAO> websites = websiteService.getWebsites(userInfo.getPermission());
 
         final List<WebsiteDAO> offlineWebsites = websites.stream()
                 .filter(w -> Minutes.minutesBetween(new DateTime(w.getDateSinceLastConnection()), new DateTime()).isGreaterThan(Minutes.minutes(20)))

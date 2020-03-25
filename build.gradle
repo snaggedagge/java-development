@@ -8,7 +8,7 @@ ext {
 subprojects {
 	apply plugin: 'java'
 	apply plugin: 'maven-publish'
-
+	//apply from: "" + rootDir.getAbsoluteFile() + '/publishToS3.gradle'
 	sourceCompatibility = 1.8
 	targetCompatibility = 1.8
 
@@ -22,7 +22,7 @@ subprojects {
 
 	repositories {
 		mavenCentral()
-		maven { url "https://oss.sonatype.org/content/repositories/snapshots" }
+		//maven { url "https://oss.sonatype.org/content/repositories/snapshots" }
 	}
 
 	tasks.withType(JavaCompile) {
@@ -37,8 +37,6 @@ subprojects {
 					'Main-Class': "$main_class_path"
 		}
 		baseName = project.name + '-all'
-
-		println " FILENAME: " + baseName + "-" + version + ".jar"
 
 		from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
 		with jar

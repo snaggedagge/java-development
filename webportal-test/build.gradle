@@ -1,0 +1,20 @@
+
+group 'dkarlsso'
+version '1.0'
+
+sourceCompatibility = 1.8
+
+dependencies {
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+}
+
+
+task("deployToAws", group : 'publish'){
+    dependsOn subprojects.collect { it.project.toString() == "webportal" && it.tasks.withType(publishToS3) }
+   // println "" + dependsOn('webportal-test:webportal:publishToS3').outputs.toString()
+/*
+    doLast {
+
+    }
+ */
+}

@@ -33,27 +33,27 @@ public class Oauth2Credential {
     @Column
     private long expiresIn;
 
-    public List<Oauth2Scope> oauth2Scopes() {
-        return Arrays.stream(oauth2Scopes.split(","))
-                .map(Oauth2Scope::valueOf)
-                .collect(Collectors.toList());
-    }
-
-    public void setOauth2Scopes(String oauth2Scopes) {
-        this.oauth2Scopes = oauth2Scopes;
-    }
-
-    public void setOauth2Scopes(final List<Oauth2Scope> oauth2Scopes) {
-        this.oauth2Scopes = oauth2Scopes.stream()
-                .map(Enum::name)
-                .collect(Collectors.joining(","));
-    }
-
-    public GoogleCredential getGoogleCredential() {
-        final GoogleCredential credential = new GoogleCredential();
-        credential.setAccessToken(this.getAccessToken());
-        credential.setExpiresInSeconds(this.getExpiresIn());
-        credential.setRefreshToken(this.getRefreshToken());
-        return credential;
-    }
+//    public List<Oauth2Scope> oauth2Scopes() {
+//        return Arrays.stream(oauth2Scopes.split(","))
+//                .map(Oauth2Scope::valueOf)
+//                .collect(Collectors.toList());
+//    }
+//
+//    public void setOauth2Scopes(String oauth2Scopes) {
+//        this.oauth2Scopes = oauth2Scopes;
+//    }
+//
+//    public void setOauth2Scopes(final List<Oauth2Scope> oauth2Scopes) {
+//        this.oauth2Scopes = oauth2Scopes.stream()
+//                .map(Enum::name)
+//                .collect(Collectors.joining(","));
+//    }
+//
+//    public GoogleCredential getGoogleCredential() {
+//        final GoogleCredential credential = new GoogleCredential();
+//        credential.setAccessToken(this.getAccessToken());
+//        credential.setExpiresInSeconds(this.getExpiresIn());
+//        credential.setRefreshToken(this.getRefreshToken());
+//        return credential;
+//    }
 }

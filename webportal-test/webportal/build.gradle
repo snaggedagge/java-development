@@ -1,3 +1,7 @@
+ext {
+    springBootVersion = '2.1.3.RELEASE'
+    springSecurityVersion = '3.1.4.RELEASE'
+}
 buildscript {
     repositories {
         mavenCentral()
@@ -8,11 +12,17 @@ buildscript {
 }
 
 apply plugin: 'org.springframework.boot'
+apply from: "" + rootDir.getAbsoluteFile() + '/publishToS3.gradle'
+
+
 
 dependencies {
-
     compile project(':portal_connector')
     compile project(':authentication-lib')
+
+    annotationProcessor  group: 'org.projectlombok', name: 'lombok', version: '1.18.4'
+    compile group: 'org.projectlombok', name: 'lombok', version: '1.18.4'
+
     compile group: 'org.webjars', name: 'bootstrap', version: '4.2.1'
     compile group: 'org.webjars', name: 'jquery', version: '3.3.1-1'
 
@@ -41,5 +51,5 @@ dependencies {
 //    compile group: 'org.springframework.security', name: 'spring-security-config', version: '5.1.3.RELEASE'
 
 
-    testCompile('org.springframework.boot:spring-boot-starter-test')
+//    testCompile('org.springframework.boot:spring-boot-starter-test')
 }

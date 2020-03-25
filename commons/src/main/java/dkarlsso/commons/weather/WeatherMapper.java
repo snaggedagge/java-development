@@ -1,5 +1,6 @@
 package dkarlsso.commons.weather;
 
+import dkarlsso.commons.date.DayUtils;
 import dkarlsso.commons.weather.json.JsonPayload;
 import dkarlsso.commons.weather.json.JsonWeather;
 import org.joda.time.DateTime;
@@ -8,6 +9,10 @@ import org.joda.time.Days;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.Instant;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.*;
 
 public class WeatherMapper {
@@ -142,27 +147,44 @@ public class WeatherMapper {
         }
         lightWeatherDTO.setMaxTemp(maxTemp);
         lightWeatherDTO.setMinTemp(minTemp);
+        final Weather closestWeather = jsonWeathers.stream()
+                .sorted(Comparator.comparing(Weather::getTime))
+                .filter(weather -> {
+                    final Calendar calendarOfWeather = GregorianCalendar.from(ZonedDateTime.ofInstant(weather.getTime().toInstant(), ZoneId.systemDefault()));
+                    if(GregorianCalendar.getInstance().get(Calendar.DAY_OF_YEAR) != calendarOfWeather.get(Calendar.DAY_OF_YEAR)) {
+                        // Return midday results of all other days for now
+                        calendarOfWeather.set(Calendar.HOUR, 11);
+                        return weather.getTime().toInstant().isAfter(calendarOfWeather.toInstant());
+                    }
+                    else {
+                        calendarOfWeather.set(Calendar.HOUR, GregorianCalendar.getInstance().get(Calendar.HOUR));
+                        return weather.getTime().toInstant().isAfter(calendarOfWeather.toInstant());
+                    }
+                })
+                .findFirst()
+                    .orElseGet(() -> jsonWeathers.get(jsonWeathers.size() - 1));
+        lightWeatherDTO.setTemp(closestWeather.getTemp());
 
-        int index = jsonWeathers.size()/2;
+        lightWeatherDTO.setIconName(closestWeather.getIconName());
+        lightWeatherDTO.setWeather(closestWeather.getWeather());
+        lightWeatherDTO.setWeatherDescription(closestWeather.getWeatherDescription());
 
-        lightWeatherDTO.setIconName(jsonWeathers.get(index).getIconName());
-        lightWeatherDTO.setWeather(jsonWeathers.get(index).getWeather());
-        lightWeatherDTO.setWeatherDescription(jsonWeathers.get(index).getWeatherDescription());
-
-        lightWeatherDTO.setHumidity(jsonWeathers.get(index).getHumidity());
+        lightWeatherDTO.setHumidity(closestWeather.getHumidity());
 
 
-        lightWeatherDTO.setRainVolumeThreeHours(jsonWeathers.get(index).getRainVolumeThreeHours());
+        lightWeatherDTO.setRainVolumeThreeHours(closestWeather.getRainVolumeThreeHours());
 
-        lightWeatherDTO.setSnowVolumeThreeHours(jsonWeathers.get(index).getSnowVolumeThreeHours());
+        lightWeatherDTO.setSnowVolumeThreeHours(closestWeather.getSnowVolumeThreeHours());
 
-        lightWeatherDTO.setCloudinessInPercent(jsonWeathers.get(index).getCloudinessInPercent());
+        lightWeatherDTO.setCloudinessInPercent(closestWeather.getCloudinessInPercent());
 
-        lightWeatherDTO.setWindDegrees(jsonWeathers.get(index).getWindDegrees());
-        lightWeatherDTO.setWindSpeed(jsonWeathers.get(index).getWindSpeed());
+        lightWeatherDTO.setWindDegrees(closestWeather.getWindDegrees());
+        lightWeatherDTO.setWindSpeed(closestWeather.getWindSpeed());
 
 
-        lightWeatherDTO.setDay(jsonWeathers.get(index).getTime());
+        lightWeatherDTO.setTime(closestWeather.getTime().toInstant());
+
+        lightWeatherDTO.setDay(DayUtils.getDay(closestWeather.getTime()));
         return lightWeatherDTO;
     }
 
