@@ -32,13 +32,14 @@ task("publishToS3", dependsOn: "assemble", group : 'publish').doLast {
     mac.init(signingKey)
     def sig = mac.doFinal(data.getBytes()).encodeBase64()
 
-    def lol = project.buildDir.toString() + "/libs/" + project.name + "-" + project.version + ".jar"
+    def filepath = new File(project.buildDir.toString() + "/libs/" + project.name + "-" + project.version + ".jar").getAbsolutePath()
 
 
+/*
     exec {
         executable 'curl'
         args '-k', '-X', 'PUT',
-                '-T', new File(lol).getAbsolutePath(),
+                '-T', filepath,
                 '-H', 'Date: ' + date,
                 '-H', 'Authorization: AWS ' + keyId + ':' + sig,
                 '-H', 'Content-Type: ' + contentType,
@@ -46,5 +47,6 @@ task("publishToS3", dependsOn: "assemble", group : 'publish').doLast {
                 'https://' + bucket + '.s3.amazonaws.com/' + targetPath
     }
 
-    println "Deploying to AWS" + lol
+ */
+    println targetPath
 }

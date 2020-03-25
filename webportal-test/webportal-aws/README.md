@@ -15,7 +15,7 @@ It is a [Maven](https://maven.apache.org/) based project, so you can open this p
  * `cdk deploy`      deploy this stack to your default AWS account/region
  * `cdk diff`        compare deployed stack with current state
  * `cdk docs`        open CDK documentation
- * `gradle assemble && cdk synth && cdk deploy` Deploy cloudformation
- * `cdk synth && cdk deploy` Enough?
+ * `gradle assemble && cdk synth && cdk deploy *` Deploy cloudformation
+ * `cdk synth && cdk deploy *` Enough?
  * `cdk destroy`
 Enjoy!

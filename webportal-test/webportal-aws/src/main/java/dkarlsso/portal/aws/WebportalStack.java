@@ -31,7 +31,8 @@ public class WebportalStack extends Stack {
                 .description("Application for webportal")
                 .sourceBundle(new CfnApplicationVersion.SourceBundleProperty.Builder()
                         .s3Bucket("elasticbeanstalk-eu-west-1-145158422295")
-                        .s3Key("uploads/webportal-1.0.jar")
+                        .s3Key(System.getenv("S3_KEY") == null ? "S3_KEY_NOT_DEFINED" : System.getenv("S3_KEY"))
+                        //.s3Key("uploads/webportal-1.0.jar")
                         .build())
                 .build();
 

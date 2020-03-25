@@ -10,7 +10,7 @@ dependencies {
 
 
 task("deployToAws", group : 'publish'){
-    dependsOn subprojects.collect { it.project.toString() == "webportal" && it.tasks.withType(publishToS3) }
+    //dependsOn subprojects.collect {it.tasks.withType(publishToS3) }
    // println "" + dependsOn('webportal-test:webportal:publishToS3').outputs.toString()
 /*
     doLast {

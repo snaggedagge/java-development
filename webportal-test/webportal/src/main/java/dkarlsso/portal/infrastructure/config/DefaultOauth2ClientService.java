@@ -28,6 +28,7 @@ public class DefaultOauth2ClientService implements OAuth2AuthorizedClientService
     final Map<UniqueAuthId, User> map = new HashMap<>();
 
     @Override
+    @SuppressWarnings("unchecked")
     public <T extends OAuth2AuthorizedClient> T loadAuthorizedClient(String clientRegistrationId, String principalName) {
 
         final UniqueAuthId authId = new UniqueAuthId(clientRegistrationId, principalName);
