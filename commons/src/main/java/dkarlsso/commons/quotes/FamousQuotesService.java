@@ -15,14 +15,13 @@ public class FamousQuotesService {
         final RestTemplate restTemplate = new RestTemplate();
 
         final HttpHeaders headers = new HttpHeaders();
-        headers.add("X-Mashape-Key", "Zcs2VgU3CZmsh4LNY7qYzwQKURH1p1HhuqHjsneiBZSttC49mU");
-        headers.add("Content-Type", "application/x-www-form-urlencoded");
-        headers.add("Accept", "application/json");
+        headers.add("X-RapidAPI-Host", "andruxnet-random-famous-quotes.p.rapidapi.com");
+        headers.add("X-RapidAPI-Key", "YgYhUXpcANmshfQaeRZlVwnxTo5yp1gRj4tjsnhO9pDkmEoyBY");
 
         final HttpEntity entity = new HttpEntity(headers);
 
         final ResponseEntity<List<FamousQuoteDTO>> response = restTemplate.exchange(
-        "https://andruxnet-random-famous-quotes.p.mashape.com/?cat=famous&count=10",
+        "https://andruxnet-random-famous-quotes.p.rapidapi.com/?cat=famous&count=10",
         HttpMethod.GET, entity, new ParameterizedTypeReference<List<FamousQuoteDTO>>(){});
 
         if (response.getStatusCode() != HttpStatus.OK || response.getBody() == null) {

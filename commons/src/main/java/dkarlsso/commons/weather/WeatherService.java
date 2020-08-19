@@ -1,9 +1,9 @@
 package dkarlsso.commons.weather;
 
-import dkarlsso.commons.weather.json.JsonPayload;
 import dkarlsso.commons.date.DayUtils;
+import dkarlsso.commons.weather.json.JsonPayload;
+import org.codehaus.jackson.map.DeserializationConfig;
 import org.codehaus.jackson.map.ObjectMapper;
-
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -11,7 +11,8 @@ import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.file.Files;
-import java.util.*;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 
@@ -31,12 +32,16 @@ public class WeatherService {
 
     private final int updateIntervalInHours;
 
+    private final ObjectMapper objectMapper;
+
     public WeatherService(final File weatherServiceRootFolder, int updateIntervalInHours) {
 
         JSON_FILE = new File(weatherServiceRootFolder, JSON_STORAGE_FILENAME);
         ICON_FOLDER  = new File(weatherServiceRootFolder, "icons");
 
         this.updateIntervalInHours = updateIntervalInHours;
+        this.objectMapper = new ObjectMapper()
+                .configure(DeserializationConfig.Feature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 
         if(!ICON_FOLDER.exists()) {
             ICON_FOLDER.mkdir();
@@ -73,9 +78,6 @@ public class WeatherService {
             else {
                 jsonPayloadString = getWeatherFromApi();
             }
-
-            final ObjectMapper objectMapper = new ObjectMapper();
-
             return objectMapper.readValue(jsonPayloadString, JsonPayload.class);
 
         } catch (Exception e) {
