@@ -101,7 +101,7 @@ public class WebportalStack extends Stack {
                                 .optionName("WEBPORTAL_SQL_URL")
                                 .value(rdsStack.getRdsEndpoint())
                                 .build()))
-                .solutionStackName("64bit Amazon Linux 2018.03 v2.10.11 running Java 8")
+                .solutionStackName("64bit Amazon Linux 2018.03 v2.11.1 running Java 8")
                 .build();
 
 
