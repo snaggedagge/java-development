@@ -10,22 +10,36 @@ public final class AwsApp {
     public static void main(final String[] args) {
         final App app = new App();
 
-        new RDSStack(app, "Webportal-RDS-stack", StackProps.builder()
+        final RDSStack rdsStack = new RDSStack(app, "Webportal-RDS-stack", StackProps.builder()
                 .env(Environment.builder()
                         .account("145158422295")
                         .region("eu-west-1")
                         .build())
                 .stackName("Webportal-RDS-stack")
+                .build(), "arn:aws:rds:eu-west-1:145158422295:snapshot:webportal-rds-stack-snapshot-webportalrdsdatabase0b756546-1gcelw9a1758c");
+
+                /*
+                final AutoScalingStack autoScalingStack =  new AutoScalingStack(app, "Autoscaling-stack", StackProps.builder()
+                .env(Environment.builder()
+                        .account("145158422295")
+                        .region("eu-west-1")
+                        .build())
+                .stackName("Autoscaling-stack")
                 .build());
 
+                */
 
-        new WebportalStack(app, "Webportal-stack", StackProps.builder()
+        final WebportalStack webportalStack = new WebportalStack(app, "Webportal-stack", StackProps.builder()
                 .env(Environment.builder()
                         .account("145158422295")
                         .region("eu-west-1")
                         .build())
                 .stackName("Webportal-stack")
-                .build());
+                .build(), rdsStack);
+
+
+                webportalStack.addDependency(rdsStack);
+                //webportalStack.addDependency(autoScalingStack);
 
         app.synth();
     }

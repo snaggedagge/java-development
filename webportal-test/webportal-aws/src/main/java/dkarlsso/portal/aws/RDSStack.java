@@ -12,26 +12,33 @@ import software.amazon.awscdk.services.route53.CfnRecordSet;
 import java.util.Arrays;
 import java.util.Collections;
 
+import lombok.Getter;
+
+@Getter
 public class RDSStack extends Stack {
-    public RDSStack(final Construct parent, final String id) {
-        this(parent, id, null);
+
+private final String rdsEndpoint;
+
+
+    public RDSStack(final Construct parent, final String id, final String snapshotVersion) {
+        this(parent, id, null, snapshotVersion);
     }
 
-    public RDSStack(final Construct parent, final String id, final StackProps props) {
+    public RDSStack(final Construct parent, final String id, final StackProps props, final String snapshotVersion) {
         super(parent, id, props);
 
         IVpc vpc = Vpc.fromLookup(this, "DefaultVpc", VpcLookupOptions.builder()
                 .isDefault(true).build());
 
 
-        SecurityGroup securityGroup = SecurityGroup.Builder.create(this, "RDSSecurityGroup")
+        final SecurityGroup securityGroup = SecurityGroup.Builder.create(this, "WebportalRDSSecurityGroup")
                 .securityGroupName("rds-webportal-securityGroup")
                 .allowAllOutbound(true)
                 .description("Security group for Webportal RDS database")
                 .vpc(vpc)
                 .build();
 
-        CfnSecurityGroupIngress.Builder.create(this, "All")
+        CfnSecurityGroupIngress.Builder.create(this, "WebportalRDSSecurityGroupIngress")
                 .ipProtocol("tcp")
                 .cidrIp("0.0.0.0/0")
                 .fromPort(3306)
@@ -43,7 +50,7 @@ public class RDSStack extends Stack {
 /*
 Subnet.Builder.create().
 */
-        final DatabaseInstanceFromSnapshot database = DatabaseInstanceFromSnapshot.Builder.create(this, "RDSDatabase")
+        final DatabaseInstanceFromSnapshot database = DatabaseInstanceFromSnapshot.Builder.create(this, "WebportalRDSDatabase")
                 .engine(DatabaseInstanceEngine.MYSQL)
                 .instanceClass(InstanceType.of(InstanceClass.BURSTABLE2, InstanceSize.MICRO))
                 .vpcPlacement(SubnetSelection.builder()
@@ -62,7 +69,7 @@ Subnet.Builder.create().
 
                 //.masterUserPassword(SecretValue.plainText("XJvXy0anjGFCLrrYqJwH"))
                 .port(3306)
-                .snapshotIdentifier("arn:aws:rds:eu-west-1:145158422295:snapshot:bath-and-portal-23-03-2020-2")
+                .snapshotIdentifier(snapshotVersion)
                 //.removalPolicy(RemovalPolicy.SNAPSHOT)
                 .build();
 
@@ -74,6 +81,6 @@ Subnet.Builder.create().
                 .resourceRecords(Collections.singletonList(database.getDbInstanceEndpointAddress()))
                 .ttl("300")
                 .build();
-
+                this.rdsEndpoint = database.getDbInstanceEndpointAddress();
     }
 }
