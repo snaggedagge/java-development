@@ -3,7 +3,6 @@ package dkarlsso.portal.aws;
 import java.util.Arrays;
 import java.util.Collections;
 
-
 import software.amazon.awscdk.core.Construct;
 import software.amazon.awscdk.core.Fn;
 import software.amazon.awscdk.core.Stack;
@@ -20,6 +19,11 @@ import software.amazon.awscdk.services.elasticbeanstalk.CfnApplicationVersion;
 import software.amazon.awscdk.services.elasticbeanstalk.CfnConfigurationTemplate;
 import software.amazon.awscdk.services.elasticbeanstalk.CfnEnvironment;
 import software.amazon.awscdk.services.route53.CfnRecordSet;
+import software.amazon.awssdk.services.elasticbeanstalk.ElasticBeanstalkClient;
+import software.amazon.awssdk.services.elasticbeanstalk.model.ListAvailableSolutionStacksRequest;
+import software.amazon.awssdk.services.elasticbeanstalk.model.ListPlatformVersionsRequest;
+import software.amazon.awssdk.services.elasticbeanstalk.model.PlatformFilter;
+import software.amazon.awssdk.services.elasticbeanstalk.model.PlatformSummary;
 
 
 public class WebportalStack extends Stack {
@@ -57,6 +61,19 @@ public class WebportalStack extends Stack {
                 .value("SingleInstance")
                 .build();
 
+
+        final PlatformSummary platformSummary = ElasticBeanstalkClient.create()
+                .listPlatformVersions(ListPlatformVersionsRequest.builder()
+                .filters(PlatformFilter.builder()
+                        .type("PlatformBranchName")
+                        .operator("=")
+                        .values("Java 8 running on 64bit Amazon Linux")
+                        .build())
+                .build()).platformSummaryList().stream()
+                .findFirst()
+                .orElseThrow(IllegalStateException::new);
+
+
         // Cant use this, dont know what must be done.............
         final CfnEnvironment.OptionSettingProperty optionSettingProperty = CfnEnvironment.OptionSettingProperty.builder()
                 .namespace("aws:elasticbeanstalk:environment")
@@ -65,6 +82,15 @@ public class WebportalStack extends Stack {
                 .build();
 
 
+
+/*
+        final String solutionName = ElasticBeanstalkClient.create()
+                .listAvailableSolutionStacks().solutionStacks().stream()
+                .filter(stack -> stack.contains("64bit Amazon Linux") && stack.contains("Java 8"))
+                .findFirst()
+                .orElseThrow(IllegalStateException::new);
+ */
+        System.out.println("Running solution " + platformSummary.platformArn());
 
         final CfnConfigurationTemplate cfnConfigurationTemplate = CfnConfigurationTemplate.Builder.create(this, "WebportalApplicationConfiguration")
                 .applicationName(Fn.ref("WebportalApplication"))
@@ -76,6 +102,11 @@ public class WebportalStack extends Stack {
                                 .Value(launchConfiguration.getLaunchConfigurationName())
                                 .build(),
 */
+                        CfnConfigurationTemplate.ConfigurationOptionSettingProperty.builder()
+                                .namespace("aws:autoscaling:launchconfiguration")
+                                .optionName("IamInstanceProfile")
+                                .value("aws-elasticbeanstalk-ec2-role")
+                                .build(),
                         CfnConfigurationTemplate.ConfigurationOptionSettingProperty.builder()
                                 .namespace("aws:autoscaling:launchconfiguration")
                                 .optionName("InstanceType")
@@ -101,7 +132,8 @@ public class WebportalStack extends Stack {
                                 .optionName("WEBPORTAL_SQL_URL")
                                 .value(rdsStack.getRdsEndpoint())
                                 .build()))
-                .solutionStackName("64bit Amazon Linux 2018.03 v2.11.1 running Java 8")
+                // TODO: Fetch
+                .solutionStackName(platformSummary.platformArn())
                 .build();
 
 

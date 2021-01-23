@@ -15,9 +15,8 @@ repositories {
 }
 
 dependencies {
-    compile 'software.amazon.awscdk:core:1.30.0'
-    compile 'software.amazon.awscdk:cdk-cx-api:1.30.0'
-
+    compile 'software.amazon.awscdk:core:1.45.0'
+    compile 'software.amazon.awscdk:cdk-cx-api:1.45.0'
 
     compile group: 'software.amazon.jsii', name: 'jsii-runtime', version: '0.2.3'
     compile group: 'org.jetbrains', name: 'annotations', version: '19.0.0'
@@ -29,21 +28,22 @@ dependencies {
 
 
 
-    compile group: 'software.amazon.awscdk', name: 'cdk-assets', version: '1.30.0'
+    compile group: 'software.amazon.awscdk', name: 'cdk-assets', version: '1.45.0'
+    compile group: 'software.amazon.awscdk', name: 'elasticloadbalancingv2', version: '1.45.0'
+    compile 'software.amazon.awscdk:sns:1.45.0'
+    compile 'software.amazon.awscdk:sns-subscriptions:1.45.0'
+    compile 'software.amazon.awscdk:sqs:1.45.0'
+    compile 'software.amazon.awscdk:cloudformation:1.45.0'
+    compile 'software.amazon.awscdk:elasticbeanstalk:1.45.0'
+    compile 'software.amazon.awscdk:rds:1.45.0'
+    compile 'software.amazon.awscdk:s3:1.45.0'
+    compile 'software.amazon.awscdk:route53:1.45.0'
+    compile 'software.amazon.awscdk:autoscaling:1.45.0'
 
-    // https://mvnrepository.com/artifact/software.amazon.awscdk/elasticloadbalancingv2
-    compile group: 'software.amazon.awscdk', name: 'elasticloadbalancingv2', version: '1.30.0'
 
+    compile group: 'software.amazon.awssdk', name: 'rds', version: '2.15.69'
+    compile group: 'software.amazon.awssdk', name: 'elasticbeanstalk', version: '2.15.69'
 
-    compile 'software.amazon.awscdk:sns:1.30.0'
-    compile 'software.amazon.awscdk:sns-subscriptions:1.30.0'
-    compile 'software.amazon.awscdk:sqs:1.30.0'
-    compile 'software.amazon.awscdk:cloudformation:1.30.0'
-    compile 'software.amazon.awscdk:elasticbeanstalk:1.30.0'
-    compile 'software.amazon.awscdk:rds:1.30.0'
-    compile 'software.amazon.awscdk:s3:1.30.0'
-    compile 'software.amazon.awscdk:route53:1.30.0'
-    compile 'software.amazon.awscdk:autoscaling:1.30.0'
 
     annotationProcessor  group: 'org.projectlombok', name: 'lombok', version: '1.18.4'
     compile group: 'org.projectlombok', name: 'lombok', version: '1.18.4'

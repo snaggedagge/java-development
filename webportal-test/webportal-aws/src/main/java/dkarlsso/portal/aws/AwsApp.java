@@ -16,8 +16,8 @@ public final class AwsApp {
                         .region("eu-west-1")
                         .build())
                 .stackName("Webportal-RDS-stack")
-                .build(), "arn:aws:rds:eu-west-1:145158422295:snapshot:webportal-rds-stack-snapshot-webportalrdsdatabase0b756546-1gcelw9a1758c");
-
+                .build());
+// "arn:aws:rds:eu-west-1:145158422295:snapshot:webportal-rds-stack-snapshot-webportalrdsdatabase0b756546-1hw0c7jzj98rh"
                 /*
                 final AutoScalingStack autoScalingStack =  new AutoScalingStack(app, "Autoscaling-stack", StackProps.builder()
                 .env(Environment.builder()

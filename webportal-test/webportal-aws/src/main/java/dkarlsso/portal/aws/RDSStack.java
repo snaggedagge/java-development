@@ -11,8 +11,11 @@ import software.amazon.awscdk.services.route53.CfnRecordSet;
 
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Comparator;
 
 import lombok.Getter;
+import software.amazon.awssdk.services.rds.RdsClient;
+import software.amazon.awssdk.services.rds.model.DBSnapshot;
 
 @Getter
 public class RDSStack extends Stack {
@@ -20,11 +23,11 @@ public class RDSStack extends Stack {
 private final String rdsEndpoint;
 
 
-    public RDSStack(final Construct parent, final String id, final String snapshotVersion) {
-        this(parent, id, null, snapshotVersion);
+    public RDSStack(final Construct parent, final String id) {
+        this(parent, id, null);
     }
 
-    public RDSStack(final Construct parent, final String id, final StackProps props, final String snapshotVersion) {
+    public RDSStack(final Construct parent, final String id, final StackProps props) {
         super(parent, id, props);
 
         IVpc vpc = Vpc.fromLookup(this, "DefaultVpc", VpcLookupOptions.builder()
@@ -50,6 +53,12 @@ private final String rdsEndpoint;
 /*
 Subnet.Builder.create().
 */
+
+        final DBSnapshot dbSnapshot = RdsClient.create().describeDBSnapshots().dbSnapshots().stream()
+                .max(Comparator.comparing(DBSnapshot::snapshotCreateTime))
+                .orElseThrow(IllegalStateException::new);
+
+        System.out.println("Running snapshot " + dbSnapshot.dbSnapshotArn() + " created on " + dbSnapshot.snapshotCreateTime());
         final DatabaseInstanceFromSnapshot database = DatabaseInstanceFromSnapshot.Builder.create(this, "WebportalRDSDatabase")
                 .engine(DatabaseInstanceEngine.MYSQL)
                 .instanceClass(InstanceType.of(InstanceClass.BURSTABLE2, InstanceSize.MICRO))
@@ -69,7 +78,7 @@ Subnet.Builder.create().
 
                 //.masterUserPassword(SecretValue.plainText("XJvXy0anjGFCLrrYqJwH"))
                 .port(3306)
-                .snapshotIdentifier(snapshotVersion)
+                .snapshotIdentifier(dbSnapshot.dbSnapshotArn())
                 //.removalPolicy(RemovalPolicy.SNAPSHOT)
                 .build();
 
